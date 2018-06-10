@@ -7,4 +7,4 @@ class Guild(Base):
     __tablename__ = 'guild'
     id = Column(Integer, primary_key=True)
 
-    event_channels = relationship("EventChannel", back_populates="guild")
+    event_channels = relationship("EventChannel", passive_deletes=True)

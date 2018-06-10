@@ -6,13 +6,13 @@ from . import Base
 class Event(Base):
     __tablename__ = 'event'
     id = Column(Integer, primary_key=True)
-    event_channel_id = Column(Integer, ForeignKey('event_channel.id'))
-    user_id = Column(Integer, ForeignKey('user.id'))
+    event_channel_id = Column(Integer, ForeignKey('event_channel.id', ondelete='CASCADE'), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
     message_id = Column(Integer)
     title = Column(Text)
     description = Column(Text)
     start_time = Column(DateTime)
+    capacity = Column(Integer)
 
-    event_channel = relationship("EventChannel", back_populates="events")
-    organizer = relationship("User", back_populates="events")
-    responses = relationship("Response")
+    organizer = relationship("User")
+    responses = relationship("Response", passive_deletes=True)
