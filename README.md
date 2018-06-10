@@ -1,24 +1,39 @@
 ## Prerequisites
 - Python 3.4.2+
-- Pip
+- MySQL server
 
 ## Installation
-Dependencies can be installed with:
+Dependencies can be easily installed with pip:
 ```
 pip3 install -r requirements.txt
 ```
 
-## Dev Tools
+## Setup
+Before we can get things running, we need to setup the database. You'll need to 
+set the `DB_USER` env variable, as well as the `DB_PASS` env variable if you
+are connecting to MySQL with a password.
+
+Once this is done, the database can be setup with:
+```
+python3 bin/setup_db.py
+```
+
+Before the app can be run, you'll need to set the `BOT_TOKEN` env variable with the
+token of your Discord bot.
+
+The app can then be run with:
+```
+python3 app.py
+```
+
+## Database Console
 There is an interactive python interpreter setup to allow for easy communication
 with an in memory database. This project uses SQLAlchemy for the database.
 
 The interactive database interpreter can be launched with:
 ```
-cd bin
-python3 -i console.py
+python3 -i bin/console.py
 ```
-
-Note that for the time being, the console must be started from within the `bin` directory.
 
 Here is a quick example of how it might be used:
 ```
