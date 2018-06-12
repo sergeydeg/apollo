@@ -1,4 +1,5 @@
 from discord.ext import commands
+from contextlib import contextmanager
 
 
 class EventBot(commands.AutoShardedBot):
@@ -9,9 +10,19 @@ class EventBot(commands.AutoShardedBot):
         self.Session = Session
 
 
-    def new_session(self):
-        return self.Session()
-
-
     def run(self):
         super().run(self.token, reconnect=True)
+
+
+    @contextmanager
+    def session_scope(self):
+        """Provide a transactional scope around a series of DB operations"""
+        session = self.Session()
+        try:
+            yield session
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
