@@ -14,7 +14,7 @@ engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/{db_name}')
 Session = sessionmaker()
 Session.configure(bind=engine)
 
-bot = EventBot(os.getenv('BOT_TOKEN'), Session)
+bot = EventBot(Session)
 
 # Add events
 bot.add_cog(OnReady(bot))
@@ -22,4 +22,4 @@ bot.add_cog(OnReady(bot))
 # Add commands
 bot.add_cog(Ping(bot))
 
-bot.run()
+bot.run(os.getenv('BOT_TOKEN'))
