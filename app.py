@@ -26,5 +26,6 @@ event_bot = EventBot(transaction)
 event_bot.add_cog(OnReady(event_bot))
 
 # Add commands
+event_bot.add_cog(EventCommand(event_bot))
 
 event_bot.run(os.getenv('BOT_TOKEN'))
