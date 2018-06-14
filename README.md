@@ -1,5 +1,5 @@
 ## Prerequisites
-- Python 3.4.2+
+- Python 3.5.2+
 - MySQL server
 
 ## Installation
