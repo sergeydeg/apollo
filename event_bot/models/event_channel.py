@@ -6,6 +6,6 @@ from . import Base
 class EventChannel(Base):
     __tablename__ = 'event_channel'
     id = Column(Integer, primary_key=True)
-    guild_id = Column(Integer, ForeignKey('guild.id', ondelete='CASCADE'), nullable=False)
+    guild_id = Column(Integer, ForeignKey('guild.id', ondelete='CASCADE'))
 
     events = relationship("Event", passive_deletes=True)
