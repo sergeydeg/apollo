@@ -22,6 +22,5 @@ event_bot = EventBot(bot, session_scope)
 bot.add_cog(OnReady(bot, session_scope))
 
 # Add commands
-bot.add_cog(Ping(bot, session_scope))
 
 event_bot.start(os.getenv('BOT_TOKEN'))
