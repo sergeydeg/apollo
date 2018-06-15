@@ -1,8 +1,8 @@
 class OnReady:
 
-    def __init__(self, bot, session_scope):
+    def __init__(self, bot, transaction):
         self.bot = bot
-        self.session_scope = session_scope
+        self.transaction = transaction
 
 
     async def on_ready(self):

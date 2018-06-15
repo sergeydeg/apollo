@@ -13,13 +13,14 @@ db_name = os.getenv('DB_NAME', 'event_bot')
 engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/{db_name}?charset=utf8mb4')
 Session = sessionmaker()
 Session.configure(bind=engine)
+session = Session()
 
 bot = Bot()
-session_scope = SessionScope(Session)
-event_bot = EventBot(bot, session_scope)
+transaction = Transaction(session)
+event_bot = EventBot(bot, transaction)
 
 # Add events
-bot.add_cog(OnReady(bot, session_scope))
+bot.add_cog(OnReady(bot, transaction))
 
 # Add commands
 
