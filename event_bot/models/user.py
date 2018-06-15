@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, BigInteger
 from sqlalchemy.orm import relationship
 
 from . import Base
 
 class User(Base):
     __tablename__ = 'user'
-    id = Column(Integer, primary_key=True)
+    id = Column(BigInteger, primary_key=True)

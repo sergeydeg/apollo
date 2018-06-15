@@ -1,11 +1,16 @@
-from sqlalchemy import Column, Integer, Text, ForeignKey
+from sqlalchemy import Column, BigInteger, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
 from . import Base
 
 class Guild(Base):
     __tablename__ = 'guild'
-    id = Column(Integer, primary_key=True)
+    id = Column(BigInteger, primary_key=True)
     prefix = Column(Text)
 
     event_channels = relationship("EventChannel", passive_deletes=True)
+
+
+    def has_multiple_event_channels(self):
+        if len(self.event_channels) > 1:
+            return True
