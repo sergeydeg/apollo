@@ -12,7 +12,10 @@ db_user = os.getenv('DB_USER', 'root')
 db_pass = os.getenv('DB_PASS', '')
 
 # Create database
-os.system(f"mysql -u{db_user} -p{db_pass} -e 'create database event_bot character set UTF8mb4 collate utf8mb4_bin';")
+if db_pass:
+    os.system(f"mysql -u{db_user} -p{db_pass} -e 'create database event_bot character set UTF8mb4 collate utf8mb4_bin';")
+else:
+    os.system(f"mysql -u{db_user} -e 'create database event_bot character set UTF8mb4 collate utf8mb4_bin';")
 
 # Create tables
 engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/event_bot')
