@@ -15,13 +15,12 @@ Session = sessionmaker()
 Session.configure(bind=engine)
 session = Session()
 
-bot = Bot()
 transaction = Transaction(session)
-event_bot = EventBot(bot, transaction)
+event_bot = EventBot(transaction)
 
 # Add events
-bot.add_cog(OnReady(bot, transaction))
+event_bot.add_cog(OnReady(event_bot))
 
 # Add commands
 
-event_bot.start(os.getenv('BOT_TOKEN'))
+event_bot.run(os.getenv('BOT_TOKEN'))
