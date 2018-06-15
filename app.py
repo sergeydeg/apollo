@@ -2,7 +2,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from event_bot import EventBot
+from event_bot import *
 from event_bot.commands import * 
 from event_bot.events import *
 
@@ -14,12 +14,14 @@ engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/{db_name}')
 Session = sessionmaker()
 Session.configure(bind=engine)
 
-bot = EventBot(Session)
+bot = Bot()
+session_scope = SessionScope(Session)
+event_bot = EventBot(bot, session_scope)
 
 # Add events
-bot.add_cog(OnReady(bot))
+bot.add_cog(OnReady(bot, session_scope))
 
 # Add commands
-bot.add_cog(Ping(bot))
+bot.add_cog(Ping(bot, session_scope))
 
-bot.run(os.getenv('BOT_TOKEN'))
+event_bot.start(os.getenv('BOT_TOKEN'))
