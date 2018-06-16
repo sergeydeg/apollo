@@ -7,3 +7,4 @@ from . import Base
 class User(Base):
     __tablename__ = 'user'
     id = Column(BigInteger, primary_key=True)
+    events = relationship("Event", back_populates="organizer")

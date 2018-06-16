@@ -14,5 +14,6 @@ class Event(Base):
     description = Column(Text)
     start_time = Column(DateTime)
     capacity = Column(Integer)
-    organizer = relationship("User")
+    organizer = relationship("User", back_populates="events")
     responses = relationship("Response", passive_deletes=True)
+    event_channel = relationship("EventChannel", back_populates="events")

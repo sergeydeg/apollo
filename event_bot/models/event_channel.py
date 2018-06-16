@@ -8,4 +8,5 @@ class EventChannel(Base):
     __tablename__ = 'event_channel'
     id = Column(BigInteger, primary_key=True)
     guild_id = Column(BigInteger, ForeignKey('guild.id', ondelete='CASCADE'))
-    events = relationship("Event", passive_deletes=True)
+    events = relationship("Event", back_populates="event_channel", passive_deletes=True)
+    guild = relationship("Guild", back_populates="event_channels")
