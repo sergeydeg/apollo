@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 
 from . import Base
 
+
 class Event(Base):
     __tablename__ = 'event'
     id = Column(Integer, primary_key=True)
@@ -13,6 +14,5 @@ class Event(Base):
     description = Column(Text)
     start_time = Column(DateTime)
     capacity = Column(Integer)
-
     organizer = relationship("User")
     responses = relationship("Response", passive_deletes=True)
