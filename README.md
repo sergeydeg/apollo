@@ -18,8 +18,8 @@ Once this is done, the database can be setup with:
 python3 bin/setup_db.py
 ```
 
-Before the app can be run, you'll need to set the `BOT_TOKEN` env variable with the
-token of your Discord bot.
+Before the app can be run, you'll need to create an `.env` file. Please look at the `.env.example` file and set the `BOT_TOKEN` env variable with the token of your Discord bot.
+
 
 The app can then be run with:
 ```

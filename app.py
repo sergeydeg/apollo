@@ -1,10 +1,17 @@
 import os
+from pathlib import Path
+
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from event_bot import *
 from event_bot.commands import * 
 from event_bot.events import *
+
+# Load .env file
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
 
 env = os.getenv('ENV', 'develop')
 db_user = os.getenv('DB_USER', 'root')
