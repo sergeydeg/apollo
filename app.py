@@ -15,7 +15,7 @@ engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/{db_name}?charset
 if env == 'develop':
     engine.echo = True
 
-Session = sessionmaker()
+Session = sessionmaker(expire_on_commit=False)
 Session.configure(bind=engine)
 session = Session()
 
