@@ -23,6 +23,7 @@ class EventCommand:
         with self.bot.transaction.new() as session:
             session.add(event)
         await ctx.author.send("Your event has been created!")
+        await self.bot.list_events(event.event_channel)
 
 
     async def _get_capacity_from_user(self, ctx):
