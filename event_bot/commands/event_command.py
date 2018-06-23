@@ -2,7 +2,7 @@ from discord.ext import commands
 from sqlalchemy.orm import joinedload
 
 from event_bot.models import Event, EventChannel, Guild
-from event_bot.queries import find_or_create_guild
+from event_bot.queries import find_or_create_guild, find_or_create_user
 
 
 class EventCommand:
@@ -23,6 +23,7 @@ class EventCommand:
         with self.bot.transaction.new() as session:
             session.add(event)
         await ctx.author.send("Your event has been created!")
+        await self.bot.list_events(event.event_channel)
 
 
     async def _get_capacity_from_user(self, ctx):
@@ -54,7 +55,7 @@ class EventCommand:
     async def _get_event_channel(self, ctx):
         """Find or create the event channel for the current guild"""
         guild = find_or_create_guild(self.bot.transaction, ctx.guild.id, joinedload('event_channels'))
-        if guild.has_multiple_event_channels():
+        if guild.has_single_event_channel():
             return guild.event_channels[0]
         else:
             channel = await self.bot.create_discord_event_channel(ctx.guild)
@@ -75,6 +76,7 @@ class EventCommand:
     async def _get_event_from_user(self, ctx):
         """Create an event with user input via private messages"""
         event = Event()
+        event.organizer = find_or_create_user(self.bot.transaction, ctx.author.id)
         event.title = await self._get_title_from_user(ctx)
         event.description = await self._get_desc_from_user(ctx)
         event.capacity = await self._get_capacity_from_user(ctx)
