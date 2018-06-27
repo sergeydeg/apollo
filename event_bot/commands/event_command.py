@@ -1,6 +1,7 @@
 from discord.ext import commands
 from sqlalchemy.orm import joinedload
 
+from event_bot.list_events import list_events
 from event_bot.models import Event, EventChannel, Guild
 from event_bot.queries import find_or_create_guild, find_or_create_user
 
@@ -23,7 +24,7 @@ class EventCommand:
         with self.bot.transaction.new() as session:
             session.add(event)
         await ctx.author.send("Your event has been created!")
-        await self.bot.list_events(event.event_channel)
+        await list_events(self.bot, event.event_channel)
 
 
     async def _get_capacity_from_user(self, ctx):
