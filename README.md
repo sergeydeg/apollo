@@ -1,11 +1,13 @@
 ## Prerequisites
 - Python 3.5.2+
+- Pipenv
 - MySQL server
 
 ## Installation
-Dependencies can be easily installed with pip:
+The environment can be easily setup with pipenv:
 ```
-pip3 install -r requirements.txt
+pipenv install
+pipenv shell
 ```
 
 ## Setup
@@ -15,7 +17,7 @@ are connecting to MySQL with a password.
 
 Once this is done, the database can be setup with:
 ```
-python3 bin/setup_db.py
+python bin/setup_db.py
 ```
 
 Before the app can be run, you'll need to create an `.env` file. Please look at the `.env.example` file and set the `BOT_TOKEN` env variable with the token of your Discord bot.
@@ -23,7 +25,7 @@ Before the app can be run, you'll need to create an `.env` file. Please look at 
 
 The app can then be run with:
 ```
-python3 app.py
+python app.py
 ```
 
 ## Database Console
@@ -32,7 +34,7 @@ with an in memory database. This project uses SQLAlchemy for the database.
 
 The interactive database interpreter can be launched with:
 ```
-python3 -i bin/console.py
+python -i bin/console.py
 ```
 
 Here is a quick example of how it might be used:
