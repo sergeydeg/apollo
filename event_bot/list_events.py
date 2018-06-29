@@ -1,10 +1,5 @@
 from .embeds import event_embed
-
-
-ACCEPTED = "\N{WHITE HEAVY CHECK MARK}"
-DECLINED = "\N{CROSS MARK}"
-ALTERNATE = "\N{WHITE QUESTION MARK ORNAMENT}"
-
+from . import emojis as emoji
 
 async def list_events(bot, event_channel):
     """Clear the given event channel and then populate it with its events"""
@@ -23,6 +18,6 @@ async def list_events(bot, event_channel):
 
 async def _add_rsvp_reactions(msg):
     """Add reaction 'rsvp buttons' to a message"""
-    await msg.add_reaction(ACCEPTED)
-    await msg.add_reaction(DECLINED)
-    await msg.add_reaction(ALTERNATE)
+    await msg.add_reaction(emoji.CHECK)
+    await msg.add_reaction(emoji.CROSS)
+    await msg.add_reaction(emoji.QUESTION)
