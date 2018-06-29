@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
 
-from .embeds import event_embed
-
 
 class EventBot(commands.AutoShardedBot):
 
@@ -30,15 +28,6 @@ class EventBot(commands.AutoShardedBot):
                 guild.me: discord.PermissionOverwrite(send_messages=True, add_reactions=True)
                 }
         return await guild.create_text_channel("events", overwrites=overwrites)
-
-
-    async def list_events(self, event_channel):
-        """Clear the given event channel and then populate it with events"""
-        channel = self.get_channel(event_channel.id)
-        await channel.purge()
-        for event in event_channel.events:
-            organizer = self.find_guild_member(event_channel.guild_id, event.organizer_id)
-            await channel.send(embed=event_embed(event, organizer.display_name))
 
 
     def find_guild_member(self, guild_id, user_id):
