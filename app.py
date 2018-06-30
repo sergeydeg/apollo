@@ -30,6 +30,7 @@ transaction = Transaction(session)
 event_bot = EventBot(transaction)
 
 # Add events
+event_bot.add_cog(OnRawReactionAdd(event_bot))
 event_bot.add_cog(OnReady(event_bot))
 
 # Add commands
