@@ -1,4 +1,10 @@
-from .models import Guild, User
+from .models import Event, Guild, Response, User
+
+
+def find_event_from_message(transaction, message_id):
+    """Find the event that is associated with the given message id"""
+    with transaction.new() as session:
+        return session.query(Event).filter_by(message_id=message_id).first()
 
 
 def find_or_create_user(transaction, user_id, options=None):
