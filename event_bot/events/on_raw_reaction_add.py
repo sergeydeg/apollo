@@ -21,7 +21,7 @@ class OnRawReactionAdd:
 
     async def on_raw_reaction_add(self, payload):
         """Discord event handler"""
-        if payload.user_id == self.bot.user_id:
+        if payload.user_id == self.bot.user.id:
             return
 
         event = find_event_from_message(
