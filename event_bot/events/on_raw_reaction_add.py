@@ -25,7 +25,7 @@ class OnRawReactionAdd:
             return
 
         event = find_event_from_message(
-            self.bot.transaction,
+            self.bot.db,
             payload.message_id
         )
         if event: await self._handle_event_reaction(event, payload)
@@ -33,13 +33,12 @@ class OnRawReactionAdd:
 
     def _handle_event_response(self, event, payload):
         response = find_or_create_response(
-            self.bot.transaction,
+            self.bot.db,
             payload.user_id,
             event.id
         )
         response.status = self.emoji_statuses.get(payload.emoji.name)
-        with self.bot.transaction.new() as session:
-            session.add(response)
+        self.bot.db.add(response)
 
 
     async def _handle_event_reaction(self, event, payload):

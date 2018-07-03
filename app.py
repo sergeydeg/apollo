@@ -26,8 +26,8 @@ Session = sessionmaker(expire_on_commit=False)
 Session.configure(bind=engine)
 session = Session()
 
-transaction = Transaction(session)
-event_bot = EventBot(transaction)
+db = DBClient(session)
+event_bot = EventBot(db)
 
 # Add events
 event_bot.add_cog(OnRawReactionAdd(event_bot))

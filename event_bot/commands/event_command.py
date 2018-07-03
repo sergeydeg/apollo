@@ -21,8 +21,7 @@ class EventCommand:
         """Create a new event"""
         await ctx.send("Event creation instructions have been messaged to you.")
         event = await self._get_event_from_user(ctx)
-        with self.bot.transaction.new() as session:
-            session.add(event)
+        self.bot.db.add(event)
         await ctx.author.send("Your event has been created!")
         await list_events(self.bot, event.event_channel)
 
@@ -55,7 +54,7 @@ class EventCommand:
 
     async def _get_event_channel(self, ctx):
         """Find or create the event channel for the current guild"""
-        guild = find_or_create_guild(self.bot.transaction, ctx.guild.id, joinedload('event_channels'))
+        guild = find_or_create_guild(self.bot.db, ctx.guild.id, joinedload('event_channels'))
         if guild.has_single_event_channel():
             return guild.event_channels[0]
         else:
@@ -77,7 +76,7 @@ class EventCommand:
     async def _get_event_from_user(self, ctx):
         """Create an event with user input via private messages"""
         event = Event()
-        event.organizer = find_or_create_user(self.bot.transaction, ctx.author.id)
+        event.organizer = find_or_create_user(self.bot.db, ctx.author.id)
         event.title = await self._get_title_from_user(ctx)
         event.description = await self._get_desc_from_user(ctx)
         event.capacity = await self._get_capacity_from_user(ctx)

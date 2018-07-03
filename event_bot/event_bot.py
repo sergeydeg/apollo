@@ -4,9 +4,9 @@ from discord.ext import commands
 
 class EventBot(commands.AutoShardedBot):
 
-    def __init__(self, transaction):
+    def __init__(self, db):
         super().__init__(command_prefix='!')
-        self.transaction = transaction
+        self.db = db
 
 
     async def create_discord_event_channel(self, guild):
