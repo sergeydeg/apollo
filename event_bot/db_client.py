@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 
 
-class Transaction:
+class DBClient:
 
     def __init__(self, session):
         self.session = session
@@ -16,3 +16,9 @@ class Transaction:
         except:
             self.session.rollback()
             raise
+
+
+    def add(self, model):
+        """Convenience function for persisting a model"""
+        with self.new() as session:
+            session.add(model)

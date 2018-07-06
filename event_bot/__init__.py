@@ -1,2 +1,2 @@
 from .event_bot import EventBot
-from .transaction import Transaction
+from .db_client import DBClient

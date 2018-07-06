@@ -12,8 +12,7 @@ async def list_events(bot, event_channel):
         await _add_rsvp_reactions(event_msg)
         event.message_id = event_msg.id
 
-    with bot.transaction.new() as session:
-        session.add(event_channel)
+    bot.db.add(event_channel)
 
 
 async def _add_rsvp_reactions(msg):
