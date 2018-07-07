@@ -18,23 +18,20 @@ def find_or_create_response(db, user_id, event_id):
     return response
 
 
-def find_or_create_user(db, user_id, options=None):
+def find_or_create_user(db, user_id):
     """Find the user with the given id. If one doesn't exist, create it."""
-    return find_or_create_model(db, User, user_id, options)
+    return find_or_create_model(db, User, user_id)
 
 
-def find_or_create_guild(db, guild_id, options=None):
+def find_or_create_guild(db, guild_id):
     """Find the guild with the given id. If it doesn't exist, create it."""
-    return find_or_create_model(db, Guild, guild_id, options)
+    return find_or_create_model(db, Guild, guild_id)
 
 
-def find_or_create_model(db, Model, model_id, options=None):
+def find_or_create_model(db, Model, model_id):
     """Find the given model with the given id. If it doesn't exist, create it."""
     with db.new() as session:
-        if options:
-            model = session.query(Model).options(options).filter(Model.id == model_id).first()
-        else:
-            model = session.query(Model).filter(Model.id == model_id).first()
+        model = session.query(Model).filter(Model.id == model_id).first()
         if not model:
             model = Model(id=model_id)
             session.add(model)

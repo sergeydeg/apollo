@@ -1,5 +1,4 @@
 from discord.ext import commands
-from sqlalchemy.orm import joinedload
 
 from event_bot.list_events import list_events
 from event_bot.models import Event, EventChannel, Guild
@@ -54,7 +53,7 @@ class EventCommand:
 
     async def _get_event_channel(self, ctx):
         """Find or create the event channel for the current guild"""
-        guild = find_or_create_guild(self.bot.db, ctx.guild.id, joinedload('event_channels'))
+        guild = find_or_create_guild(self.bot.db, ctx.guild.id)
         if guild.has_single_event_channel():
             return guild.event_channels[0]
         else:
