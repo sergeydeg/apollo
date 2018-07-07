@@ -16,6 +16,14 @@ async def list_events(bot, event_channel):
     bot.db.add(event_channel)
 
 
+async def update_event(bot, event):
+    """Update an event message in place"""
+    channel = bot.get_channel(event.event_channel.id)
+    event_message = await channel.get_message(event.message_id)
+    embed = event_embed(event, _organizer_name(bot, event))
+    await event_message.edit(embed=embed)
+
+
 async def _add_rsvp_reactions(msg):
     """Add reaction 'rsvp buttons' to a message"""
     await msg.add_reaction(emoji.CHECK)
