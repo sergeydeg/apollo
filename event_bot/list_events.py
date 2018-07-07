@@ -8,11 +8,7 @@ async def list_events(bot, event_channel):
     await channel.purge()
 
     for event in event_channel.events:
-        organizer = bot.find_guild_member(
-            event_channel.guild_id,
-            event.organizer_id
-        )
-        embed = event_embed(event, organizer.display_name)
+        embed = event_embed(event, _organizer_name(bot, event))
         event_msg = await channel.send(embed=embed)
         await _add_rsvp_reactions(event_msg)
         event.message_id = event_msg.id
@@ -25,3 +21,15 @@ async def _add_rsvp_reactions(msg):
     await msg.add_reaction(emoji.CHECK)
     await msg.add_reaction(emoji.CROSS)
     await msg.add_reaction(emoji.QUESTION)
+
+
+def _organizer_name(bot, event):
+    """Retrieve the guild specific display name of the organizer"""
+    organizer = bot.find_guild_member(
+        event.event_channel.guild_id,
+        event.organizer_id
+    )
+    if organizer:
+        return organizer.display_name
+    else:
+        return "Unknown User"
