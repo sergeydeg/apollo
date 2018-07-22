@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 
-class EventBot(commands.AutoShardedBot):
+class Apollo(commands.AutoShardedBot):
 
     def __init__(self, db):
         super().__init__(command_prefix='!')

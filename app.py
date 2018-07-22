@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from event_bot import *
-from event_bot.commands import * 
-from event_bot.events import *
+from apollo import *
+from apollo.commands import * 
+from apollo.events import *
 
 # Load .env file
 env_path = Path('.') / '.env'
@@ -16,7 +16,7 @@ load_dotenv(dotenv_path=env_path)
 env = os.getenv('ENV', 'develop')
 db_user = os.getenv('DB_USER', 'root')
 db_pass = os.getenv('DB_PASS', '')
-db_name = os.getenv('DB_NAME', 'event_bot')
+db_name = os.getenv('DB_NAME', 'apollo')
 
 engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/{db_name}?charset=utf8mb4')
 if env == 'develop':
@@ -27,13 +27,13 @@ Session.configure(bind=engine)
 session = Session()
 
 db = DBClient(session)
-event_bot = EventBot(db)
+apollo = Apollo(db)
 
 # Add events
-event_bot.add_cog(OnRawReactionAdd(event_bot))
-event_bot.add_cog(OnReady(event_bot))
+apollo.add_cog(OnRawReactionAdd(apollo))
+apollo.add_cog(OnReady(apollo))
 
 # Add commands
-event_bot.add_cog(EventCommand(event_bot))
+apollo.add_cog(EventCommand(apollo))
 
-event_bot.run(os.getenv('BOT_TOKEN'))
+apollo.run(os.getenv('BOT_TOKEN'))

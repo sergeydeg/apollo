@@ -1,6 +1,6 @@
 import discord
 
-from event_bot import emojis as emoji
+from apollo import emojis as emoji
 
 
 ACCEPTED_HEADER = "Accepted"

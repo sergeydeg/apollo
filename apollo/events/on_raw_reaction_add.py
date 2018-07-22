@@ -1,7 +1,7 @@
-from event_bot import emojis as emoji
-from event_bot.list_events import update_event
-from event_bot.models import Event, Response
-from event_bot.queries import find_event_from_message, \
+from apollo import emojis as emoji
+from apollo.list_events import update_event
+from apollo.models import Event, Response
+from apollo.queries import find_event_from_message, \
     find_or_create_response
 
 
@@ -24,12 +24,12 @@ class OnRawReactionAdd:
         """Discord event handler"""
         if payload.user_id == self.bot.user.id:
             return
-
         event = find_event_from_message(
             self.bot.db,
             payload.message_id
         )
-        if event: await self._handle_event_reaction(event, payload)
+        if event:
+            await self._handle_event_reaction(event, payload)
 
 
     def _save_response(self, event, payload):

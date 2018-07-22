@@ -1,8 +1,8 @@
 from discord.ext import commands
 
-from event_bot.list_events import list_events
-from event_bot.models import Event, EventChannel, Guild
-from event_bot.queries import find_or_create_guild, find_or_create_user
+from apollo.list_events import list_events
+from apollo.models import Event, EventChannel, Guild
+from apollo.queries import find_or_create_guild, find_or_create_user
 
 
 class EventCommand:
