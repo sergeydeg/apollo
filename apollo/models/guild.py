@@ -5,7 +5,7 @@ from . import Base
 
 
 class Guild(Base):
-    __tablename__ = 'guild'
+    __tablename__ = 'guilds'
     id = Column(BigInteger, primary_key=True)
     prefix = Column(Text)
     event_channels = relationship("EventChannel", back_populates="guild", passive_deletes=True)

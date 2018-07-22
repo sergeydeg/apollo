@@ -5,10 +5,10 @@ from . import Base
 
 
 class Event(Base):
-    __tablename__ = 'event'
+    __tablename__ = 'events'
     id = Column(Integer, primary_key=True)
-    event_channel_id = Column(BigInteger, ForeignKey('event_channel.id', ondelete='CASCADE'))
-    organizer_id = Column(BigInteger, ForeignKey('user.id', ondelete='CASCADE'))
+    event_channel_id = Column(BigInteger, ForeignKey('event_channels.id', ondelete='CASCADE'))
+    organizer_id = Column(BigInteger, ForeignKey('users.id', ondelete='CASCADE'))
     message_id = Column(BigInteger)
     title = Column(Text)
     description = Column(Text)

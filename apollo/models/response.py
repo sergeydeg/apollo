@@ -5,7 +5,7 @@ from . import Base
 
 
 class Response(Base):
-    __tablename__ = 'response'
-    event_id = Column(Integer, ForeignKey('event.id', ondelete='CASCADE'), primary_key=True)
-    user_id = Column(BigInteger, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True)
+    __tablename__ = 'responses'
+    event_id = Column(Integer, ForeignKey('events.id', ondelete='CASCADE'), primary_key=True)
+    user_id = Column(BigInteger, ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
     status = Column(Text)
