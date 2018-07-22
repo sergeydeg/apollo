@@ -1,18 +1,27 @@
 from .embeds import event_embed
 from . import emojis as emoji
 
+
 async def list_events(bot, event_channel):
-    """Clear the given event channel and then populate it with its events"""
+    """Clear the event channel and populate it with events"""
     channel = bot.get_channel(event_channel.id)
     await channel.purge()
 
     for event in event_channel.events:
-        organizer = bot.find_guild_member(event_channel.guild_id, event.organizer_id)
-        event_msg = await channel.send(embed=event_embed(event, organizer.display_name))
+        embed = event_embed(channel.guild, event)
+        event_msg = await channel.send(embed=embed)
         await _add_rsvp_reactions(event_msg)
         event.message_id = event_msg.id
 
     bot.db.add(event_channel)
+
+
+async def update_event(bot, event):
+    """Update an event message in place"""
+    channel = bot.get_channel(event.event_channel.id)
+    event_message = await channel.get_message(event.message_id)
+    embed = event_embed(channel.guild, event)
+    await event_message.edit(embed=embed)
 
 
 async def _add_rsvp_reactions(msg):

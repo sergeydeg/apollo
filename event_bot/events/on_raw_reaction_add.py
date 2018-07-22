@@ -1,4 +1,5 @@
 from event_bot import emojis as emoji
+from event_bot.list_events import update_event
 from event_bot.models import Event, Response
 from event_bot.queries import find_event_from_message, \
     find_or_create_response
@@ -31,7 +32,7 @@ class OnRawReactionAdd:
         if event: await self._handle_event_reaction(event, payload)
 
 
-    def _handle_event_response(self, event, payload):
+    def _save_response(self, event, payload):
         response = find_or_create_response(
             self.bot.db,
             payload.user_id,
@@ -43,4 +44,5 @@ class OnRawReactionAdd:
 
     async def _handle_event_reaction(self, event, payload):
         if self.emoji_statuses.get(payload.emoji.name):
-            self._handle_event_response(event, payload)
+            self._save_response(event, payload)
+            await update_event(self.bot, event)
