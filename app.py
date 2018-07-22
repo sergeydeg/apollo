@@ -24,7 +24,7 @@ if env == 'develop':
 
 Session = sessionmaker()
 Session.configure(bind=engine)
-session = Session()
+session = Session(expire_on_commit=False)
 
 db = DBClient(session)
 apollo = Apollo(db)

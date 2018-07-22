@@ -1,9 +1,11 @@
 from .embeds import event_embed
+from .queries import find_event, find_event_channel
 from . import emojis as emoji
 
 
-async def list_events(bot, event_channel):
+async def list_events(bot, event_channel_id):
     """Clear the event channel and populate it with events"""
+    event_channel = find_event_channel(bot.db, event_channel_id)
     channel = bot.get_channel(event_channel.id)
     await channel.purge()
 
@@ -16,8 +18,9 @@ async def list_events(bot, event_channel):
     bot.db.add(event_channel)
 
 
-async def update_event(bot, event):
+async def update_event_message(bot, event_id):
     """Update an event message in place"""
+    event = find_event(bot.db, event_id)
     channel = bot.get_channel(event.event_channel.id)
     event_message = await channel.get_message(event.message_id)
     embed = event_embed(channel.guild, event)

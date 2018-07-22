@@ -22,7 +22,7 @@ class EventCommand:
         event = await self._get_event_from_user(ctx)
         self.bot.db.add(event)
         await ctx.author.send("Your event has been created!")
-        await list_events(self.bot, event.event_channel)
+        await list_events(self.bot, event.event_channel.id)
 
 
     async def _get_capacity_from_user(self, ctx):
