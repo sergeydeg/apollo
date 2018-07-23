@@ -12,9 +12,9 @@ class Apollo(commands.AutoShardedBot):
     async def create_discord_event_channel(self, guild):
         """Create a text channel with the permissions needed to display events"""
         overwrites = {
-                guild.default_role: discord.PermissionOverwrite(send_messages=False, add_reactions=True),
-                guild.me: discord.PermissionOverwrite(send_messages=True, add_reactions=True)
-                }
+            guild.default_role: discord.PermissionOverwrite(send_messages=False, add_reactions=True),
+            guild.me: discord.PermissionOverwrite(send_messages=True, add_reactions=True)
+        }
         return await guild.create_text_channel("events", overwrites=overwrites)
 
 
