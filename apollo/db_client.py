@@ -22,3 +22,9 @@ class DBClient:
         """Convenience function for persisting a model"""
         with self.new() as session:
             session.add(model)
+
+
+    def delete(self, model):
+        """Convenience function for deleting a model"""
+        with self.new() as session:
+            session.delete(model)
