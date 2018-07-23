@@ -46,6 +46,7 @@ class OnRawReactionAdd:
         if self.emoji_statuses.get(payload.emoji.name):
             self._save_response(event, payload)
             await update_event_message(self.bot, event.id)
+            await self.bot.remove_reaction(payload)
         elif payload.emoji.name == emoji.SKULL:
             self.bot.db.delete(event)
             await list_events(self.bot, event.event_channel.id)

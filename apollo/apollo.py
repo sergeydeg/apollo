@@ -33,3 +33,11 @@ class Apollo(commands.AutoShardedBot):
     async def get_next_pm(self, user, timeout=120):
         """Get the next private message a user sends to the bot"""
         return await self.get_next_message(user, user.dm_channel, timeout=timeout)
+
+
+    async def remove_reaction(self, payload):
+        """Remove a reaction given the raw_reaction_add payload"""
+        channel = self.get_channel(payload.channel_id)
+        message = await channel.get_message(payload.message_id)
+        member = channel.guild.get_member(payload.user_id)
+        await message.remove_reaction(payload.emoji, member)
