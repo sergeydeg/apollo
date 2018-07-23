@@ -16,6 +16,7 @@ def find_event(db, event_id):
         return session.query(Event). \
             options(joinedload('event_channel')). \
             options(joinedload('responses')). \
+            filter_by(id=event_id). \
             first()
 
 
