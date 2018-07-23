@@ -24,10 +24,7 @@ class OnRawReactionAdd:
         """Discord event handler"""
         if payload.user_id == self.bot.user.id:
             return
-        event = find_event_from_message(
-            self.bot.db,
-            payload.message_id
-        )
+        event = find_event_from_message(self.bot.db, payload.message_id)
         if event:
             await self._handle_event_reaction(event, payload)
 
