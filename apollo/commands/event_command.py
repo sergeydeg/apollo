@@ -3,6 +3,7 @@ from discord.ext import commands
 from apollo.list_events import list_events
 from apollo.models import Event, EventChannel, Guild
 from apollo.queries import find_or_create_guild, find_or_create_user
+from apollo.time_zones import VALID_TIME_ZONES
 
 
 class EventCommand:
@@ -61,6 +62,17 @@ class EventCommand:
             return EventChannel(id=channel.id, guild_id=ctx.guild.id)
 
 
+    async def _get_time_zone(self, ctx):
+        """Retrieve a valid time zone string from the user"""
+        await ctx.author.send("Enter your time zone:")
+        while True:
+            time_zone = (await self.bot.get_next_pm(ctx.author)).content.upper()
+            if time_zone in VALID_TIME_ZONES.keys():
+                return VALID_TIME_ZONES.get(time_zone)
+            else:
+                await ctx.author.send("Invalid time zone. Try again:")
+
+
     async def _get_title_from_user(self, ctx):
         """Retrieve the event title from the user"""
         await ctx.author.send("Enter the event title:")
@@ -80,4 +92,5 @@ class EventCommand:
         event.description = await self._get_desc_from_user(ctx)
         event.capacity = await self._get_capacity_from_user(ctx)
         event.event_channel = await self._get_event_channel(ctx)
+        event.time_zone = await self._get_time_zone(ctx)
         return event
