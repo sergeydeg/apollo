@@ -13,6 +13,7 @@ class Event(Base):
     title = Column(Text)
     description = Column(Text)
     start_time = Column(DateTime)
+    time_zone = Column(Text)
     capacity = Column(Integer)
     organizer = relationship("User", back_populates="events")
     responses = relationship("Response", passive_deletes=True)

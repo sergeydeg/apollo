@@ -1,8 +1,10 @@
+import arrow
 from discord.ext import commands
 
 from apollo.list_events import list_events
 from apollo.models import Event, EventChannel, Guild
 from apollo.queries import find_or_create_guild, find_or_create_user
+from apollo.time_zones import VALID_TIME_ZONES
 
 
 class EventCommand:
@@ -61,6 +63,33 @@ class EventCommand:
             return EventChannel(id=channel.id, guild_id=ctx.guild.id)
 
 
+    async def _get_start_time(self, ctx, time_zone):
+        """Retrieve a datetime UTC object from the user"""
+        await ctx.author.send("Enter the event start time (ex. `2018-09-09 7:00 pm` or `2018-09-09 19:00`):")
+        while True:
+            start_time_str = (await self.bot.get_next_pm(ctx.author)).content
+            try:
+                start_time = arrow.get(
+                    start_time_str,
+                    ['YYYY-MM-DD h:mm A', 'YYYY-MM-DD HH:mm'],
+                    tzinfo=time_zone
+                )
+            except arrow.parser.ParserError:
+                await ctx.author.send("Invalid start time. Try again:")
+            return start_time.to('utc').datetime
+
+
+    async def _get_time_zone(self, ctx):
+        """Retrieve a valid time zone string from the user"""
+        await ctx.author.send("Enter your time zone:")
+        while True:
+            time_zone = (await self.bot.get_next_pm(ctx.author)).content.upper()
+            if time_zone in VALID_TIME_ZONES.keys():
+                return VALID_TIME_ZONES.get(time_zone)
+            else:
+                await ctx.author.send("Invalid time zone. Try again:")
+
+
     async def _get_title_from_user(self, ctx):
         """Retrieve the event title from the user"""
         await ctx.author.send("Enter the event title:")
@@ -80,4 +109,6 @@ class EventCommand:
         event.description = await self._get_desc_from_user(ctx)
         event.capacity = await self._get_capacity_from_user(ctx)
         event.event_channel = await self._get_event_channel(ctx)
+        event.time_zone = await self._get_time_zone(ctx)
+        event.start_time = await self._get_start_time(ctx, event.time_zone)
         return event
