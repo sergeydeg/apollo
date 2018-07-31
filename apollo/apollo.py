@@ -4,9 +4,9 @@ from discord.ext import commands
 
 class Apollo(commands.AutoShardedBot):
 
-    def __init__(self, db):
+    def __init__(self, Session):
         super().__init__(command_prefix='!')
-        self.db = db
+        self.Session = Session
 
 
     async def create_discord_event_channel(self, guild):

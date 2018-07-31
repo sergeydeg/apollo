@@ -24,10 +24,8 @@ if env == 'develop':
 
 Session = sessionmaker()
 Session.configure(bind=engine)
-session = Session(expire_on_commit=False)
 
-db = DBClient(session)
-apollo = Apollo(db)
+apollo = Apollo(Session)
 
 # Add events
 apollo.add_cog(OnRawReactionAdd(apollo))

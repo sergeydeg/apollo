@@ -20,11 +20,15 @@ class EventCommand:
     @commands.guild_only()
     async def event(self, ctx):
         """Create a new event"""
+        session = self.bot.Session()
+
         await ctx.send("Event creation instructions have been messaged to you.")
-        event = await self._get_event_from_user(ctx)
-        self.bot.db.add(event)
+        event = await self._get_event_from_user(ctx, session)
         await ctx.author.send("Your event has been created!")
         await list_events(self.bot, event.event_channel.id)
+
+        session.add(event)
+        session.commit()
 
 
     async def _get_capacity_from_user(self, ctx):
@@ -53,9 +57,9 @@ class EventCommand:
                 await ctx.author.send(f"Event description must be less than {self.MAX_DESC_LENGTH} characters. Try again:")
 
 
-    async def _get_event_channel(self, ctx):
+    async def _get_event_channel(self, ctx, session):
         """Find or create the event channel for the current guild"""
-        guild = find_or_create_guild(self.bot.db, ctx.guild.id)
+        guild = find_or_create_guild(session, ctx.guild.id)
         if guild.has_single_event_channel():
             return guild.event_channels[0]
         else:
@@ -101,14 +105,14 @@ class EventCommand:
                 await ctx.author.send(f"Event title must be less than {self.MAX_TITLE_LENGTH} characters. Try again:")
 
 
-    async def _get_event_from_user(self, ctx):
+    async def _get_event_from_user(self, ctx, session):
         """Create an event with user input via private messages"""
         event = Event()
-        event.organizer = find_or_create_user(self.bot.db, ctx.author.id)
+        event.organizer = find_or_create_user(session, ctx.author.id)
         event.title = await self._get_title_from_user(ctx)
         event.description = await self._get_desc_from_user(ctx)
         event.capacity = await self._get_capacity_from_user(ctx)
-        event.event_channel = await self._get_event_channel(ctx)
+        event.event_channel = await self._get_event_channel(ctx, session)
         event.time_zone = await self._get_time_zone(ctx)
         event.start_time = await self._get_start_time(ctx, event.time_zone)
         return event

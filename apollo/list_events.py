@@ -5,7 +5,9 @@ from . import emojis as emoji
 
 async def list_events(bot, event_channel_id):
     """Clear the event channel and populate it with events"""
-    event_channel = find_event_channel(bot.db, event_channel_id)
+    session = bot.Session()
+
+    event_channel = find_event_channel(session, event_channel_id)
     channel = bot.get_channel(event_channel.id)
     await channel.purge()
 
@@ -15,16 +17,22 @@ async def list_events(bot, event_channel_id):
         await _add_rsvp_reactions(event_msg)
         event.message_id = event_msg.id
 
-    bot.db.add(event_channel)
+    session.add(event_channel)
+    session.commit()
 
 
 async def update_event_message(bot, event_id):
     """Update an event message in place"""
-    event = find_event(bot.db, event_id)
+    session = bot.Session()
+
+    event = find_event(session, event_id)
     channel = bot.get_channel(event.event_channel.id)
     event_message = await channel.get_message(event.message_id)
     embed = event_embed(channel.guild, event)
     await event_message.edit(embed=embed)
+
+    session.add(event)
+    session.commit()
 
 
 async def _add_rsvp_reactions(msg):
