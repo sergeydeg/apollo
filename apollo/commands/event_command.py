@@ -85,7 +85,7 @@ class EventCommand:
         while True:
             time_zone = (await self.bot.get_next_pm(ctx.author)).content.upper()
             if time_zone in VALID_TIME_ZONES.keys():
-                return VALID_TIME_ZONES.get(time_zone)
+                return time_zone
             else:
                 await ctx.author.send("Invalid time zone. Try again:")
 
