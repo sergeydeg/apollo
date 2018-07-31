@@ -1,3 +1,4 @@
+import arrow
 import discord
 
 from apollo import emojis as emoji
@@ -21,6 +22,14 @@ def event_embed(guild, event):
              f"React with {emoji.SKULL} to remove this event"
     )
 
+    # Start time field
+    embed.add_field(
+        name="Time",
+        value=_format_start_time(event),
+        inline=False
+    )
+
+    # Attendance fields
     embed.add_field(
         name=_accepted_header(event),
         value=_format_attendees(guild, event, "accepted")
@@ -41,6 +50,13 @@ def _format_attendees(guild, event, status):
     """Create a formatted list of attendess with given status"""
     members = _members_by_status(guild, event.responses, status)
     return _format_members(members)
+
+
+def _format_start_time(event):
+    start_time = arrow.get(event.start_time, event.time_zone).format(
+        "dddd MMMM D, YYYY @ h:mm A"
+    )
+    return f"{start_time} {event.time_zone}"
 
 
 def _accepted_header(event):
