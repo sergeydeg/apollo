@@ -1,5 +1,7 @@
 language: python
 
+install: "make"
+
 addons:
   ssh_known_hosts: 45.63.89.166
 
