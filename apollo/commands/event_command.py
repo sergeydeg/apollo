@@ -78,9 +78,9 @@ class EventCommand:
                     ['YYYY-MM-DD h:mm A', 'YYYY-MM-DD HH:mm'],
                     tzinfo=time_zone
                 )
+                return start_time.to('utc').datetime
             except arrow.parser.ParserError:
                 await ctx.author.send("Invalid start time. Try again:")
-            return start_time.to('utc').datetime
 
 
     async def _get_time_zone(self, ctx):
