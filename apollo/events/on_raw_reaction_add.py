@@ -1,8 +1,7 @@
 from apollo import emojis as emoji
 from apollo.list_events import list_events, update_event_message
 from apollo.models import Event, Response
-from apollo.queries import find_event_from_message, \
-    find_or_create_response
+from apollo.queries import find_event_from_message, find_response
 
 
 class OnRawReactionAdd:
@@ -34,26 +33,21 @@ class OnRawReactionAdd:
         session.commit()
 
 
-    def _save_response(self, event, payload):
-        session = self.bot.Session()
+    def _update_response(self, session, event, payload):
+        response = find_response(session, payload.user_id, event.id)
+        if not response:
+            response = Response.new(user_id=payload.user_id, event_id=event.id)
 
-        response = find_or_create_response(
-            session,
-            payload.user_id,
-            event.id
-        )
         response.status = self.emoji_statuses.get(payload.emoji.name)
-
         session.add(response)
-        session.commit()
 
 
     async def _handle_event_reaction(self, session, event, payload):
         if self.emoji_statuses.get(payload.emoji.name):
-            self._save_response(event, payload)
-            await update_event_message(self.bot, event.id)
+            self._update_response(session, event, payload)
+            await update_event_message(self.bot, session, event)
             await self.bot.remove_reaction(payload)
             session.add(event)
         elif payload.emoji.name == emoji.SKULL:
             session.delete(event)
-            await list_events(self.bot, event.event_channel.id)
+            await list_events(self.bot, session, event.event_channel)

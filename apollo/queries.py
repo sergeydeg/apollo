@@ -22,13 +22,10 @@ def find_event_from_message(session, message_id):
     return session.query(Event).filter_by(message_id=message_id).first()
 
 
-def find_or_create_response(session, user_id, event_id):
-    response = session.query(Response). \
-        filter_by(user_id=user_id, event_id=event_id).first()
-    if not response:
-        response = Response(user_id=user_id, event_id=event_id)
-        session.add(response)
-    return response
+def find_response(session, user_id, event_id):
+    return session.query(Response). \
+        filter_by(event_id=event_id, user_id=user_id). \
+        first()
 
 
 def find_or_create_user(session, user_id):
