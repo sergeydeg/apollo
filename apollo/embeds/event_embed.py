@@ -2,6 +2,7 @@ import arrow
 import discord
 
 from apollo import emojis as emoji
+from apollo.time_zones import VALID_TIME_ZONES
 
 
 ACCEPTED_HEADER = "Accepted"
@@ -53,7 +54,8 @@ def _format_attendees(guild, event, status):
 
 
 def _format_start_time(event):
-    start_time = arrow.get(event.start_time, event.time_zone).format(
+    time_zone_standard = VALID_TIME_ZONES.get(event.time_zone)
+    start_time = arrow.get(event.start_time, time_zone_standard).format(
         "dddd MMMM D, YYYY @ h:mm A"
     )
     return f"{start_time} {event.time_zone}"

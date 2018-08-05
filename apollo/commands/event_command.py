@@ -76,7 +76,7 @@ class EventCommand:
                 start_time = arrow.get(
                     start_time_str,
                     ['YYYY-MM-DD h:mm A', 'YYYY-MM-DD HH:mm'],
-                    tzinfo=time_zone
+                    tzinfo=VALID_TIME_ZONES.get(time_zone)
                 )
                 return start_time.to('utc').datetime
             except arrow.parser.ParserError:

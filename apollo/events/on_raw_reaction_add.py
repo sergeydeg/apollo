@@ -36,7 +36,7 @@ class OnRawReactionAdd:
     def _update_response(self, session, event, payload):
         response = find_response(session, payload.user_id, event.id)
         if not response:
-            response = Response.new(user_id=payload.user_id, event_id=event.id)
+            response = Response(user_id=payload.user_id, event_id=event.id)
 
         response.status = self.emoji_statuses.get(payload.emoji.name)
         session.add(response)
