@@ -8,6 +8,9 @@ async def list_events(bot, session, event_channel):
     channel = bot.get_channel(event_channel.id)
     await channel.purge()
 
+    if len(event_channel.events) == 0:
+        await channel.send("There are no upcoming events in this channel.")
+
     for event in event_channel.events:
         embed = event_embed(channel.guild, event)
         event_msg = await channel.send(embed=embed)
