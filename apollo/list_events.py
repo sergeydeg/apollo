@@ -1,33 +1,32 @@
-from .embeds import event_embed
-from .queries import find_event, find_event_channel
 from . import emojis as emoji
+from .embeds import event_embed
+
+class ListEvents:
+
+    def __init__(self, bot, event_channel):
+        self.bot = bot
+        self.event_channel = event_channel
+        self.channel = self._get_channel()
 
 
-async def list_events(bot, session, event_channel):
-    """Clear the event channel and populate it with events"""
-    channel = bot.get_channel(event_channel.id)
-    await channel.purge()
-
-    if len(event_channel.events) == 0:
-        await channel.send("There are no upcoming events in this channel.")
-
-    for event in event_channel.events:
-        embed = event_embed(channel.guild, event)
-        event_msg = await channel.send(embed=embed)
-        await _add_rsvp_reactions(event_msg)
-        event.message_id = event_msg.id
+    async def call(self):
+        await self.channel.purge()     
+        for event in self.event_channel.events:
+            event_message = await self._send_event_message(event)
+            event.message_id = event_message.id
+            await self._add_reactions(event_message)
 
 
-async def update_event_message(bot, session, event):
-    """Update an event message in place"""
-    channel = bot.get_channel(event.event_channel.id)
-    event_message = await channel.get_message(event.message_id)
-    embed = event_embed(channel.guild, event)
-    await event_message.edit(embed=embed)
+    async def _add_reactions(self, message):
+        await message.add_reaction(emoji.CHECK)
+        await message.add_reaction(emoji.CROSS)
+        await message.add_reaction(emoji.QUESTION)
 
 
-async def _add_rsvp_reactions(msg):
-    """Add reaction 'rsvp buttons' to a message"""
-    await msg.add_reaction(emoji.CHECK)
-    await msg.add_reaction(emoji.CROSS)
-    await msg.add_reaction(emoji.QUESTION)
+    def _get_channel(self):
+        return self.bot.get_channel(self.event_channel.id)
+
+
+    async def _send_event_message(self, event):
+        embed = event_embed(self.channel.guild, event)
+        return await self.channel.send(embed=embed)

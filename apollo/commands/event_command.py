@@ -1,7 +1,7 @@
 import arrow
 from discord.ext import commands
 
-from apollo.list_events import list_events
+from apollo.list_events import ListEvents
 from apollo.models import Event, EventChannel, Guild
 from apollo.queries import find_or_create_guild, find_or_create_user
 from apollo.time_zones import VALID_TIME_ZONES
@@ -25,7 +25,7 @@ class EventCommand:
         await ctx.send("Event creation instructions have been messaged to you.")
         event = await self._get_event_from_user(ctx, session)
         await ctx.author.send("Your event has been created!")
-        await list_events(self.bot, session, event.event_channel)
+        await ListEvents(self.bot, event.event_channel).call()
 
         session.add(event)
         session.commit()
