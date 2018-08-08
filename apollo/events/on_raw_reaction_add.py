@@ -31,6 +31,7 @@ class OnRawReactionAdd:
             await self._handle_event_reaction(session, event, payload)
 
         session.commit()
+        session.close()
 
 
     def _update_response(self, session, event, payload):

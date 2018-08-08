@@ -29,6 +29,7 @@ class EventCommand:
 
         session.add(event)
         session.commit()
+        session.close()
 
 
     async def _get_capacity_from_user(self, ctx):
