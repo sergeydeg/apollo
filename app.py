@@ -28,6 +28,7 @@ Session.configure(bind=engine)
 apollo = Apollo(Session)
 
 # Add events
+apollo.add_cog(OnGuildChannelDelete(apollo))
 apollo.add_cog(OnRawReactionAdd(apollo))
 apollo.add_cog(OnReady(apollo))
 
