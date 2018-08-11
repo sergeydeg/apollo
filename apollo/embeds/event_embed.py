@@ -54,10 +54,7 @@ def _format_attendees(guild, event, status):
 
 
 def _format_start_time(event):
-    time_zone_standard = VALID_TIME_ZONES.get(event.time_zone)
-    start_time = arrow.get(event.start_time, time_zone_standard).format(
-        "dddd MMMM D, YYYY @ h:mm A"
-    )
+    start_time = event.local_start_time.format("ddd MMM Do, YYYY @ h:mm A")
     return f"{start_time} {event.time_zone}"
 
 
