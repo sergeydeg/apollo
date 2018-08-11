@@ -11,6 +11,11 @@ class ListEvents:
 
     async def call(self):
         await self.channel.purge()     
+
+        if len(self.event_channel.events) == 0:
+            return await self.channel.send(
+                "There are no upcoming events in this channel.")
+
         for event in self.event_channel.events:
             event_message = await self._send_event_message(event)
             event.message_id = event_message.id
