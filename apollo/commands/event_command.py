@@ -4,6 +4,7 @@ from discord.ext import commands
 from apollo.list_events import ListEvents
 from apollo.models import Event, EventChannel, Guild
 from apollo.queries import find_or_create_guild, find_or_create_user
+from apollo.send_channel_select import SendChannelSelect
 from apollo.time_zones import VALID_TIME_ZONES
 
 
@@ -30,6 +31,25 @@ class EventCommand:
         session.add(event)
         session.commit()
         session.close()
+
+
+    async def _choose_event_channel(self, ctx, event_channels):
+        message = await SendChannelSelect(
+            self.bot,
+            ctx.author.dm_channel,
+            event_channels
+            ).call()
+
+        def reaction_check(reaction, user):
+            return (message.id == reaction.message.id) \
+                and (user.id == ctx.author.id)
+
+        reaction, _ = await self.bot.wait_for(
+            'reaction_add',
+            check=reaction_check,
+            timeout=90.0)
+
+        return event_channels[int(reaction.emoji[0]) - 1]
 
 
     async def _get_capacity_from_user(self, ctx):
@@ -61,8 +81,11 @@ class EventCommand:
     async def _get_event_channel(self, ctx, session):
         """Find or create the event channel for the current guild"""
         guild = find_or_create_guild(session, ctx.guild.id)
+
         if guild.has_single_event_channel():
             return guild.event_channels[0]
+        elif guild.has_multiple_event_channels():
+            return await self._choose_event_channel(ctx, guild.event_channels)
         else:
             channel = await self.bot.create_discord_event_channel(ctx.guild)
             return EventChannel(id=channel.id, guild_id=ctx.guild.id)
