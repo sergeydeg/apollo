@@ -17,14 +17,16 @@ class ChannelCommand:
         """Create a new event channel"""
         session = self.bot.Session()
 
-        find_or_create_guild(session, ctx.guild.id)
+        guild = find_or_create_guild(session, ctx.guild.id)
+
+        if guild.has_max_event_channels():
+            return await ctx.send("Event channel limit has been reached.")
+
         channel = await self.bot.create_discord_event_channel(ctx.guild)
         event_channel = EventChannel(id=channel.id, guild_id=ctx.guild.id)
-
         await ListEvents(self.bot, event_channel).call()
 
         await ctx.send(f"A new {channel.mention} channel has been created!")
 
         session.add(event_channel)
         session.commit()
-        session.close()
