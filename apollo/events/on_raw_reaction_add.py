@@ -5,16 +5,18 @@ from apollo.update_event import UpdateEvent
 from apollo.queries import find_event_from_message, find_response
 
 
-class OnRawReactionAdd:
-    ACCEPTED  = 'accepted'
-    ALTERNATE = 'alternate'
-    DECLINED  = 'declined'
+ACCEPTED  = 'accepted'
+ALTERNATE = 'alternate'
+DECLINED  = 'declined'
 
-    emoji_statuses = {
-        emoji.CHECK: ACCEPTED,
-        emoji.QUESTION: ALTERNATE,
-        emoji.CROSS: DECLINED
+EMOJI_STATUSES = {
+    emoji.CHECK: ACCEPTED,
+    emoji.QUESTION: ALTERNATE,
+    emoji.CROSS: DECLINED
     }
+
+
+class OnRawReactionAdd:
 
     def __init__(self, bot):
         self.bot = bot
@@ -39,12 +41,12 @@ class OnRawReactionAdd:
         if not response:
             response = Response(user_id=payload.user_id, event_id=event.id)
 
-        response.status = self.emoji_statuses.get(payload.emoji.name)
+        response.status = EMOJI_STATUSES.get(payload.emoji.name)
         session.add(response)
 
 
     async def _handle_event_reaction(self, session, event, payload):
-        if self.emoji_statuses.get(payload.emoji.name):
+        if EMOJI_STATUSES.get(payload.emoji.name):
             self._update_response(session, event, payload)
             await UpdateEvent(self.bot, event).call()
             await self.bot.remove_reaction(payload)
@@ -52,3 +54,5 @@ class OnRawReactionAdd:
         elif payload.emoji.name == emoji.SKULL:
             session.delete(event)
             await ListEvents(self.bot, event.event_channel).call()
+        else:
+            await self.bot.remove_reaction(payload)
