@@ -25,7 +25,8 @@ class EventCommand:
 
         await ctx.send("Event creation instructions have been messaged to you.")
         event = await self._get_event_from_user(ctx, session)
-        await ctx.author.send("Your event has been created!")
+        channel = self.bot.get_channel(event.event_channel.id)
+        await ctx.author.send(f"Your event has been created in the {channel.mention} channel!")
         await ListEvents(self.bot, event.event_channel).call()
 
         session.add(event)
