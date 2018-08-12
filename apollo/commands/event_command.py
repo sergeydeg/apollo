@@ -30,7 +30,6 @@ class EventCommand:
 
         session.add(event)
         session.commit()
-        session.close()
 
 
     async def _choose_event_channel(self, ctx, event_channels):
