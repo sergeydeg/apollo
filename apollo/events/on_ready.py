@@ -1,4 +1,4 @@
-from apollo.services import SyncEventChannels
+from apollo.services import SyncModels
 
 
 class OnReady:
@@ -9,4 +9,4 @@ class OnReady:
 
     async def on_ready(self):
         print(f"{self.bot.user.name} - Ready")
-        SyncEventChannels(self.bot).call()
+        SyncModels(self.bot).call()

@@ -1,1 +1,1 @@
-from .sync_event_channels import SyncEventChannels
+from .sync_models import SyncModels
