@@ -5,7 +5,7 @@ from discord.ext import commands
 class Apollo(commands.AutoShardedBot):
 
     def __init__(self, Session):
-        super().__init__(command_prefix='!')
+        super().__init__(command_prefix='ap.')
         self.Session = Session
 
 
