@@ -103,7 +103,7 @@ class EventCommand:
                     tzinfo=VALID_TIME_ZONES.get(time_zone)
                 )
                 return start_time.to('utc').datetime
-            except arrow.parser.ParserError:
+            except:
                 await ctx.author.send("Invalid start time. Try again:")
 
 
