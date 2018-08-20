@@ -93,7 +93,7 @@ class EventCommand:
 
     async def _get_start_time(self, ctx, time_zone):
         """Retrieve a datetime UTC object from the user"""
-        await ctx.author.send("Enter the event start time (ex. `2018-09-09 7:00 pm` or `2018-09-09 19:00`):")
+        await ctx.author.send("Enter the event start time (ex. `2018-08-17 7:00 pm` or `2018-08-17 19:00`):")
         while True:
             start_time_str = (await self.bot.get_next_pm(ctx.author)).content
             try:
