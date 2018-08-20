@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-import bugsnag
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -18,13 +17,6 @@ env = os.getenv('ENV', 'develop')
 db_user = os.getenv('DB_USER', 'root')
 db_pass = os.getenv('DB_PASS', '')
 db_name = os.getenv('DB_NAME', 'apollo')
-bugsnag_key = os.getenv('BUGSNAG_KEY')
-
-if env == 'production':
-    bugsnag.configure(
-        api_key=os.getenv('BUGSNAG_KEY'),
-        project_root="./",
-    )
 
 engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/{db_name}?charset=utf8mb4', pool_recycle=3600)
 if env == 'develop':

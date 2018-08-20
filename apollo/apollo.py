@@ -1,9 +1,9 @@
 import asyncio
 import os
 
-import bugsnag
 import discord
 from discord.ext import commands
+from raven import Client
 
 
 class Apollo(commands.AutoShardedBot):
@@ -11,6 +11,7 @@ class Apollo(commands.AutoShardedBot):
     def __init__(self, Session):
         super().__init__(command_prefix='ap.')
         self.Session = Session
+        self.client = Client(os.getenv('SENTRY_URL'))
 
 
     async def create_discord_event_channel(self, guild):
@@ -64,14 +65,14 @@ class Apollo(commands.AutoShardedBot):
 
 
     async def _run_event(self, coro, event_name, *args, **kwargs):
-        """Overridden from discord.py to send bugsnag exception reports"""
+        """Overridden from discord.py to send exception reports"""
         try:
             await coro(*args, **kwargs)
         except asyncio.CancelledError:
             pass
         except Exception as e:
             if os.getenv('ENV') == 'production':
-                bugsnag.notify(e)
+                self.client.captureException()
             try:
                 await self.on_error(event_name, *args, **kwargs)
             except asyncio.CancelledError:
