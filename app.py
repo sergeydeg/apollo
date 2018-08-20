@@ -25,7 +25,6 @@ if env == 'production':
         api_key=os.getenv('BUGSNAG_KEY'),
         project_root="./",
     )
-    bugsnag.notify(Exception('Test error'))
 
 engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/{db_name}?charset=utf8mb4', pool_recycle=3600)
 if env == 'develop':
