@@ -1,3 +1,7 @@
+import asyncio
+import os
+
+import bugsnag
 import discord
 from discord.ext import commands
 
@@ -57,3 +61,18 @@ class Apollo(commands.AutoShardedBot):
         message = await channel.get_message(payload.message_id)
         member = channel.guild.get_member(payload.user_id)
         await message.remove_reaction(payload.emoji, member)
+
+
+    async def _run_event(self, coro, event_name, *args, **kwargs):
+        """Overridden from discord.py to send bugsnag exception reports"""
+        try:
+            await coro(*args, **kwargs)
+        except asyncio.CancelledError:
+            pass
+        except Exception as e:
+            if os.getenv('ENV') == 'production':
+                bugsnag.notify(e)
+            try:
+                await self.on_error(event_name, *args, **kwargs)
+            except asyncio.CancelledError:
+                pass
