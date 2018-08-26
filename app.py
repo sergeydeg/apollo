@@ -37,5 +37,6 @@ apollo.add_cog(OnReady(apollo))
 apollo.add_cog(ChannelCommand(apollo))
 apollo.add_cog(EventCommand(apollo))
 apollo.add_cog(HelpCommand(apollo))
+apollo.add_cog(RoleCommand(apollo))
 
 apollo.run(os.getenv('BOT_TOKEN'))
