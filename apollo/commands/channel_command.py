@@ -1,5 +1,6 @@
 from discord.ext import commands
 
+from apollo.can import Can
 from apollo.list_events import ListEvents
 from apollo.models import EventChannel
 from apollo.queries import find_or_create_guild
@@ -17,8 +18,10 @@ class ChannelCommand:
         """Create a new event channel"""
         session = self.bot.Session()
 
-        guild = find_or_create_guild(session, ctx.guild.id)
+        if not Can(session, ctx.author).channel():
+            return await ctx.send("You don't have permission to do that.")
 
+        guild = find_or_create_guild(session, ctx.guild.id)
         if guild.has_max_event_channels():
             return await ctx.send("Event channel limit has been reached.")
 

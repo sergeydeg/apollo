@@ -11,6 +11,15 @@ class Can:
         self.guild = user.guild
 
 
+    def channel(self):
+        guild = find_or_create_guild(self.session, self.guild.id)
+        channel_role = self._get_role(guild.channel_role_id)
+        return (
+            self.user.top_role >= channel_role or
+            self.user.guild_permissions.manage_guild
+            )
+
+
     def event(self):
         guild = find_or_create_guild(self.session, self.guild.id)
         event_role = self._get_role(guild.event_role_id)
