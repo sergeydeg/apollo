@@ -1,3 +1,4 @@
+from apollo.can import Can
 from apollo.list_events import ListEvents
 
 
@@ -23,11 +24,10 @@ class DeleteEvent:
 
 
     def _member_can_delete(self):
-        return self._member_has_manage_guild() or self._member_owns_event()
-
-
-    def _member_has_manage_guild(self):
-        return self.member.permissions_in(self._channel()).manage_guild
+        return(
+            Can(self.session, self.member).delete() or
+            self._member_owns_event()
+            )
 
 
     def _member_owns_event(self):

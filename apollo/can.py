@@ -20,6 +20,15 @@ class Can:
             )
 
 
+    def delete(self):
+        guild = find_or_create_guild(self.session, self.guild.id)
+        delete_role = self._get_role(guild.delete_role_id)
+        return (
+            self.user.top_role >= delete_role or
+            self.user.guild_permissions.manage_guild
+            )
+
+
     def event(self):
         guild = find_or_create_guild(self.session, self.guild.id)
         event_role = self._get_role(guild.event_role_id)
