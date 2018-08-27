@@ -27,4 +27,7 @@ class Can:
 
 
     def _get_role(self, role_id):
-        return discord.utils.get(self.guild.roles, id=role_id)
+        role = discord.utils.get(self.guild.roles, id=role_id)
+        if not role:
+            role = self.guild.default_role
+        return role
