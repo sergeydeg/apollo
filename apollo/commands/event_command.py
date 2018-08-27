@@ -1,6 +1,7 @@
 import arrow
 from discord.ext import commands
 
+from apollo.can import Can
 from apollo.list_events import ListEvents
 from apollo.models import Event, EventChannel, Guild
 from apollo.queries import find_or_create_guild, find_or_create_user
@@ -22,6 +23,9 @@ class EventCommand:
     async def event(self, ctx):
         """Create a new event"""
         session = self.bot.Session()
+
+        if not Can(session, ctx.author).event():
+            return await ctx.send("You don't have permission to do that.")
 
         await ctx.send("Event creation instructions have been messaged to you.")
         event = await self._get_event_from_user(ctx, session)
