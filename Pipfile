@@ -12,6 +12,7 @@ SQLAlchemy = "==1.2.8"
 arrow = "==0.10.0"
 alembic = "==1.0.0"
 raven = "*"
+psutil = "*"
 
 [dev-packages]
 
