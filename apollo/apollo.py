@@ -1,6 +1,7 @@
 import asyncio
 import os
 
+import arrow
 import discord
 from discord.ext import commands
 from raven import Client
@@ -12,6 +13,7 @@ class Apollo(commands.AutoShardedBot):
         super().__init__(command_prefix='ap.')
         self.Session = Session
         self.client = Client(os.getenv('SENTRY_URL'))
+        self.start_time = arrow.utcnow()
 
 
     async def create_discord_event_channel(self, guild):

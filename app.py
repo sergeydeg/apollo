@@ -34,6 +34,7 @@ apollo.add_cog(OnRawReactionAdd(apollo))
 apollo.add_cog(OnReady(apollo))
 
 # Add commands
+apollo.add_cog(AboutCommand(apollo))
 apollo.add_cog(ChannelCommand(apollo))
 apollo.add_cog(EventCommand(apollo))
 apollo.add_cog(HelpCommand(apollo))
