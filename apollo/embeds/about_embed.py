@@ -14,7 +14,6 @@ class AboutEmbed:
     def __init__(self, bot, session):
         self.bot = bot
         self.session = session
-        self.process = psutil.Process()
 
 
     def call(self):
@@ -35,7 +34,7 @@ class AboutEmbed:
 
 
     def _cpu_usage(self):
-        return "%0.2f%%" % (self.process.cpu_percent() / psutil.cpu_count())
+        return "%0.2f%%" % (psutil.cpu_percent())
 
 
     def _event_count(self):
@@ -48,7 +47,7 @@ class AboutEmbed:
 
 
     def _memory_usage(self):
-        return "%0.2f MB" % (self.process.memory_full_info().uss / 1024**2)
+        return "%0.2f MB" % (psutil.virtual_memory().used / 1024**2)
 
 
     def _uptime(self):
