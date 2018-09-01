@@ -1,4 +1,5 @@
 from apollo.models import EventChannel, Guild, User
+from apollo.queries import find_or_create_guild
 
 
 class SyncModels:
@@ -22,9 +23,17 @@ class SyncModels:
 
 
     def _sync_guilds(self):
-        for guild in self.session.query(Guild).all():
+        guild_models = self.session.query(Guild).all()
+
+        # Delete guilds that aren't around anymore
+        for guild in guild_models:
             if not self.bot.get_guild(guild.id):
                 self.session.delete(guild)
+
+        # Create guilds that were added while offline
+        for guild in self.bot.guilds:
+            if guild not in (guild_model.id for guild_model in guild_models):
+                find_or_create_guild(self.session, guild.id)
 
 
     def _sync_users(self):
