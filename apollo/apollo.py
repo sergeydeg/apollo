@@ -6,14 +6,17 @@ import discord
 from discord.ext import commands
 from raven import Client
 
+from apollo.prefix import prefix_callable
+
 
 class Apollo(commands.AutoShardedBot):
 
-    def __init__(self, Session):
-        super().__init__(command_prefix='ap.')
+    def __init__(self, Session, cache):
+        super().__init__(command_prefix=prefix_callable)
         self.Session = Session
         self.client = Client(os.getenv('SENTRY_URL'))
         self.start_time = arrow.utcnow()
+        self.cache = cache
 
 
     async def create_discord_event_channel(self, guild):

@@ -22,10 +22,16 @@ engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/{db_name}?charset
 if env == 'develop':
     engine.echo = True
 
+# Configure session factory
 Session = sessionmaker()
 Session.configure(bind=engine)
 
-apollo = Apollo(Session)
+# Setup cache
+cache = Cache(Session)
+cache.load_prefixes()
+
+# Initialize bot
+apollo = Apollo(Session, cache)
 
 # Add events
 apollo.add_cog(OnCommandError(apollo))
@@ -38,6 +44,7 @@ apollo.add_cog(AboutCommand(apollo))
 apollo.add_cog(ChannelCommand(apollo))
 apollo.add_cog(EventCommand(apollo))
 apollo.add_cog(HelpCommand(apollo))
+apollo.add_cog(PrefixCommand(apollo))
 apollo.add_cog(RoleCommand(apollo))
 
 apollo.run(os.getenv('BOT_TOKEN'))
