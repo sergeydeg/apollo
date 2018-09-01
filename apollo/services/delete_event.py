@@ -1,5 +1,5 @@
 from apollo.can import Can
-from apollo.list_events import ListEvents
+from .list_events import ListEvents
 
 
 class DeleteEvent:

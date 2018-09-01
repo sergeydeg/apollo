@@ -1,5 +1,6 @@
-from . import emojis as emoji
-from .embeds import event_embed
+from apollo import emojis as emoji
+from apollo.embeds import event_embed
+
 
 class ListEvents:
 

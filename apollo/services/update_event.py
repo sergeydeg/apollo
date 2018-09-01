@@ -1,4 +1,5 @@
-from .embeds import event_embed
+from apollo.embeds import event_embed
+
 
 class UpdateEvent:
 

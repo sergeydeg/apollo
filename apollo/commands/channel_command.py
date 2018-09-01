@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 from apollo.can import Can
-from apollo.list_events import ListEvents
+from apollo.services import ListEvents
 from apollo.models import EventChannel
 from apollo.queries import find_or_create_guild
 

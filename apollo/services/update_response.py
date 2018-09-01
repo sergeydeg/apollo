@@ -1,7 +1,7 @@
 from apollo import emojis as emoji
 from apollo.models import Response
 from apollo.queries import find_response
-from apollo.update_event import UpdateEvent
+from .update_event import UpdateEvent
 
 
 EMOJI_STATUSES = {
