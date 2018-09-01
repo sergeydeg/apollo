@@ -1,5 +1,7 @@
 import discord
 
+from apollo.constants import EMBED_COLOR
+
 
 class HelpEmbed:
 
@@ -10,6 +12,7 @@ class HelpEmbed:
 
     def call(self):
         embed = discord.Embed(title="Available Commands")
+        embed.color = EMBED_COLOR
 
         for command in self._visible_commands():
             signature = self._get_command_signature(command)

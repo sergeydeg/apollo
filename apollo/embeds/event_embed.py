@@ -2,6 +2,7 @@ import arrow
 import discord
 
 from apollo import emojis as emoji
+from apollo.constants import EMBED_COLOR
 from apollo.time_zones import VALID_TIME_ZONES
 
 
@@ -13,6 +14,7 @@ DECLINED_HEADER = "Declined"
 def event_embed(guild, event):
     """Create a Discord Embed to represent an event message"""
     embed = discord.Embed()
+    embed.color = EMBED_COLOR
     embed.title = event.title
 
     if event.description:

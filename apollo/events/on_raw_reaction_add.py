@@ -15,8 +15,8 @@ class OnRawReactionAdd:
         if payload.user_id == self.bot.user.id:
             return
 
-        event = find_event_from_message(session, payload.message_id)
-        if event:
+        if self.bot.cache.event_exists(payload.message_id):
+            event = find_event_from_message(session, payload.message_id)
             find_or_create_user(session, payload.user_id)
             await HandleEventReaction(
                 self.bot,

@@ -3,10 +3,6 @@ from sqlalchemy.orm import joinedload
 from .models import Event, EventChannel, Guild, Response, User
 
 
-def delete_event_channel(session, event_channel_id):
-    session.query(EventChannel).filter_by(id=event_channel_id).delete()
-
-
 def find_event_channel(session, event_channel_id):
     return session.query(EventChannel). \
         options(joinedload('events').joinedload('responses')). \

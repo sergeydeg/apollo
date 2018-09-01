@@ -18,6 +18,7 @@ class ListEvents:
 
         for event in self.event_channel.events:
             event_message = await self._send_event_message(event)
+            self.bot.cache.update_event(event.message_id, event_message.id)
             event.message_id = event_message.id
             await self._add_reactions(event_message)
 
