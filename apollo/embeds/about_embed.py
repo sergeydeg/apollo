@@ -10,6 +10,7 @@ class AboutEmbed:
 
     INVITE_LINK = "https://discordapp.com/oauth2/authorize?client_id=475744554910351370&scope=bot&permissions=355408"
     SERVER_LINK = "https://discord.gg/ZVevvh2"
+    GITHUB_LINK = "https://github.com/jgayfer/apollo"
 
     def __init__(self, bot, session):
         self.bot = bot
@@ -43,7 +44,8 @@ class AboutEmbed:
 
     def _description(self):
         return (f"[Invite Link]({self.INVITE_LINK})\n" +
-                f"[Official Discord Server]({self.SERVER_LINK})")
+                f"[Official Discord Server]({self.SERVER_LINK})\n" +
+                f"[Source Code]({self.GITHUB_LINK})")
 
 
     def _memory_usage(self):
