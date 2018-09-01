@@ -13,6 +13,10 @@ class Cache:
         self.event_message_ids.remove(message_id)
 
 
+    def delete_prefix(self, guild_id):
+        self.prefixes.pop(guild_id)
+
+
     def event_exists(self, message_id):
         return message_id in self.event_message_ids
 
