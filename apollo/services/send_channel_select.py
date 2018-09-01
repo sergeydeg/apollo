@@ -1,5 +1,5 @@
-from . import emojis as emoji
-from .embeds import SelectChannelEmbed
+from apollo import emojis as emoji
+from apollo.embeds import SelectChannelEmbed
 
 
 class SendChannelSelect:
