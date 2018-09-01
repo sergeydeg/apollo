@@ -26,6 +26,7 @@ class Cache:
         events = session.query(Event).all()
         for event in events:
             self.event_message_ids.add(event.message_id)
+        session.commit()
 
 
     def load_prefixes(self):
@@ -33,6 +34,7 @@ class Cache:
         guilds = session.query(Guild).all()
         for guild in guilds:
             self.prefixes[guild.id] = guild.prefix
+        session.commit()
 
 
     def update_event(self, old_message_id, new_message_id):
