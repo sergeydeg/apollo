@@ -14,7 +14,7 @@ class DeleteEvent:
     async def call(self):
         if self._member_can_delete():
             self.session.delete(self.event)
-            self.bot.cache.delete_event(self.event.id)
+            self.bot.cache.delete_event(self.event.message_id)
             await ListEvents(self.bot, self.event.event_channel).call()
         else:
             await self.member.send("You don't have permission to do that.")
