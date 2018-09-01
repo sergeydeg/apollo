@@ -9,4 +9,10 @@ class OnReady:
 
     async def on_ready(self):
         print(f"{self.bot.user.name} - Ready")
+
+        # Sync models that may have changed while offline
         SyncModels(self.bot).call()
+
+        # Load items into cache
+        self.bot.cache.load_prefixes()
+        self.bot.cache.load_event_message_ids()

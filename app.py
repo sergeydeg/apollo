@@ -28,8 +28,6 @@ Session.configure(bind=engine)
 
 # Setup cache
 cache = Cache(Session)
-cache.load_prefixes()
-cache.load_event_message_ids()
 
 # Initialize bot
 apollo = Apollo(Session, cache)
@@ -37,6 +35,7 @@ apollo = Apollo(Session, cache)
 # Add events
 apollo.add_cog(OnCommandError(apollo))
 apollo.add_cog(OnGuildChannelDelete(apollo))
+apollo.add_cog(OnGuildJoin(apollo))
 apollo.add_cog(OnRawReactionAdd(apollo))
 apollo.add_cog(OnReady(apollo))
 
