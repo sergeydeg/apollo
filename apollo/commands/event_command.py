@@ -13,6 +13,8 @@ class EventCommand:
     MAX_DESC_LENGTH = 250
     MAX_TITLE_LENGTH = 100
 
+    TIME_ZONE_INVITE = "https://discord.gg/PQXA2ys"
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -118,7 +120,8 @@ class EventCommand:
             if time_zone in VALID_TIME_ZONES.keys():
                 return time_zone
             else:
-                await ctx.author.send("Invalid time zone. Try again:")
+                await ctx.author.send(f"Invalid time zone. For a list of supported time zones, join the Apollo Discord server: <{self.TIME_ZONE_INVITE}>")
+                await ctx.author.send("Try again:")
 
 
     async def _get_title_from_user(self, ctx):
