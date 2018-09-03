@@ -1,4 +1,4 @@
-from apollo.embeds import event_embed
+from apollo.embeds import EventEmbed
 
 
 class UpdateEvent:
@@ -11,7 +11,7 @@ class UpdateEvent:
 
     async def call(self):
         event_message = await self.channel.get_message(self.event.message_id)
-        updated_embed = event_embed(self.channel.guild, self.event)
+        updated_embed = EventEmbed(self.channel.guild, self.event).call()
         await event_message.edit(embed=updated_embed)
 
 

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from apollo import emojis as emoji
 from apollo.models import Response
 from apollo.queries import find_response
@@ -23,6 +25,7 @@ class UpdateResponse:
     async def call(self):
         response = self._find_or_create_response()
         response.status = EMOJI_STATUSES.get(self.payload.emoji.name)
+        response.last_updated = datetime.now()
         self.session.add(response)
         await UpdateEvent(self.bot, self.event).call()
 

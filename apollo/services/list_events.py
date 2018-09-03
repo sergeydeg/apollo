@@ -1,5 +1,5 @@
 from apollo import emojis as emoji
-from apollo.embeds import event_embed
+from apollo.embeds import EventEmbed
 
 
 class ListEvents:
@@ -35,5 +35,5 @@ class ListEvents:
 
 
     async def _send_event_message(self, event):
-        embed = event_embed(self.channel.guild, event)
+        embed = EventEmbed(self.channel.guild, event).call()
         return await self.channel.send(embed=embed)
