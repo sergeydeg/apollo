@@ -52,6 +52,8 @@ class Event(Base):
         alternate_user_ids = self._user_ids_by_status("alternate")
         if self.capacity:
             return alternate_user_ids + self._overflow_user_ids
+        else:
+            return alternate_user_ids
 
 
     @property
