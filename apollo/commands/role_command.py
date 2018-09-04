@@ -15,44 +15,54 @@ class RoleCommand:
     @commands.has_permissions(manage_guild=True)
     async def role(self, ctx):
         """Change the minimum role required to perform various actions"""
-        ctx.session = self.bot.Session()
-        ctx.guild_model = find_or_create_guild(ctx.session, ctx.guild.id)
+        pass
 
 
     @role.command()
     async def event(self, ctx, *, role: discord.Role):
         """Change or view the minimum role required to create events"""
-        ctx.guild_model.event_role_id = role.id
-        ctx.session.add(ctx.guild_model)
-        ctx.session.commit()
+        session = self.bot.Session()
+        guild = find_or_create_guild(session, ctx.guild.id)
+        guild.event_role_id = role.id
+        session.add(guild)
+        session.commit()
+
         await ctx.send(f"The minimum event creation role has been set to: **{role}**")
 
 
     @role.command()
     async def channel(self, ctx, *, role: discord.Role):
         """Change or view the minimum role required to create event channels"""
-        ctx.guild_model.channel_role_id = role.id
-        ctx.session.add(ctx.guild_model)
-        ctx.session.commit()
+        session = self.bot.Session()
+        guild = find_or_create_guild(session, ctx.guild.id)
+        guild.channel_role_id = role.id
+        session.add(guild)
+        session.commit()
+
         await ctx.send(f"The minimum channel creation role has been set to: **{role}**")
 
 
     @role.command()
     async def delete(self, ctx, *, role: discord.Role):
         """Change or view the minimum role required to delete events"""
-        ctx.guild_model.delete_role_id = role.id
-        ctx.session.add(ctx.guild_model)
-        ctx.session.commit()
+        session = self.bot.Session()
+        guild = find_or_create_guild(session, ctx.guild.id)
+        guild.delete_role_id = role.id
+        session.add(guild)
+        session.commit()
+
         await ctx.send(f"The minimum event deletion role has been set to: **{role}**")
 
 
     @event.error
     async def event_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            role = discord.utils.get(
-                ctx.guild.roles,
-                id=ctx.guild_model.event_role_id
-                )
+            session = self.bot.Session()
+            guild = find_or_create_guild(session, ctx.guild.id)
+            session.commit()
+
+            role = discord.utils.get(ctx.guild.roles, id=guild.event_role_id)
+
             await ctx.send(
                 f"The minimum role required for event creation is: **{role}**\n\n"
                 + f"To change this role, use: `{ctx.prefix}role event <role>`"
@@ -62,10 +72,12 @@ class RoleCommand:
     @channel.error
     async def channel_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            role = discord.utils.get(
-                ctx.guild.roles,
-                id=ctx.guild_model.channel_role_id
-                )
+            session = self.bot.Session()
+            guild = find_or_create_guild(session, ctx.guild.id)
+            session.commit()
+
+            role = discord.utils.get(ctx.guild.roles, id=guild.channel_role_id)
+
             await ctx.send(
                 f"The minimum role required for event channel creation is: **{role}**\n\n"
                 + "Note that regardless of this setting, users with the "
@@ -77,10 +89,12 @@ class RoleCommand:
     @delete.error
     async def delete_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            role = discord.utils.get(
-                ctx.guild.roles,
-                id=ctx.guild_model.delete_role_id
-                )
+            session = self.bot.Session()
+            guild = find_or_create_guild(session, ctx.guild.id)
+            session.commit()
+
+            role = discord.utils.get(ctx.guild.roles, id=guild.delete_role_id)
+
             await ctx.send(
                 f"The minimum role required for event deletion is: **{role}**\n\n"
                 + "Note that regardless of this setting, users with the "
