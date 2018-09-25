@@ -97,8 +97,6 @@ class EventEmbed:
             member = self.guild.get_member(user_id)
             if member:
                 members.append(member)
-            else:
-                members.append("Unknown User")
         return members
 
 
