@@ -13,6 +13,7 @@ arrow = "==0.10.0"
 alembic = "==1.0.0"
 raven = "*"
 psutil = "*"
+pyyaml = "*"
 
 [dev-packages]
 
