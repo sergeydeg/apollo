@@ -1,0 +1,110 @@
+channel:
+  channel_limit:
+    Event channel limit has been reached.
+  channel_created:
+    A new {} channel has been created!
+
+event:
+  accepted:
+    Accepted
+  alternate:
+    Alternate
+  created:
+    Your event has been created in the {} channel!
+  created_by:
+    Created by {} | React with {} to remove this event
+  capacity_prompt:
+    "Enter the maximum number of attendees (type 'None' for no limit):"
+  description_prompt:
+    "Enter the event description (type `None` for no description):"
+  declined:
+    Declined
+  instructions_messaged:
+    Event creation instructions have been messaged to you.
+  invalid_description:
+    "Event description must be less than {} characters. Try again:"
+  invalid_capacity:
+    "Entry must be between 1 and {} (or `None` for no limit). Try again:"
+  invalid_start_time:
+    "Invalid start time. Try again:"
+  invalid_time_zone:
+    "Invalid time zone. For a list of supported time zones, join the Apollo Discord server: <{}>"
+  invalid_title:
+    "Event title must be less than {} characters. Try again:"
+  start_time_prompt:
+    "Enter the event start time (ex. `2018-08-17 7:00 pm` or `2018-08-17 19:00`):"
+  time:
+    "Time"
+  time_zone_prompt:
+    "Enter your time zone:"
+  title_prompt:
+    "Enter the event title:"
+  try_again:
+    "Try again:"
+  unknown_user:
+    Unknown User
+
+prefix:
+  changed:
+    "The command prefix has been changed to: `{}`"
+  missing:
+    Oops! You didn't provide a new command prefix.
+
+role:
+  channel_role_changed:
+    "The minimum channel creation role has been set to: **{}**"
+  channel_role_current: |
+    The minimum role required for event channel creation is: **{}**
+
+    Note that regardless of this setting, users with the `Manage Server` permission will always be able to create event channels.
+
+    To change this role, use: `{}role channel <role>`
+  delete_role_changed:
+    "The minimum event deletion role has been set to: **{}**"
+  delete_role_current: |
+    The minmum role required for event deletion is: **{}**
+
+    Note that regardless of this setting, users with the `Manger Server` permission will always be able to delete events.
+
+    To change this role, use: `{}role delete <role>`
+  event_role_changed:
+    "The minimum event creation role has been set to: **{}**"
+  event_role_current: |
+    The minimum role required for event creation is: **{}**
+
+    To change this role, use: `{}role event <role>`
+
+select_channel:
+  title:
+    "Select an event channel:"
+
+about:
+  title:
+    Apollo
+  users:
+    Users
+  servers:
+    Servers
+  events:
+    Events
+  memory:
+    Memory
+  cpu:
+    CPU
+  uptime:
+    Uptime
+  made_with:
+    Made with discord.py
+  invite_link:
+    "[Invite Link]({})"
+  discord_server:
+    "[Official Discord Server]({})"
+  source_code:
+    "[Source Code]({})"
+
+error:
+  missing_permissions:
+    You don't have permission to do that. 
+
+apollo:
+  Apollo
