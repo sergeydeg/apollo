@@ -2,6 +2,7 @@ import discord
 
 from apollo import emojis as emoji
 from apollo.constants import EMBED_COLOR
+from apollo.translate import t
 
 
 class SelectChannelEmbed:
@@ -13,7 +14,7 @@ class SelectChannelEmbed:
     def call(self):
         embed = discord.Embed()
         embed.color = EMBED_COLOR
-        embed.title = "Select an event channel:"
+        embed.title = t("select_channel.title")
         embed.description = self._channel_list()
         return embed
 

@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 
 from apollo.queries import find_or_create_guild
+from apollo.translate import t
 
 
 class RoleCommand:
@@ -27,7 +28,7 @@ class RoleCommand:
         session.add(guild)
         session.commit()
 
-        await ctx.send(f"The minimum event creation role has been set to: **{role}**")
+        await ctx.send(t("role.event_role_changed").format(role))
 
 
     @role.command()
@@ -39,7 +40,7 @@ class RoleCommand:
         session.add(guild)
         session.commit()
 
-        await ctx.send(f"The minimum channel creation role has been set to: **{role}**")
+        await ctx.send(t("role.channel_role_changed").format(role))
 
 
     @role.command()
@@ -51,7 +52,7 @@ class RoleCommand:
         session.add(guild)
         session.commit()
 
-        await ctx.send(f"The minimum event deletion role has been set to: **{role}**")
+        await ctx.send(t("role.delete_role_changed").format(role))
 
 
     @event.error
@@ -64,9 +65,11 @@ class RoleCommand:
             role = discord.utils.get(ctx.guild.roles, id=guild.event_role_id)
 
             await ctx.send(
-                f"The minimum role required for event creation is: **{role}**\n\n"
-                + f"To change this role, use: `{ctx.prefix}role event <role>`"
+                t("role.event_role_current").format(
+                    role,
+                    ctx.prefix
                 )
+            )
 
 
     @channel.error
@@ -79,11 +82,11 @@ class RoleCommand:
             role = discord.utils.get(ctx.guild.roles, id=guild.channel_role_id)
 
             await ctx.send(
-                f"The minimum role required for event channel creation is: **{role}**\n\n"
-                + "Note that regardless of this setting, users with the "
-                + "`Manage Server` permission will always be able to create event channels.\n\n"
-                + f"To change this role, use: `{ctx.prefix}role channel <role>`"
+                t("role.channel_role_current").format(
+                    role,
+                    ctx.prefix
                 )
+            )
 
 
     @delete.error
@@ -96,8 +99,8 @@ class RoleCommand:
             role = discord.utils.get(ctx.guild.roles, id=guild.delete_role_id)
 
             await ctx.send(
-                f"The minimum role required for event deletion is: **{role}**\n\n"
-                + "Note that regardless of this setting, users with the "
-                + "`Manage Server` permission will always be able to delete events.\n\n"
-                + f"To change this role, use: `{ctx.prefix}role delete <role>`"
+                t("role.delete_role_current").format(
+                    role,
+                    ctx.prefix
                 )
+            )

@@ -6,6 +6,7 @@ from apollo.services import ListEvents, SendChannelSelect
 from apollo.models import Event, EventChannel, Guild
 from apollo.queries import find_or_create_guild, find_or_create_user
 from apollo.time_zones import VALID_TIME_ZONES
+from apollo.translate import t
 
 
 class EventCommand:
@@ -26,12 +27,14 @@ class EventCommand:
         session = self.bot.Session()
 
         if not Can(session, ctx.author).event():
-            return await ctx.send("You don't have permission to do that.")
+            return await ctx.send(t("error.missing"))
 
-        await ctx.send("Event creation instructions have been messaged to you.")
+        await ctx.send(t("event.instructions_messaged"))
         event = await self._get_event_from_user(ctx, session)
         channel = self.bot.get_channel(event.event_channel.id)
-        await ctx.author.send(f"Your event has been created in the {channel.mention} channel!")
+        await ctx.author.send(
+            t("event.created").format(channel.mention)
+        )
         await ListEvents(self.bot, event.event_channel).call()
 
         session.add(event)
@@ -59,7 +62,7 @@ class EventCommand:
 
     async def _get_capacity_from_user(self, ctx):
         """Retrieve the event capacity from the user"""
-        await ctx.author.send("Enter the maximum number of attendees (type 'None' for no limit):")
+        await ctx.author.send(t("event.capacity_prompt"))
         while True:
             resp = (await self.bot.get_next_pm(ctx.author)).content
             if resp.upper() == 'NONE':
@@ -67,12 +70,16 @@ class EventCommand:
             elif resp.isdigit() and int(resp) in range(1, self.MAX_CAPACITY):
                 return int(resp)
             else:
-                await ctx.author.send(f"Entry must be between 1 and {self.MAX_CAPACITY} (or 'None' for no limit). Try again:")
+                await ctx.author.send(
+                    t("event.invalid_capacity").format(
+                        self.MAX_CAPACITY
+                    )
+                )
 
 
     async def _get_desc_from_user(self, ctx):
         """Retrieve the event description from the user"""
-        await ctx.author.send("Enter event description (type 'None' for no description):")
+        await ctx.author.send(t("event.description_prompt"))
         while True:
             resp = (await self.bot.get_next_pm(ctx.author, timeout=240)).content
             if resp.upper() == 'NONE':
@@ -80,7 +87,11 @@ class EventCommand:
             elif len(resp) <= self.MAX_DESC_LENGTH:
                 return resp
             else:
-                await ctx.author.send(f"Event description must be less than {self.MAX_DESC_LENGTH} characters. Try again:")
+                await ctx.author.send(
+                    t("event.description_prompt").format(
+                        self.MAX_DESC_LENGTH
+                    )
+                )
 
 
     async def _get_event_channel(self, ctx, session):
@@ -98,7 +109,7 @@ class EventCommand:
 
     async def _get_start_time(self, ctx, time_zone):
         """Retrieve a datetime UTC object from the user"""
-        await ctx.author.send("Enter the event start time (ex. `2018-08-17 7:00 pm` or `2018-08-17 19:00`):")
+        await ctx.author.send(t("event.start_time_prompt"))
         while True:
             start_time_str = (await self.bot.get_next_pm(ctx.author)).content
             try:
@@ -109,30 +120,38 @@ class EventCommand:
                 )
                 return start_time.to('utc').datetime
             except:
-                await ctx.author.send("Invalid start time. Try again:")
+                await ctx.author.send(t("event.invalid_start_time"))
 
 
     async def _get_time_zone(self, ctx):
         """Retrieve a valid time zone string from the user"""
-        await ctx.author.send("Enter your time zone:")
+        await ctx.author.send(t("event.time_zone_prompt"))
         while True:
             time_zone = (await self.bot.get_next_pm(ctx.author)).content.upper()
             if time_zone in VALID_TIME_ZONES.keys():
                 return time_zone
             else:
-                await ctx.author.send(f"Invalid time zone. For a list of supported time zones, join the Apollo Discord server: <{self.TIME_ZONE_INVITE}>")
-                await ctx.author.send("Try again:")
+                await ctx.author.send(
+                    t("event.invalid_time_zone").format(
+                        self.TIME_ZONE_INVITE
+                    )
+                )
+                await ctx.author.send(t("event.try_again"))
 
 
     async def _get_title_from_user(self, ctx):
         """Retrieve the event title from the user"""
-        await ctx.author.send("Enter the event title:")
+        await ctx.author.send(t("event.title_prompt"))
         while True:
             title = (await self.bot.get_next_pm(ctx.author)).content
             if len(title) <= self.MAX_TITLE_LENGTH:
                 return title
             else:
-                await ctx.author.send(f"Event title must be less than {self.MAX_TITLE_LENGTH} characters. Try again:")
+                await ctx.author.send(
+                    t("event.invalid_title").format(
+                        self.MAX_TITLE_LENGTH
+                    )
+                )
 
 
     async def _get_event_from_user(self, ctx, session):

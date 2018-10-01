@@ -4,13 +4,14 @@ import discord
 from apollo import emojis as emoji
 from apollo.constants import EMBED_COLOR
 from apollo.time_zones import VALID_TIME_ZONES
+from apollo.translate import t
 
 
 class EventEmbed:
 
-    ACCEPTED_HEADER = "Accepted"
-    ALTERNATE_HEADER = "Alternate"
-    DECLINED_HEADER = "Declined"
+    ACCEPTED_HEADER = t("event.accepted")
+    ALTERNATE_HEADER = t("event.alternate")
+    DECLINED_HEADER = t("event.declined")
 
 
     def __init__(self, guild, event):
@@ -28,13 +29,15 @@ class EventEmbed:
             embed.description = self.event.description
 
         embed.set_footer(
-            text=f"Created by {self._organizer_name()} | " \
-                 f"React with {emoji.SKULL} to remove this event"
+            text=t("event.created_by").format(
+                self._organizer_name(),
+                emoji.SKULL
+            )
         )
 
         # Start time field
         embed.add_field(
-            name="Time",
+            name=t("event.time"),
             value=self._formatted_start_time(),
             inline=False
         )
@@ -116,4 +119,4 @@ class EventEmbed:
         if organizer:
             return organizer.display_name
         else:
-            return "Unknown User"
+            return t("event.unknown_user")

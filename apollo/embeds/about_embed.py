@@ -4,6 +4,7 @@ import psutil
 
 from apollo.constants import VERSION, EMBED_COLOR
 from apollo.models import Event, User
+from apollo.translate import t
 
 
 class AboutEmbed:
@@ -18,17 +19,17 @@ class AboutEmbed:
 
 
     def call(self):
-        embed = discord.Embed(title=f"Apollo {VERSION}")
+        embed = discord.Embed(title=t("apollo"))
         embed.color = EMBED_COLOR
         embed.description = self._description()
-        embed.add_field(name="Users", value=self._user_count())
-        embed.add_field(name="Servers", value=len(self.bot.guilds))
-        embed.add_field(name="Events", value=self._event_count())
-        embed.add_field(name="Memory", value=self._memory_usage())
-        embed.add_field(name="CPU", value=self._cpu_usage())
-        embed.add_field(name="Uptime", value=self._uptime())
+        embed.add_field(name=t("about.users"), value=self._user_count())
+        embed.add_field(name=t("about.servers"), value=len(self.bot.guilds))
+        embed.add_field(name=t("about.events"), value=self._event_count())
+        embed.add_field(name=t("about.memory"), value=self._memory_usage())
+        embed.add_field(name=t("about.cpu"), value=self._cpu_usage())
+        embed.add_field(name=t("about.uptime"), value=self._uptime())
         embed.set_footer(
-            text='Made with discord.py',
+            text=t("about.made_with"),
             icon_url='http://i.imgur.com/5BFecvA.png'
             )
         return embed
@@ -43,9 +44,9 @@ class AboutEmbed:
 
 
     def _description(self):
-        return (f"[Invite Link]({self.INVITE_LINK})\n" +
-                f"[Official Discord Server]({self.SERVER_LINK})\n" +
-                f"[Source Code]({self.GITHUB_LINK})")
+        return (t("about.invite_link").format(self.INVITE_LINK) + "\n" +
+                t("about.discord_server").format(self.SERVER_LINK) + "\n" +
+                t("about.source_code").format(self.GITHUB_LINK))
 
 
     def _memory_usage(self):

@@ -1,6 +1,7 @@
 from discord.ext import commands
 
 from apollo.queries import find_or_create_guild
+from apollo.translate import t
 
 
 class PrefixCommand:
@@ -23,10 +24,10 @@ class PrefixCommand:
 
         self.bot.cache.update_prefix(ctx.guild.id, new_prefix)
 
-        await ctx.send(f"The command prefix has been changed to: `{new_prefix}`")
+        await ctx.send(t("prefix.changed").format(new_prefix))
 
 
     @prefix.error
     async def prefix_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("Oops! You didn't provide a new command prefix.")
+            await ctx.send(t("prefix.missing"))
