@@ -2,7 +2,7 @@ import arrow
 import discord
 import psutil
 
-from apollo.constants import VERSION, EMBED_COLOR
+from apollo.constants import EMBED_COLOR
 from apollo.models import Event, User
 from apollo.translate import t
 
