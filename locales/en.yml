@@ -106,5 +106,9 @@ error:
   missing_permissions:
     You don't have permission to do that. 
 
+notify:
+  message_deleted:
+    The {} channel is intended to contain event messages only. As a result, your message has been deleted.
+
 apollo:
   Apollo
