@@ -64,7 +64,7 @@ role:
   delete_role_current: |
     The minmum role required for event deletion is: **{}**
 
-    Note that regardless of this setting, users with the `Manger Server` permission will always be able to delete events.
+    Note that regardless of this setting, users with the `Manage Server` permission will always be able to delete events.
 
     To change this role, use: `{}role delete <role>`
   event_role_changed:
