@@ -19,5 +19,6 @@ class OnGuildChannelDelete:
 
 
     def _update_cache(self, event_channel):
+        self.bot.cache.delete_event_channel(event_channel.id)
         for event in event_channel.events:
             self.bot.cache.delete_event(event.message_id)

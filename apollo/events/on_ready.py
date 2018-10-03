@@ -15,4 +15,5 @@ class OnReady:
 
         # Load items into cache
         self.bot.cache.load_prefixes()
+        self.bot.cache.load_event_channel_ids()
         self.bot.cache.load_event_message_ids()

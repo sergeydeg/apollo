@@ -28,6 +28,7 @@ class ChannelCommand:
 
         channel = await self.bot.create_discord_event_channel(ctx.guild)
         event_channel = EventChannel(id=channel.id, guild_id=ctx.guild.id)
+        self.bot.cache.create_event_channel(event_channel.id)
         await ListEvents(self.bot, event_channel).call()
 
         await ctx.send(
