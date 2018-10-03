@@ -88,10 +88,8 @@ class EventCommand:
                 return resp
             else:
                 await ctx.author.send(
-                    t("event.description_prompt").format(
-                        self.MAX_DESC_LENGTH
+                    t("event.invalid_description").format(self.MAX_DESC_LENGTH)
                     )
-                )
 
 
     async def _get_event_channel(self, ctx, session):
