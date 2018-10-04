@@ -1,4 +1,5 @@
 VALID_TIME_ZONES = {
+    "SST"  : "Asia/Singapore",
     "PST"  : "America/Los_Angeles",
     "MST"  : "America/Denver",
     "CST"  : "America/Mexico_City",
@@ -6,5 +7,7 @@ VALID_TIME_ZONES = {
     "AWST" : "Australia/Perth",
     "AEST" : "Australia/Sydney",
     "GMT"  : "Europe/London",
-    "CET"  : "Europe/Paris"
+    "BST"  : "Europe/London",
+    "CET"  : "Europe/Paris",
+    "CEST" : "Europe/Paris",
 }
