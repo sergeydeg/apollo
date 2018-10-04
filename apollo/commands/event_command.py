@@ -27,7 +27,7 @@ class EventCommand:
         session = self.bot.Session()
 
         if not Can(session, ctx.author).event():
-            return await ctx.send(t("error.missing"))
+            return await ctx.send(t("error.missing_permissions"))
 
         await ctx.send(t("event.instructions_messaged"))
         event = await self._get_event_from_user(ctx, session)
