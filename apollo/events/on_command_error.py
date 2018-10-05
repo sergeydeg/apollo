@@ -2,6 +2,8 @@ import asyncio
 
 from discord.ext import commands
 
+from apollo.translate import t
+
 
 class OnCommandError:
 
@@ -15,17 +17,14 @@ class OnCommandError:
         elif isinstance(error, commands.MissingRequiredArgument):
             return
         elif isinstance(error, commands.NoPrivateMessage):
-            await ctx.send("You can't use that command in a private message.")
-            return
+            return await ctx.send(t("error.private_message"))
         elif isinstance(error, commands.MissingPermissions):
-            await ctx.send("You don't have permission to do that.")
-            return
+            return await ctx.send(t("error.missing_permissions"))
         elif isinstance(error, commands.CheckFailure):
             return
         elif isinstance(error, commands.CommandInvokeError):
             if isinstance(error.original, asyncio.TimeoutError):
-                await ctx.author.send("I'm not sure where you went. We can try this again later.")
-                return
+                return await ctx.author.send(t("error.timeout"))
             else:
                 raise error
         else:
