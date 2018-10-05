@@ -22,8 +22,11 @@ class OnCommandError:
         elif isinstance(error, commands.MissingPermissions):
             await ctx.send("You don't have permission to do that.")
             return
-        elif isinstance(error.original, asyncio.TimeoutError):
-            await ctx.author.send("I'm not sure where you went. We can try this again later.")
-            return
-
-        raise error
+        elif isinstance(error, commands.CommandInvokeError):
+            if isinstance(error.original, asyncio.TimeoutError):
+                await ctx.author.send("I'm not sure where you went. We can try this again later.")
+                return
+            else:
+                raise error
+        else:
+            raise error
