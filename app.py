@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from apollo import *
+from apollo.checks import *
 from apollo.commands import * 
 from apollo.events import *
 
@@ -48,5 +49,8 @@ apollo.add_cog(EventCommand(apollo))
 apollo.add_cog(HelpCommand(apollo))
 apollo.add_cog(PrefixCommand(apollo))
 apollo.add_cog(RoleCommand(apollo))
+
+# Add checks
+apollo.add_check(NotEventChannel(apollo))
 
 apollo.run(os.getenv('BOT_TOKEN'))
