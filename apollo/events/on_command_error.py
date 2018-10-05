@@ -17,10 +17,10 @@ class OnCommandError:
         elif isinstance(error, commands.NoPrivateMessage):
             await ctx.send("You can't use that command in a private message.")
             return
-        elif isinstance(error, commands.CheckFailure):
-            return
         elif isinstance(error, commands.MissingPermissions):
             await ctx.send("You don't have permission to do that.")
+            return
+        elif isinstance(error, commands.CheckFailure):
             return
         elif isinstance(error, commands.CommandInvokeError):
             if isinstance(error.original, asyncio.TimeoutError):
