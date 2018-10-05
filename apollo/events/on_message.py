@@ -15,10 +15,9 @@ class OnMessage:
         # event channels, and end up using them as regular channels, only
         # to have a rude awakening when the channel is cleared.
         if (self.bot.cache.event_channel_exists(message.channel.id) and not
-            self.bot.cache.event_exists(message.id)):
+                self.bot.cache.event_exists(message.id) and
+                message.author.id != self.bot.user.id):
             await message.delete()
-
-            if message.author.id != self.bot.user.id:
-                await message.author.send(
-                    t("notify.message_deleted").format(message.channel.mention)
-                    )
+            await message.author.send(
+                t("notify.message_deleted").format(message.channel.mention)
+                )

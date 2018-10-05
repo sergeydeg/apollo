@@ -11,7 +11,7 @@ class Cache:
 
 
     def create_event_channel(self, event_channel_id):
-        self.event_message_ids.add(event_channel_id)
+        self.event_channel_ids.add(event_channel_id)
 
 
     def delete_event_channel(self, event_channel_id):
