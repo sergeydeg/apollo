@@ -17,7 +17,7 @@ class HandleEventReaction:
         self.session = session
         self.event = event
         self.payload = payload
-        self.member = self._get_member()
+        self.member = bot.find_guild_member(payload.guild_id, payload.user_id)
 
 
     async def call(self):
@@ -40,8 +40,3 @@ class HandleEventReaction:
             await self.bot.remove_reaction(self.payload)
         except:
             pass
-
-
-    def _get_member(self):
-        guild = self.bot.get_guild(self.payload.guild_id)
-        return guild.get_member(self.payload.user_id)
