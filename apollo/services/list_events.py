@@ -11,6 +11,7 @@ class ListEvents:
 
 
     async def call(self):
+        self._mark_messages_for_deletion()
         await self.channel.purge()     
 
         if len(self.event_channel.events) == 0:
@@ -32,6 +33,11 @@ class ListEvents:
 
     def _get_channel(self):
         return self.bot.get_channel(self.event_channel.id)
+
+
+    def _mark_messages_for_deletion(self):
+        for event in self.event_channel.events:
+            self.bot.cache.mark_message_for_deletion(event.message_id)
 
 
     async def _send_event_message(self, event):
