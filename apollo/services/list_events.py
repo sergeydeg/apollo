@@ -12,8 +12,7 @@ class ListEvents:
 
 
     async def call(self):
-        self._mark_messages_for_deletion()
-        await self.channel.purge()     
+        await self._clear_channel()
 
         if len(self.event_channel.events) == 0:
             return await self.channel.send(t("channel.no_events"))
@@ -29,6 +28,11 @@ class ListEvents:
         await message.add_reaction(emoji.CHECK)
         await message.add_reaction(emoji.CROSS)
         await message.add_reaction(emoji.QUESTION)
+
+
+    async def _clear_channel(self):
+        self._mark_messages_for_deletion()
+        await self.channel.purge()
 
 
     def _get_channel(self):
