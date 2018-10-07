@@ -17,11 +17,8 @@ class ListEvents:
         if len(self.event_channel.events) == 0:
             return await self.channel.send(t("channel.no_events"))
 
-        for event in self.event_channel.events:
-            event_message = await self._send_event_message(event)
-            self.bot.cache.update_event(event.message_id, event_message.id)
-            event.message_id = event_message.id
-            await self._add_reactions(event_message)
+        for event in self._sorted_events():
+            await self._list_event(event)
 
 
     async def _add_reactions(self, message):
@@ -39,6 +36,13 @@ class ListEvents:
         return self.bot.get_channel(self.event_channel.id)
 
 
+    async def _list_event(self, event):
+        event_message = await self._send_event_message(event)
+        self.bot.cache.update_event(event.message_id, event_message.id)
+        event.message_id = event_message.id
+        await self._add_reactions(event_message)
+
+
     def _mark_messages_for_deletion(self):
         for event in self.event_channel.events:
             self.bot.cache.mark_message_for_deletion(event.message_id)
@@ -47,3 +51,11 @@ class ListEvents:
     async def _send_event_message(self, event):
         embed = EventEmbed(self.channel.guild, event).call()
         return await self.channel.send(embed=embed)
+
+
+    def _sorted_events(self):
+        return sorted(
+            self.event_channel.events,
+            key=lambda event: event.utc_start_time,
+            reverse=True
+            )

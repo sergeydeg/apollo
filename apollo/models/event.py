@@ -25,7 +25,12 @@ class Event(Base):
 
     @property
     def local_start_time(self):
-        return arrow.get(self.start_time, 'utc').to(self.iso_time_zone)
+        return self.utc_start_time.to(self.iso_time_zone)
+
+
+    @property
+    def utc_start_time(self):
+        return arrow.get(self.start_time, 'utc')
 
 
     @property
