@@ -3,6 +3,8 @@ channel:
     Event channel limit has been reached.
   channel_created:
     A new {} channel has been created!
+  no_events:
+    There are no upcoming events in this channel.
 
 event:
   accepted:

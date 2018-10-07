@@ -1,5 +1,6 @@
 from apollo import emojis as emoji
 from apollo.embeds import EventEmbed
+from apollo.translate import t
 
 
 class ListEvents:
@@ -15,8 +16,7 @@ class ListEvents:
         await self.channel.purge()     
 
         if len(self.event_channel.events) == 0:
-            return await self.channel.send(
-                "There are no upcoming events in this channel.")
+            return await self.channel.send(t("channel.no_events"))
 
         for event in self.event_channel.events:
             event_message = await self._send_event_message(event)
