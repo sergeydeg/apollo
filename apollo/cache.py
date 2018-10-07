@@ -5,9 +5,12 @@ class Cache:
 
     def __init__(self, Session):
         self.Session = Session
+        self.messages_marked_for_deletion = set()
         self.event_message_ids = set()
         self.event_channel_ids = set()
         self.prefixes = {}
+
+
 
 
     def create_event_channel(self, event_channel_id):
@@ -60,6 +63,18 @@ class Cache:
         for guild in guilds:
             self.prefixes[guild.id] = guild.prefix
         session.commit()
+
+
+    def mark_message_for_deletion(self, message_id):
+        self.messages_marked_for_deletion.add(message_id)
+
+
+    def message_marked_for_deletion(self, message_id):
+        return message_id in self.messages_marked_for_deletion
+
+
+    def unmark_message_for_deletion(self, message_id):
+        self.messages_marked_for_deletion.remove(message_id)
 
 
     def update_event(self, old_message_id, new_message_id):
