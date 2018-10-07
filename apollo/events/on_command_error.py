@@ -16,6 +16,8 @@ class OnCommandError:
             return
         elif isinstance(error, commands.MissingRequiredArgument):
             return
+        elif isinstance(error, commands.BadArgument):
+            return await ctx.send(error)
         elif isinstance(error, commands.NoPrivateMessage):
             return await ctx.send(t("error.private_message"))
         elif isinstance(error, commands.MissingPermissions):
