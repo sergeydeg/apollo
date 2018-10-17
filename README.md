@@ -27,21 +27,3 @@ The app can then be run with:
 ```
 python app.py
 ```
-
-## Database Console
-There is an interactive python interpreter setup to allow for easy communication
-with an in memory database. This project uses SQLAlchemy for the database.
-
-The interactive database interpreter can be launched with:
-```
-python -i bin/console.py
-```
-
-Here is a quick example of how it might be used:
-```
->>> user = User(id=7)
->>> session.add(user)
->>> session.commit()
->>> session.query(User).first().id
-7
-```
