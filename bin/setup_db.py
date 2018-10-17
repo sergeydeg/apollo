@@ -1,5 +1,8 @@
 import os
 import sys
+
+from alembic.config import Config
+from alembic import command
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -20,3 +23,7 @@ else:
 # Create tables
 engine = create_engine(f'mysql://{db_user}:{db_pass}@localhost/apollo')
 Base.metadata.create_all(engine)
+
+# Stamp latest revision so we don't run migrations on a fresh db
+alembic_cfg = Config("alembic.ini")
+command.stamp(alembic_cfg, "head")
