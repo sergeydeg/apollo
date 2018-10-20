@@ -11,7 +11,7 @@ deploy:
   skip_cleanup: true
   script:
     rsync -r --quiet $TRAVIS_BUILD_DIR/ root@45.63.89.166:~/production;
-    ssh root@45.63.89.166 systemctl restart production.service;
+    ssh root@45.63.89.166 ./deploy_scripts/production_deploy.sh;
   on:
     branch: master
 before_install:
