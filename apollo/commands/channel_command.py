@@ -18,11 +18,11 @@ class ChannelCommand:
     async def channel(self, ctx):
         """Create a new event channel"""
         session = self.bot.Session()
+        guild = find_or_create_guild(session, ctx.guild.id)
 
-        if not Can(session, ctx.author).channel():
+        if not Can(ctx.author, guild).channel():
             return await ctx.send(t("error.missing_permissions"))
 
-        guild = find_or_create_guild(session, ctx.guild.id)
         if guild.has_max_event_channels():
             return await ctx.send(t("channel.channel_limit"))
 
@@ -33,7 +33,7 @@ class ChannelCommand:
 
         await ctx.send(
             t("channel.channel_created").format(channel.mention)
-        )
+            )
 
         session.add(event_channel)
         session.commit()

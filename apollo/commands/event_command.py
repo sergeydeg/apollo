@@ -26,7 +26,8 @@ class EventCommand:
         """Create a new event"""
         session = self.bot.Session()
 
-        if not Can(session, ctx.author).event():
+        guild = find_or_create_guild(session, ctx.guild.id)
+        if not Can(ctx.author, guild).event():
             return await ctx.send(t("error.missing_permissions"))
 
         await ctx.send(t("event.instructions_messaged"))

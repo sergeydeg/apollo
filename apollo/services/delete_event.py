@@ -1,5 +1,6 @@
 from apollo.can import Can
 from .list_events import ListEvents
+from apollo.queries import find_or_create_guild
 
 
 class DeleteEvent:
@@ -25,8 +26,9 @@ class DeleteEvent:
 
 
     def _member_can_delete(self):
+        guild = find_or_create_guild(self.session, self.member.guild.id)
         return(
-            Can(self.session, self.member).delete() or
+            Can(self.member, guild).delete() or
             self._member_owns_event()
             )
 
