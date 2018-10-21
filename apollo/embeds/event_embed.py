@@ -3,7 +3,6 @@ import discord
 
 from apollo import emojis as emoji
 from apollo.constants import EMBED_COLOR
-from apollo.time_zones import VALID_TIME_ZONES
 from apollo.translate import t
 
 
@@ -81,7 +80,8 @@ class EventEmbed:
         start_time = self.event.local_start_time.format(
             "ddd MMM Do, YYYY @ h:mm A"
             )
-        return f"{start_time} {self.event.time_zone}"
+        time_zone = self.event.local_start_time.tzname()
+        return f"{start_time} {time_zone}"
 
 
     def _accepted_header(self):

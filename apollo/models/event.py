@@ -3,7 +3,6 @@ from sqlalchemy import BigInteger, Column, DateTime, Integer, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
 from . import Base
-from apollo.time_zones import VALID_TIME_ZONES
 
 
 class Event(Base):
@@ -25,17 +24,12 @@ class Event(Base):
 
     @property
     def local_start_time(self):
-        return self.utc_start_time.to(self.iso_time_zone)
+        return self.utc_start_time.to(self.time_zone)
 
 
     @property
     def utc_start_time(self):
         return arrow.get(self.start_time, 'utc')
-
-
-    @property
-    def iso_time_zone(self):
-        return VALID_TIME_ZONES.get(self.time_zone)
 
 
     @property

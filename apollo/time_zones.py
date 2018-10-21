@@ -11,3 +11,15 @@ VALID_TIME_ZONES = {
     "CET"  : "Europe/Paris",
     "CEST" : "Europe/Paris",
 }
+
+ISO_TIME_ZONES = [
+    "Asia/Singapore",
+    "America/Los_Angeles",
+    "America/Denver",
+    "America/Mexico_City",
+    "America/Detroit",
+    "Australia/Perth",
+    "Australia/Sydney",
+    "Europe/London",
+    "Eurpose/Paris"
+    ]

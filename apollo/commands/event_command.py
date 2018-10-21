@@ -5,7 +5,7 @@ from apollo.can import Can
 from apollo.services import ListEvents, SendChannelSelect
 from apollo.models import Event, EventChannel, Guild
 from apollo.queries import find_or_create_guild, find_or_create_user
-from apollo.time_zones import VALID_TIME_ZONES
+from apollo.time_zones import ISO_TIME_ZONES
 from apollo.translate import t
 
 
@@ -107,7 +107,7 @@ class EventCommand:
             return EventChannel(id=channel.id, guild_id=ctx.guild.id)
 
 
-    async def _get_start_time(self, ctx, time_zone):
+    async def _get_start_time(self, ctx, iso_time_zone):
         """Retrieve a datetime UTC object from the user"""
         await ctx.author.send(t("event.start_time_prompt"))
         while True:
@@ -116,7 +116,7 @@ class EventCommand:
                 start_time = arrow.get(
                     start_time_str,
                     ['YYYY-MM-DD h:mm A', 'YYYY-MM-DD HH:mm'],
-                    tzinfo=VALID_TIME_ZONES.get(time_zone)
+                    tzinfo=iso_time_zone
                 )
                 return start_time.to('utc').datetime
             except:
@@ -127,8 +127,8 @@ class EventCommand:
         """Retrieve a valid time zone string from the user"""
         await ctx.author.send(t("event.time_zone_prompt"))
         while True:
-            time_zone = (await self.bot.get_next_pm(ctx.author)).content.upper()
-            if time_zone in VALID_TIME_ZONES.keys():
+            time_zone = (await self.bot.get_next_pm(ctx.author)).content
+            if time_zone in ISO_TIME_ZONES:
                 return time_zone
             else:
                 await ctx.author.send(
