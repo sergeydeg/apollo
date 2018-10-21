@@ -54,4 +54,12 @@ apollo.add_cog(RoleCommand(apollo))
 # Add checks
 apollo.add_check(NotEventChannel(apollo))
 
+# Migrate, temporary
+from apollo.models import Event
+from apollo.time_zones import VALID_TIME_ZONES
+session = Session()
+for event in session.query(Event).all():
+    event.time_zone = VALID_TIME_ZONES[event.time_zone]
+session.commit()
+
 apollo.run(os.getenv('BOT_TOKEN'))
