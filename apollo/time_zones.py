@@ -13,13 +13,16 @@ VALID_TIME_ZONES = {
 }
 
 ISO_TIME_ZONES = [
-    "Asia/Singapore",
     "America/Los_Angeles",
     "America/Denver",
     "America/Mexico_City",
     "America/Detroit",
+    "Australia/Adelaide",
+    "Australia/Brisbane",
+    "Australia/Darwin",
     "Australia/Perth",
     "Australia/Sydney",
     "Europe/London",
-    "Europe/Paris"
+    "Europe/Paris",
+    "Europe/Sofia"
     ]

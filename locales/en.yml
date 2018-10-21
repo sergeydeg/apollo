@@ -105,6 +105,22 @@ about:
 time_zone:
   title:
     Enter your time zone's number
+  footer:
+    If your time zone is missing, [let us know]({})!
+
+time_zones:
+  america/los_angeles: Pacific Time (US & Canada)
+  america/denver: Mountain Time (US & Canada)
+  america/mexico_city: Central Time (US & Canada)
+  america/detroit: Eastern Time (US & Canada)
+  australia/adelaide: South Australia
+  australia/brisbane: Queensland (Australia)
+  australia/darwin: Northern Territory (Australia)
+  australia/perth: Western Australia
+  australia/sydney: New South Whales (Australia)
+  europe/london: Western Europe (UK & Portugal)
+  europe/paris: Central Europe
+  europe/sofia: Eastern Europe
 
 error:
   missing_permissions:
