@@ -2,6 +2,7 @@ import arrow
 from discord.ext import commands
 
 from apollo.can import Can
+from apollo.embeds.time_zone_embed import TimeZoneEmbed
 from apollo.services import ListEvents, SendChannelSelect
 from apollo.models import Event, EventChannel, Guild
 from apollo.queries import find_or_create_guild, find_or_create_user
@@ -125,18 +126,15 @@ class EventCommand:
 
     async def _get_time_zone(self, ctx):
         """Retrieve a valid time zone string from the user"""
-        await ctx.author.send(t("event.time_zone_prompt"))
+        await ctx.author.send(embed=TimeZoneEmbed().call())
         while True:
-            time_zone = (await self.bot.get_next_pm(ctx.author)).content
-            if time_zone in ISO_TIME_ZONES:
-                return time_zone
+            resp = (await self.bot.get_next_pm(ctx.author)).content
+            if self._valid_time_zone_input(resp):
+                time_zone_index = int(resp) - 1
+                if time_zone_index in range(len(ISO_TIME_ZONES)):
+                    return ISO_TIME_ZONES[time_zone_index]
             else:
-                await ctx.author.send(
-                    t("event.invalid_time_zone").format(
-                        self.TIME_ZONE_INVITE
-                    )
-                )
-                await ctx.author.send(t("event.try_again"))
+                await ctx.author.send(t("event.invalid_time_zone"))
 
 
     async def _get_title_from_user(self, ctx):
@@ -165,3 +163,8 @@ class EventCommand:
         event.time_zone = await self._get_time_zone(ctx)
         event.start_time = await self._get_start_time(ctx, event.time_zone)
         return event
+
+
+    def _valid_time_zone_input(self, value):
+        return value.isdigit() and \
+            int(value) in range(1, len(ISO_TIME_ZONES) + 1)

@@ -21,5 +21,5 @@ ISO_TIME_ZONES = [
     "Australia/Perth",
     "Australia/Sydney",
     "Europe/London",
-    "Eurpose/Paris"
+    "Europe/Paris"
     ]

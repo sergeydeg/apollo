@@ -30,7 +30,7 @@ event:
   invalid_start_time:
     "Invalid start time. Try again:"
   invalid_time_zone:
-    "Invalid time zone. For a list of supported time zones, join the Apollo Discord server: <{}>"
+    "Invalid time zone entry. Enter the number beside your time zone:"
   invalid_title:
     "Event title must be less than {} characters. Try again:"
   start_time_prompt:
@@ -41,8 +41,6 @@ event:
     "Enter your time zone:"
   title_prompt:
     "Enter the event title:"
-  try_again:
-    "Try again:"
   unknown_user:
     Unknown User
 
@@ -103,6 +101,10 @@ about:
     "[Official Discord Server]({})"
   source_code:
     "[Source Code]({})"
+
+time_zone:
+  title:
+    Enter your time zone's number
 
 error:
   missing_permissions:
