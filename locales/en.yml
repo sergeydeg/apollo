@@ -121,6 +121,7 @@ time_zones:
   europe/london: Western Europe (UK & Portugal)
   europe/paris: Central Europe
   europe/sofia: Eastern Europe
+  asia/singapore: Singapore Time
 
 error:
   missing_permissions:
