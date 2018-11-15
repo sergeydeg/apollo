@@ -54,4 +54,4 @@ apollo.add_cog(RoleCommand(apollo))
 # Add checks
 apollo.add_check(NotEventChannel(apollo))
 
-apollo.run(os.getenv('BOT_TOKEN'))
+apollo.run(os.getenv('BOT_TOKEN'), reconnect=True)
