@@ -1,5 +1,6 @@
 import asyncio
 import os
+from contextlib import contextmanager
 
 import arrow
 import discord
@@ -17,6 +18,20 @@ class Apollo(commands.AutoShardedBot):
         self.client = Client(os.getenv('SENTRY_URL'))
         self.start_time = arrow.utcnow()
         self.cache = cache
+
+
+    @contextmanager
+    def scoped_session(self):
+        """Provide a transactional scope around a series of operations"""
+        session = self.Session()
+        try:
+            yield session
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
 
 
     async def create_discord_event_channel(self, guild):
