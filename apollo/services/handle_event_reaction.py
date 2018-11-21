@@ -35,8 +35,3 @@ class HandleEventReaction:
                 self.event,
                 self.payload
                 ).call()
-
-        try:
-            await self.bot.remove_reaction(self.payload)
-        except:
-            pass
