@@ -11,26 +11,29 @@ class Can:
     def channel(self):
         if self.discord_member.guild_permissions.manage_guild:
             return True
-        if self._user_is_at_or_above_role(self.guild.channel_role_id):
-            return True
+        channel_create_role = self._get_role(self.guild.channel_role_id)
+        if channel_create_role:
+            return self.discord_member.top_role >= channel_create_role
 
 
     def delete(self):
         if self.discord_member.guild_permissions.manage_guild:
             return True
-        if self._user_is_at_or_above_role(self.guild.delete_role_id):
-            return True
+        event_delete_role = self._get_role(self.guild.delete_role_id)
+        if event_delete_role:
+            return self.discord_member.top_role >= event_delete_role
 
 
     def event(self):
         if self.discord_member.guild_permissions.manage_guild:
             return True
-        if self._user_is_at_or_above_role(self.guild.event_role_id):
+        event_create_role = self._get_role(self.guild.event_role_id)
+        if event_create_role:
+            return self.discord_member.top_role >= event_create_role
+        else:
+            # By default anyone can create events
             return True
 
 
-    def _user_is_at_or_above_role(self, role_id):
-        role = discord.utils.get(self.discord_member.guild.roles, id=role_id)
-        if not role:
-            return True
-        return self.discord_member.top_role >= role
+    def _get_role(self, role_id):
+        return discord.utils.get(self.discord_member.guild.roles, id=role_id)
