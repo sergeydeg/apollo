@@ -34,7 +34,7 @@ event:
   invalid_title:
     "Event title must be less than {} characters. Try again:"
   start_time_prompt:
-    "Enter the event start time (ex. `2018-08-17 7:00 pm` or `2018-08-17 19:00`):"
+    "Enter the event start time (ex. `2018-08-01 7:00 pm` or `2018-08-17 19:00`):"
   time:
     "Time"
   time_zone_prompt:
