@@ -16,7 +16,32 @@ class RoleCommand:
     @commands.has_permissions(manage_guild=True)
     async def role(self, ctx):
         """Change the minimum role required to perform various actions"""
-        pass
+        # This is a placeholder until we have support for sub command help
+        await ctx.send(
+            """
+**Specify the minimum role to create events**
+By default anyone can create events.
+
+```
+!role event <role>
+```
+
+**Specify the minimum role to create event channels**
+By default, those with `Manager Server` and above can create event channels.
+
+```
+!role channel <role>
+```
+
+**Specify the minimum role to delete events**
+By default those with `Manager Server` and above can delete events.
+Also worthwhile to note that users can always delete their own events.
+
+```
+!role delete <role>
+```
+            """
+        )
 
 
     @role.command()
