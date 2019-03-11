@@ -52,7 +52,7 @@ class Event(Base):
 
 
     @property
-    def _overflow_user_ids(self):
+    def standby_user_ids(self):
         accepted_user_ids = self._user_ids_by_status("accepted")
         if self.capacity and len(accepted_user_ids) > self.capacity:
             return accepted_user_ids[self.capacity:]

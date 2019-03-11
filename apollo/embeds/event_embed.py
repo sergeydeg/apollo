@@ -11,6 +11,7 @@ class EventEmbed:
     ACCEPTED_HEADER = t("event.accepted")
     ALTERNATE_HEADER = t("event.alternate")
     DECLINED_HEADER = t("event.declined")
+    STANDBY_HEADER = t("event.standby")
 
 
     def __init__(self, guild, event):
@@ -55,6 +56,14 @@ class EventEmbed:
             value=self._alternate_users()
         )
 
+        # If there is an overflow of users, display them
+        standby_users = self._standby_users()
+        if standby_users != "-":
+            embed.add_field(
+                name=self.STANDBY_HEADER,
+                value=standby_users
+            )
+
         return embed
 
 
@@ -72,6 +81,12 @@ class EventEmbed:
 
     def _alternate_users(self):
         user_ids = self.event.alternate_user_ids
+        members = self._user_ids_to_members(user_ids)
+        return self._format_members(members)
+
+
+    def _standby_users(self):
+        user_ids = self.event.standby_user_ids
         members = self._user_ids_to_members(user_ids)
         return self._format_members(members)
 
