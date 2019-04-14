@@ -7,8 +7,9 @@ from sqlalchemy.orm import sessionmaker
 
 from apollo import *
 from apollo.checks import *
-from apollo.commands import * 
+from apollo.commands import *
 from apollo.events import *
+from apollo.services import *
 
 # Load .env file
 env_path = Path('.') / '.env'
@@ -33,6 +34,17 @@ cache = Cache(Session)
 # Initialize bot
 apollo = Apollo(Session, cache)
 
+# Initialize services
+delete_event = DeleteEvent(apollo)
+update_event = UpdateEvent(apollo)
+update_response = UpdateResponse()
+handle_event_reaction = HandleEventReaction(
+    apollo,
+    delete_event,
+    update_event,
+    update_response
+)
+
 # Add events
 apollo.add_cog(OnCommandError(apollo))
 apollo.add_cog(OnGuildChannelDelete(apollo))
@@ -40,7 +52,7 @@ apollo.add_cog(OnGuildJoin(apollo))
 apollo.add_cog(OnGuildRemove(apollo))
 apollo.add_cog(OnMessage(apollo))
 apollo.add_cog(OnRawMessageDelete(apollo))
-apollo.add_cog(OnRawReactionAdd(apollo))
+apollo.add_cog(OnRawReactionAdd(apollo, handle_event_reaction))
 apollo.add_cog(OnReady(apollo))
 
 # Add commands

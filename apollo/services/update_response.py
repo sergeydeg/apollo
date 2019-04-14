@@ -1,43 +1,22 @@
 from datetime import datetime
 
-from apollo import emojis as emoji
 from apollo.models import Response
 from apollo.queries import find_response
-from .update_event import UpdateEvent
-
-
-EMOJI_STATUSES = {
-    emoji.CHECK: 'accepted',
-    emoji.QUESTION: 'alternate',
-    emoji.CROSS: 'declined'
-    }
 
 
 class UpdateResponse:
 
-    def __init__(self, bot, session, event, payload):
-        self.bot = bot
-        self.session = session
-        self.event = event
-        self.payload = payload
+    def __init__(self):
+        pass
 
 
-    async def call(self):
-        response = self._find_or_create_response()
-        response.status = EMOJI_STATUSES.get(self.payload.emoji.name)
-        response.last_updated = datetime.now()
-        self.session.add(response)
-        await UpdateEvent(self.bot, self.event).call()
+    async def call(self, session, event_id, user_id, rsvp_status):
+        response = find_response(session, user_id, event_id)
 
-
-    def _find_or_create_response(self):
-        response = find_response(
-            self.session,
-            self.payload.user_id,
-            self.event.id)
         if not response:
-            response = Response(
-                user_id=self.payload.user_id,
-                event_id=self.event.id
-                )
-        return response
+            response = Response(user_id=user_id, event_id=event_id)
+
+        response.status = rsvp_status
+        response.last_updated = datetime.now()
+
+        session.add(response)

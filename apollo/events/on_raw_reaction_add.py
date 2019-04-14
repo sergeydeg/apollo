@@ -1,14 +1,14 @@
 from discord.ext import commands
 
 from apollo.models import Event
-from apollo.services import HandleEventReaction
 from apollo.queries import find_event_from_message, find_or_create_user
 
 
 class OnRawReactionAdd(commands.Cog):
 
-    def __init__(self, bot):
+    def __init__(self, bot, handle_event_reaction):
         self.bot = bot
+        self.handle_event_reaction = handle_event_reaction
         self.users_reacting = []
 
 
@@ -31,11 +31,7 @@ class OnRawReactionAdd(commands.Cog):
                     self.users_reacting.append(payload.user_id)
                     event = find_event_from_message(session, payload.message_id)
                     find_or_create_user(session, payload.user_id)
-                    await HandleEventReaction(
-                        self.bot,
-                        session,
-                        event,
-                        payload).call()
+                    await self.handle_event_reaction.call(session, event, payload)
                 finally:
                     # Clean up to ensure we don't enter an error state
                     await self.remove_reaction(payload)

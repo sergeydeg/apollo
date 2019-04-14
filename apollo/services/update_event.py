@@ -3,17 +3,12 @@ from apollo.embeds import EventEmbed
 
 class UpdateEvent:
 
-    def __init__(self, bot, event):
+    def __init__(self, bot):
         self.bot = bot
-        self.event = event
-        self.channel = self._get_channel()
 
 
-    async def call(self):
-        event_message = await self.channel.fetch_message(self.event.message_id)
-        updated_embed = EventEmbed(self.channel.guild, self.event).call()
+    async def call(self, event):
+        event_channel = self.bot.get_channel(event.event_channel.id)
+        updated_embed = EventEmbed(event_channel.guild, event).call()
+        event_message = await event_channel.fetch_message(event.message_id)
         await event_message.edit(embed=updated_embed)
-
-
-    def _get_channel(self):
-        return self.bot.get_channel(self.event.event_channel.id)

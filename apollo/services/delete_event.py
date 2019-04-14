@@ -5,33 +5,26 @@ from apollo.queries import find_or_create_guild
 
 class DeleteEvent:
 
-    def __init__(self, bot, session, event, member):
+    def __init__(self, bot):
         self.bot = bot
-        self.session = session
-        self.event = event
-        self.member = member
 
 
-    async def call(self):
-        if self._member_can_delete():
-            self.session.delete(self.event)
-            self.bot.cache.delete_event(self.event.message_id)
-            await ListEvents(self.bot, self.event.event_channel).call()
+    async def call(self, session, event, member):
+        if self._member_can_delete(session, member):
+            session.delete(event)
+            self.bot.cache.delete_event(event.message_id)
+            await ListEvents(self.bot, event.event_channel).call()
         else:
-            await self.member.send("You don't have permission to do that.")
+            await member.send("You don't have permission to do that.")
 
 
-    def _channel(self):
-        return self.bot.get_channel(self.event.event_channel.id)
-
-
-    def _member_can_delete(self):
-        guild = find_or_create_guild(self.session, self.member.guild.id)
+    def _member_can_delete(self, session, member):
+        guild = find_or_create_guild(session, member.guild.id)
         return(
-            Can(self.member, guild).delete() or
-            self._member_owns_event()
+            Can(member, guild).delete() or
+            self._member_owns_event(event, memver)
             )
 
 
-    def _member_owns_event(self):
-        return self.event.organizer.id == self.member.id
+    def _member_owns_event(self, event, member):
+        return event.organizer.id == member.id
