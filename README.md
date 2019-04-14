@@ -9,7 +9,7 @@ Apollo is an all in one solution for managing everything event related right wit
 
 Apollo is an open source project; pull requests are encouraged and welcome.
 
-If you are considering contributing to the project, feel free to contact Asal on the [Apollo Discord server]().
+If you are considering contributing to the project, feel free to contact Asal on the [Apollo Discord server](https://discord.gg/V93VEGM).
 There is also a [project board](https://trello.com/b/c0RplRku/apollo) on Trello which outlines current and future units of work.
 
 ## Development Environment
