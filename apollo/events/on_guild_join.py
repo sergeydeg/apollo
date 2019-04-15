@@ -9,6 +9,7 @@ class OnGuildJoin(commands.Cog):
         self.bot = bot
 
 
+    @commands.Cog.listener()
     async def on_guild_join(self, guild):
         session = self.bot.Session()
         find_or_create_guild(session, guild.id)

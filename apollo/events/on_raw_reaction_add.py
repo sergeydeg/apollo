@@ -12,6 +12,7 @@ class OnRawReactionAdd(commands.Cog):
         self.users_reacting = []
 
 
+    @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         with self.bot.scoped_session() as session:
             # Ignore reactions added by the bot

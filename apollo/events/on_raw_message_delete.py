@@ -10,6 +10,7 @@ class OnRawMessageDelete(commands.Cog):
         self.bot = bot
 
 
+    @commands.Cog.listener()
     async def on_raw_message_delete(self, payload):
         if not self.bot.cache.event_exists(payload.message_id): return
 

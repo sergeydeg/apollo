@@ -9,6 +9,7 @@ class OnMessage(commands.Cog):
         self.bot = bot
 
 
+    @commands.Cog.listener()
     async def on_message(self, message):
         # Delete user messages sent to event channels and notify them
         # as to why this is being done.

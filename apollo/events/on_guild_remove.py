@@ -9,6 +9,7 @@ class OnGuildRemove(commands.Cog):
         self.bot = bot
 
 
+    @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         session = self.bot.Session()
         self.bot.cache.delete_prefix(guild.id)
