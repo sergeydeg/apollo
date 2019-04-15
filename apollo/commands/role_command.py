@@ -17,8 +17,9 @@ class RoleCommand(commands.Cog):
     async def role(self, ctx):
         """Change the minimum role required to perform various actions"""
         # This is a placeholder until we have support for sub command help
-        await ctx.send(
-            """
+        if not ctx.invoked_subcommand:
+            await ctx.send(
+                """
 **Specify the minimum role to create events**
 By default anyone can create events.
 
@@ -40,8 +41,8 @@ Also worthwhile to note that users can always delete their own events.
 ```
 !role delete <role>
 ```
-            """
-        )
+                """
+            )
 
 
     @role.command()
