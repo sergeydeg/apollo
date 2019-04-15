@@ -1,7 +1,9 @@
+from discord.ext import commands
+
 from apollo.queries import find_event_channel
 
 
-class OnGuildChannelDelete:
+class OnGuildChannelDelete(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

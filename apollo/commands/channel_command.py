@@ -7,7 +7,7 @@ from apollo.queries import find_or_create_guild
 from apollo.translate import t
 
 
-class ChannelCommand:
+class ChannelCommand(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

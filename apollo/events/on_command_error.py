@@ -5,7 +5,7 @@ from discord.ext import commands
 from apollo.translate import t
 
 
-class OnCommandError:
+class OnCommandError(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

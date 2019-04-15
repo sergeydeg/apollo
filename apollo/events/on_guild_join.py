@@ -1,7 +1,9 @@
+from discord.ext import commands
+
 from apollo.queries import find_or_create_guild
 
 
-class OnGuildJoin:
+class OnGuildJoin(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

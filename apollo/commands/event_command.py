@@ -10,7 +10,7 @@ from apollo.time_zones import ISO_TIME_ZONES
 from apollo.translate import t
 
 
-class EventCommand:
+class EventCommand(commands.Cog):
     MAX_CAPACITY = 40
     MAX_DESC_LENGTH = 250
     MAX_TITLE_LENGTH = 100

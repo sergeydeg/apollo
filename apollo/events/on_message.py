@@ -1,7 +1,9 @@
+from discord.ext import commands
+
 from apollo.translate import t
 
 
-class OnMessage:
+class OnMessage(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

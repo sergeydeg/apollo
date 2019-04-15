@@ -1,9 +1,11 @@
+from discord.ext import commands
+
 from apollo.models import Event
 from apollo.services import HandleEventReaction
 from apollo.queries import find_event_from_message, find_or_create_user
 
 
-class OnRawReactionAdd:
+class OnRawReactionAdd(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

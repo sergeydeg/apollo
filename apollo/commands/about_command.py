@@ -3,7 +3,7 @@ from discord.ext import commands
 from apollo.embeds import AboutEmbed
 
 
-class AboutCommand:
+class AboutCommand(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

@@ -1,7 +1,9 @@
+from discord.ext import commands
+
 from apollo.services import SyncModels
 
 
-class OnReady:
+class OnReady(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

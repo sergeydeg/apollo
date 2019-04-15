@@ -3,7 +3,7 @@ from discord.ext import commands
 from apollo.embeds import HelpEmbed
 
 
-class HelpCommand:
+class HelpCommand(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

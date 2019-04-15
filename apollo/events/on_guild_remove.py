@@ -1,7 +1,9 @@
+from discord.ext import commands
+
 from apollo.models import Guild
 
 
-class OnGuildRemove:
+class OnGuildRemove(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

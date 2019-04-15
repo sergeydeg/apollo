@@ -1,8 +1,10 @@
+from discord.ext import commands
+
 from apollo.queries import find_event_from_message
 from apollo.services import ListEvents
 
 
-class OnRawMessageDelete:
+class OnRawMessageDelete(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
