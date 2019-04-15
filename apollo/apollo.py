@@ -79,7 +79,7 @@ class Apollo(commands.AutoShardedBot):
     async def remove_reaction(self, payload):
         """Remove a reaction given the raw_reaction_add payload"""
         channel = self.get_channel(payload.channel_id)
-        message = await channel.get_message(payload.message_id)
+        message = await channel.fetch_message(payload.message_id)
         member = channel.guild.get_member(payload.user_id)
         await message.remove_reaction(payload.emoji, member)
 
