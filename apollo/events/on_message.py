@@ -1,3 +1,4 @@
+from discord.errors import Forbidden
 from discord.ext import commands
 
 from apollo.translate import t
@@ -21,6 +22,9 @@ class OnMessage(commands.Cog):
                 self.bot.cache.event_exists(message.id) and
                 message.author.id != self.bot.user.id):
             await message.delete()
-            await message.author.send(
-                t("notify.message_deleted").format(message.channel.mention)
+            try:
+                await message.author.send(
+                    t("notify.message_deleted").format(message.channel.mention)
                 )
+            except Forbidden:
+                pass
