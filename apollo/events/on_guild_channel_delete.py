@@ -9,6 +9,7 @@ class OnGuildChannelDelete(commands.Cog):
         self.bot = bot
 
 
+    @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel):
         session = self.bot.Session()
         event_channel = find_event_channel(session, channel.id)
