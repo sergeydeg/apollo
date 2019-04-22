@@ -1,7 +1,6 @@
 from discord.ext import commands
 
 from apollo.can import Can
-from apollo.services import ListEvents
 from apollo.models import EventChannel
 from apollo.queries import find_or_create_guild
 from apollo.translate import t
@@ -9,8 +8,9 @@ from apollo.translate import t
 
 class ChannelCommand(commands.Cog):
 
-    def __init__(self, bot):
+    def __init__(self, bot, list_events):
         self.bot = bot
+        self.list_events = list_events
 
 
     @commands.command()
@@ -29,7 +29,7 @@ class ChannelCommand(commands.Cog):
         channel = await self.bot.create_discord_event_channel(ctx.guild)
         event_channel = EventChannel(id=channel.id, guild_id=ctx.guild.id)
         self.bot.cache.create_event_channel(event_channel.id)
-        await ListEvents(self.bot, event_channel).call()
+        await self.list_events.call(event_channel)
 
         await ctx.send(
             t("channel.channel_created").format(channel.mention)

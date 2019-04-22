@@ -34,10 +34,14 @@ cache = Cache(Session)
 # Initialize bot
 apollo = Apollo(Session, cache)
 
-# Initialize services
-delete_event = DeleteEvent(apollo)
+# Initialize base services
+list_event = ListEvent(apollo)
 update_event = UpdateEvent(apollo)
 update_response = UpdateResponse()
+
+# Initialize complex services
+list_events = ListEvents(apollo, list_event)
+delete_event = DeleteEvent(apollo, list_events)
 handle_event_reaction = HandleEventReaction(
     apollo,
     delete_event,
@@ -51,14 +55,14 @@ apollo.add_cog(OnGuildChannelDelete(apollo))
 apollo.add_cog(OnGuildJoin(apollo))
 apollo.add_cog(OnGuildRemove(apollo))
 apollo.add_cog(OnMessage(apollo))
-apollo.add_cog(OnRawMessageDelete(apollo))
+apollo.add_cog(OnRawMessageDelete(apollo, list_events))
 apollo.add_cog(OnRawReactionAdd(apollo, handle_event_reaction))
 apollo.add_cog(OnReady(apollo))
 
 # Add commands
 apollo.add_cog(AboutCommand(apollo))
-apollo.add_cog(ChannelCommand(apollo))
-apollo.add_cog(EventCommand(apollo))
+apollo.add_cog(ChannelCommand(apollo, list_events))
+apollo.add_cog(EventCommand(apollo, list_events))
 apollo.add_cog(HelpCommand(apollo))
 apollo.add_cog(PrefixCommand(apollo))
 apollo.add_cog(RoleCommand(apollo))

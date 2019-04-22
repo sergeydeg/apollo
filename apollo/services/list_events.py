@@ -1,61 +1,25 @@
-from apollo import emojis as emoji
-from apollo.embeds import EventEmbed
 from apollo.translate import t
 
 
 class ListEvents:
 
-    def __init__(self, bot, event_channel):
+    def __init__(self, bot, list_event):
         self.bot = bot
-        self.event_channel = event_channel
-        self.channel = self._get_channel()
+        self.list_event = list_event
 
 
-    async def call(self):
-        await self._clear_channel()
+    async def call(self, event_channel):
+        discord_event_channel = self.bot.get_channel(event_channel.id)
 
-        if len(self.event_channel.events) == 0:
-            return await self.channel.send(t("channel.no_events"))
-
-        for event in self._sorted_events():
-            await self._list_event(event)
-
-
-    async def _add_reactions(self, message):
-        await message.add_reaction(emoji.CHECK)
-        await message.add_reaction(emoji.CROSS)
-        await message.add_reaction(emoji.QUESTION)
-
-
-    async def _clear_channel(self):
-        self._mark_messages_for_deletion()
-        await self.channel.purge()
-
-
-    def _get_channel(self):
-        return self.bot.get_channel(self.event_channel.id)
-
-
-    async def _list_event(self, event):
-        event_message = await self._send_event_message(event)
-        self.bot.cache.update_event(event.message_id, event_message.id)
-        event.message_id = event_message.id
-        await self._add_reactions(event_message)
-
-
-    def _mark_messages_for_deletion(self):
-        for event in self.event_channel.events:
+        # Mark messages for deletion so that we can ignore them
+        # in OnRawMessageDelete
+        for event in event_channel.events:
             self.bot.cache.mark_message_for_deletion(event.message_id)
 
+        await discord_event_channel.purge()
 
-    async def _send_event_message(self, event):
-        embed = EventEmbed(self.channel.guild, event).call()
-        return await self.channel.send(embed=embed)
+        if len(event_channel.events) == 0:
+            return await discord_event_channel.send(t("channel.no_events"))
 
-
-    def _sorted_events(self):
-        return sorted(
-            self.event_channel.events,
-            key=lambda event: event.utc_start_time,
-            reverse=True
-            )
+        for event in event_channel.sorted_events():
+            await self.list_event.call(event, discord_event_channel)

@@ -10,3 +10,11 @@ class EventChannel(Base):
     guild_id = Column(BigInteger, ForeignKey('guilds.id', ondelete='CASCADE'))
     events = relationship("Event", back_populates="event_channel", passive_deletes=True)
     guild = relationship("Guild", back_populates="event_channels")
+
+
+    def sorted_events(self):
+        return sorted(
+            self.events,
+            key=lambda event: event.utc_start_time,
+            reverse=True
+        )

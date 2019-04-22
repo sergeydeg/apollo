@@ -3,7 +3,7 @@ from discord.ext import commands
 
 from apollo.can import Can
 from apollo.embeds.time_zone_embed import TimeZoneEmbed
-from apollo.services import ListEvents, SendChannelSelect
+from apollo.services import SendChannelSelect
 from apollo.models import Event, EventChannel, Guild
 from apollo.queries import find_or_create_guild, find_or_create_user
 from apollo.time_zones import ISO_TIME_ZONES
@@ -17,8 +17,9 @@ class EventCommand(commands.Cog):
 
     TIME_ZONE_INVITE = "https://discord.gg/PQXA2ys"
 
-    def __init__(self, bot):
+    def __init__(self, bot, list_events):
         self.bot = bot
+        self.list_events = list_events
 
 
     @commands.command()
@@ -37,7 +38,7 @@ class EventCommand(commands.Cog):
         await ctx.author.send(
             t("event.created").format(channel.mention)
         )
-        await ListEvents(self.bot, event.event_channel).call()
+        await self.list_events.call(event.event_channel)
 
         session.add(event)
         session.commit()
