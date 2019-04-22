@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+import dbl
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -9,6 +10,7 @@ from apollo import *
 from apollo.checks import *
 from apollo.commands import *
 from apollo.events import *
+from apollo.tasks import *
 from apollo.services import *
 
 # Load .env file
@@ -69,5 +71,11 @@ apollo.add_cog(RoleCommand(apollo))
 
 # Add checks
 apollo.add_check(NotEventChannel(apollo))
+
+# Add tasks
+if env == 'production':
+    apollo.add_cog(
+        SyncDiscordBots(dbl.Client(apollo, os.getenv('DBL_TOKEN')))
+    )
 
 apollo.run(os.getenv('BOT_TOKEN'), reconnect=True)
