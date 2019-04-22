@@ -10,7 +10,8 @@ class DeleteEvent:
 
 
     async def call(self, session, event, member):
-        if self._member_can_delete(session, member):
+        if (self._member_can_delete(session, member) or
+                self._member_owns_event(event, member)):
             session.delete(event)
             self.bot.cache.delete_event(event.message_id)
             await self.list_events.call(event.event_channel)
@@ -20,10 +21,7 @@ class DeleteEvent:
 
     def _member_can_delete(self, session, member):
         guild = find_or_create_guild(session, member.guild.id)
-        return(
-            Can(member, guild).delete() or
-            self._member_owns_event(event, memver)
-            )
+        return Can(member, guild).delete()
 
 
     def _member_owns_event(self, event, member):
