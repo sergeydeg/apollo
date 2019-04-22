@@ -75,7 +75,7 @@ apollo.add_check(NotEventChannel(apollo))
 # Add tasks
 if env == 'production':
     apollo.add_cog(
-        SyncDiscordBots(dbl.Client(apollo, os.getenv('DBL_TOKEN')))
+        SyncDiscordBots(apollo, dbl.Client(apollo, os.getenv('DBL_TOKEN')))
     )
 
 apollo.run(os.getenv('BOT_TOKEN'), reconnect=True)
