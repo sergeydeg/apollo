@@ -1,7 +1,5 @@
 from discord.ext import commands
 
-from apollo.services import SyncModels
-
 
 class OnReady(commands.Cog):
 
@@ -12,9 +10,6 @@ class OnReady(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print(f"{self.bot.user.name} - Ready")
-
-        # Sync models that may have changed while offline
-        SyncModels(self.bot).call()
 
         # Load items into cache
         self.bot.cache.load_prefixes()

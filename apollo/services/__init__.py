@@ -1,4 +1,3 @@
-from .sync_models import SyncModels
 from .update_response import UpdateResponse
 from .update_event import UpdateEvent
 from .delete_event import DeleteEvent
