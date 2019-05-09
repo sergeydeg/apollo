@@ -70,7 +70,7 @@ class EventCommand(commands.Cog):
             resp = (await self.bot.get_next_pm(ctx.author)).content
             if resp.upper() == 'NONE':
                 return None
-            elif resp.isdigit() and int(resp) in range(1, self.MAX_CAPACITY):
+            elif resp.isdigit() and int(resp) in range(1, self.MAX_CAPACITY + 1):
                 return int(resp)
             else:
                 await ctx.author.send(
