@@ -1,15 +1,15 @@
 from apollo import emojis as emoji
-from apollo.embeds import EventEmbed
 
 
 class ListEvent:
 
-    def __init__(self, bot):
+    def __init__(self, bot, event_embed):
         self.bot = bot
+        self.event_embed = event_embed
 
 
     async def call(self, event, discord_channel):
-        embed = EventEmbed(discord_channel.guild, event).call()
+        embed = self.event_embed.call(event, discord_channel.guild)
         event_message = await discord_channel.send(embed=embed)
 
         # Update event message reference

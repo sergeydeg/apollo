@@ -14,23 +14,22 @@ class EventEmbed:
     STANDBY_HEADER = t("event.standby")
 
 
-    def __init__(self, guild, event):
-        self.guild = guild
-        self.event = event
+    def __init__(self):
+        pass
 
 
-    def call(self):
+    def call(self, event, guild):
         """Create a Discord Embed to represent an event message"""
         embed = discord.Embed()
         embed.color = EMBED_COLOR
-        embed.title = self.event.title
+        embed.title = event.title
 
-        if self.event.description:
-            embed.description = self.event.description
+        if event.description:
+            embed.description = event.description
 
         embed.set_footer(
             text=t("event.created_by").format(
-                self._organizer_name(),
+                self._organizer_name(event, guild),
                 emoji.SKULL
             )
         )
@@ -38,26 +37,26 @@ class EventEmbed:
         # Start time field
         embed.add_field(
             name=t("event.time"),
-            value=self._formatted_start_time(),
+            value=self._formatted_start_time(event),
             inline=False
         )
 
         # Attendance fields
         embed.add_field(
-            name=self._accepted_header(),
-            value=self._accepted_users()
+            name=self._accepted_header(event),
+            value=self._accepted_users(event, guild)
         )
         embed.add_field(
             name=self.DECLINED_HEADER,
-            value=self._declined_users()
+            value=self._declined_users(event, guild)
         )
         embed.add_field(
             name=self.ALTERNATE_HEADER,
-            value=self._alternate_users()
+            value=self._alternate_users(event, guild)
         )
 
         # If there is an overflow of users, display them
-        standby_users = self._standby_users()
+        standby_users = self._standby_users(event, guild)
         if standby_users != "-":
             embed.add_field(
                 name=self.STANDBY_HEADER,
@@ -67,52 +66,52 @@ class EventEmbed:
         return embed
 
 
-    def _accepted_users(self):
-        user_ids = self.event.accepted_user_ids
-        members = self._user_ids_to_members(user_ids)
+    def _accepted_users(self, event, guild):
+        user_ids = event.accepted_user_ids
+        members = self._user_ids_to_members(user_ids, guild)
         return self._format_members(members)
 
 
-    def _declined_users(self):
-        user_ids = self.event.declined_user_ids
-        members = self._user_ids_to_members(user_ids)
+    def _declined_users(self, event, guild):
+        user_ids = event.declined_user_ids
+        members = self._user_ids_to_members(user_ids, guild)
         return self._format_members(members)
 
 
-    def _alternate_users(self):
-        user_ids = self.event.alternate_user_ids
-        members = self._user_ids_to_members(user_ids)
+    def _alternate_users(self, event, guild):
+        user_ids = event.alternate_user_ids
+        members = self._user_ids_to_members(user_ids, guild)
         return self._format_members(members)
 
 
-    def _standby_users(self):
-        user_ids = self.event.standby_user_ids
-        members = self._user_ids_to_members(user_ids)
+    def _standby_users(self, event, guild):
+        user_ids = event.standby_user_ids
+        members = self._user_ids_to_members(user_ids, guild)
         return self._format_members(members)
 
 
-    def _formatted_start_time(self):
-        start_time = self.event.local_start_time.format(
+    def _formatted_start_time(self, event):
+        start_time = event.local_start_time.format(
             "ddd MMM Do, YYYY @ h:mm A"
             )
-        time_zone = self.event.local_start_time.tzname()
+        time_zone = event.local_start_time.tzname()
         return f"{start_time} {time_zone}"
 
 
-    def _accepted_header(self):
+    def _accepted_header(self, event):
         """If there is an event capacity set, create the appropriate header"""
         header = self.ACCEPTED_HEADER
-        if self.event.capacity:
-            accepted_count = len(self.event.accepted_user_ids)
-            header += f" ({accepted_count}/{self.event.capacity})"
+        if event.capacity:
+            accepted_count = len(event.accepted_user_ids)
+            header += f" ({accepted_count}/{event.capacity})"
         return header
 
 
-    def _user_ids_to_members(self, user_ids):
+    def _user_ids_to_members(self, user_ids, guild):
         """Convert a list of user_ids to a list of Members"""
         members = []
         for user_id in user_ids:
-            member = self.guild.get_member(user_id)
+            member = guild.get_member(user_id)
             if member:
                 members.append(member)
         return members
@@ -128,9 +127,9 @@ class EventEmbed:
         return formatted_list
 
 
-    def _organizer_name(self):
+    def _organizer_name(self, event, guild):
         """Retrieve the guild specific display name of the organizer"""
-        organizer = self.guild.get_member(self.event.organizer_id)
+        organizer = guild.get_member(event.organizer_id)
         if organizer:
             return organizer.display_name
         else:

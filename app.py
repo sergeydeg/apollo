@@ -9,6 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from apollo import *
 from apollo.checks import *
 from apollo.commands import *
+from apollo.embeds import *
 from apollo.events import *
 from apollo.tasks import *
 from apollo.services import *
@@ -36,12 +37,13 @@ cache = Cache(Session)
 # Initialize bot
 apollo = Apollo(Session, cache)
 
-# Initialize base services
-list_event = ListEvent(apollo)
-update_event = UpdateEvent(apollo)
-update_response = UpdateResponse()
+# Initialize embeds
+event_embed = EventEmbed()
 
-# Initialize complex services
+# Initialize services
+update_event = UpdateEvent(apollo, event_embed)
+update_response = UpdateResponse()
+list_event = ListEvent(apollo, event_embed)
 list_events = ListEvents(apollo, list_event)
 delete_event = DeleteEvent(apollo, list_events)
 handle_event_reaction = HandleEventReaction(
