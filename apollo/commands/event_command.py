@@ -17,9 +17,10 @@ class EventCommand(commands.Cog):
 
     TIME_ZONE_INVITE = "https://discord.gg/PQXA2ys"
 
-    def __init__(self, bot, list_events):
+    def __init__(self, bot, list_events, sync_event_channels):
         self.bot = bot
         self.list_events = list_events
+        self.sync_event_channels = sync_event_channels
 
 
     @commands.command()
@@ -27,6 +28,10 @@ class EventCommand(commands.Cog):
     async def event(self, ctx):
         """Create a new event"""
         session = self.bot.Session()
+
+        # Clean up event channels that may have been deleted
+        # while the bot was offline.
+        self.sync_event_channels.call(session, ctx.guild.id)
 
         guild = find_or_create_guild(session, ctx.guild.id)
         if not Can(ctx.author, guild).event():
