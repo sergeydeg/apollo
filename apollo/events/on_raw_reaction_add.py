@@ -19,23 +19,22 @@ class OnRawReactionAdd(commands.Cog):
             if payload.user_id == self.bot.user.id:
                 return
 
-            # Process event reaction
-            if self.bot.cache.event_exists(payload.message_id):
+            # Stop if already procesing a reaction for this user
+            if payload.user_id in self.users_reacting:
+                return await self.remove_reaction(payload)
 
-                # Stop if already procesing a reaction for this user
-                if payload.user_id in self.users_reacting:
-                    await self.remove_reaction(payload)
-                    return
+            event = find_event_from_message(session, payload.message_id)
+            if not event:
+                return
 
-                try:
-                    self.users_reacting.append(payload.user_id)
-                    event = find_event_from_message(session, payload.message_id)
-                    find_or_create_user(session, payload.user_id)
-                    await self.handle_event_reaction.call(session, event, payload)
-                finally:
-                    # Clean up to ensure we don't enter an error state
-                    await self.remove_reaction(payload)
-                    self.users_reacting.remove(payload.user_id)
+            try:
+                self.users_reacting.append(payload.user_id)
+                find_or_create_user(session, payload.user_id)
+                await self.handle_event_reaction.call(session, event, payload)
+            finally:
+                # Clean up to ensure we don't enter an error state
+                await self.remove_reaction(payload)
+                self.users_reacting.remove(payload.user_id)
 
 
     async def remove_reaction(self, payload):
