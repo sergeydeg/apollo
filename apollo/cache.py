@@ -1,4 +1,5 @@
 from apollo.models import Event, EventChannel, Guild
+from contextlib import contextmanager
 
 
 class Cache:
@@ -11,6 +12,18 @@ class Cache:
         self.prefixes = {}
 
 
+    @contextmanager
+    def scoped_session(self):
+        """Provide a transactional scope around a series of operations"""
+        session = self.Session()
+        try:
+            yield session
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
 
 
     def create_event_channel(self, event_channel_id):
@@ -42,27 +55,24 @@ class Cache:
 
 
     def load_event_channel_ids(self):
-        session = self.Session()
-        event_channels = session.query(EventChannel).all()
+        with self.scoped_session() as session:
+            event_channels = session.query(EventChannel).all()
         for event_channel in event_channels:
             self.event_channel_ids.add(event_channel.id)
-        session.commit()
 
 
     def load_event_message_ids(self):
-        session = self.Session()
-        events = session.query(Event).all()
+        with self.scoped_session() as session:
+            events = session.query(Event).all()
         for event in events:
             self.event_message_ids.add(event.message_id)
-        session.commit()
 
 
     def load_prefixes(self):
-        session = self.Session()
-        guilds = session.query(Guild).all()
+        with self.scoped_session() as session:
+            guilds = session.query(Guild).all()
         for guild in guilds:
             self.prefixes[guild.id] = guild.prefix
-        session.commit()
 
 
     def mark_message_for_deletion(self, message_id):

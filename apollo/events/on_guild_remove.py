@@ -11,7 +11,7 @@ class OnGuildRemove(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-        session = self.bot.Session()
+        with self.bot.scoped_session() as session:
+            session.query(Guild).filter_by(id=guild.id).delete()
+
         self.bot.cache.delete_prefix(guild.id)
-        session.query(Guild).filter_by(id=guild.id).delete()
-        session.commit()

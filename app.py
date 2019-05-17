@@ -28,7 +28,7 @@ if env == 'develop':
     engine.echo = True
 
 # Configure session factory
-Session = sessionmaker()
+Session = sessionmaker(expire_on_commit=False)
 Session.configure(bind=engine)
 
 # Setup cache

@@ -21,12 +21,9 @@ class OnRawMessageDelete(commands.Cog):
                 payload.message_id
                 )
 
-        session = self.bot.Session()
+        with self.bot.scoped_session() as session:
+            event = find_event_from_message(session, payload.message_id)
+            session.delete(event)
 
-        event = find_event_from_message(session, payload.message_id)
-        session.delete(event)
         self.bot.cache.delete_event(event.message_id)
         await self.list_events.call(event.event_channel)
-
-        session.commit()
-        session.close()

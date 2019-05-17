@@ -48,11 +48,10 @@ Also worthwhile to note that users can always delete their own events.
     @role.command()
     async def event(self, ctx, *, role: discord.Role):
         """Change or view the minimum role required to create events"""
-        session = self.bot.Session()
-        guild = find_or_create_guild(session, ctx.guild.id)
-        guild.event_role_id = role.id
-        session.add(guild)
-        session.commit()
+        with self.bot.scoped_session() as session:
+            guild = find_or_create_guild(session, ctx.guild.id)
+            guild.event_role_id = role.id
+            session.add(guild)
 
         await ctx.send(t("role.event_role_changed").format(role))
 
@@ -60,11 +59,10 @@ Also worthwhile to note that users can always delete their own events.
     @role.command()
     async def channel(self, ctx, *, role: discord.Role):
         """Change or view the minimum role required to create event channels"""
-        session = self.bot.Session()
-        guild = find_or_create_guild(session, ctx.guild.id)
-        guild.channel_role_id = role.id
-        session.add(guild)
-        session.commit()
+        with self.bot.scoped_session() as session:
+            guild = find_or_create_guild(session, ctx.guild.id)
+            guild.channel_role_id = role.id
+            session.add(guild)
 
         await ctx.send(t("role.channel_role_changed").format(role))
 
@@ -72,11 +70,10 @@ Also worthwhile to note that users can always delete their own events.
     @role.command()
     async def delete(self, ctx, *, role: discord.Role):
         """Change or view the minimum role required to delete events"""
-        session = self.bot.Session()
-        guild = find_or_create_guild(session, ctx.guild.id)
-        guild.delete_role_id = role.id
-        session.add(guild)
-        session.commit()
+        with self.bot.scoped_session() as session:
+            guild = find_or_create_guild(session, ctx.guild.id)
+            guild.delete_role_id = role.id
+            session.add(guild)
 
         await ctx.send(t("role.delete_role_changed").format(role))
 
@@ -84,9 +81,8 @@ Also worthwhile to note that users can always delete their own events.
     @event.error
     async def event_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            session = self.bot.Session()
-            guild = find_or_create_guild(session, ctx.guild.id)
-            session.commit()
+            with self.bot.scoped_session() as session:
+                guild = find_or_create_guild(session, ctx.guild.id)
 
             role = discord.utils.get(ctx.guild.roles, id=guild.event_role_id)
 
@@ -101,9 +97,8 @@ Also worthwhile to note that users can always delete their own events.
     @channel.error
     async def channel_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            session = self.bot.Session()
-            guild = find_or_create_guild(session, ctx.guild.id)
-            session.commit()
+            with self.bot.scoped_session() as session:
+                guild = find_or_create_guild(session, ctx.guild.id)
 
             role = discord.utils.get(ctx.guild.roles, id=guild.channel_role_id)
 
@@ -118,9 +113,8 @@ Also worthwhile to note that users can always delete their own events.
     @delete.error
     async def delete_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            session = self.bot.Session()
-            guild = find_or_create_guild(session, ctx.guild.id)
-            session.commit()
+            with self.bot.scoped_session() as session:
+                guild = find_or_create_guild(session, ctx.guild.id)
 
             role = discord.utils.get(ctx.guild.roles, id=guild.delete_role_id)
 

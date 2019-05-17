@@ -11,14 +11,12 @@ class OnGuildChannelDelete(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel):
-        session = self.bot.Session()
-        event_channel = find_event_channel(session, channel.id)
+        with self.bot.scoped_session() as session:
+            event_channel = find_event_channel(session, channel.id)
 
-        if event_channel:
-            self._update_cache(event_channel)
-            session.delete(event_channel)
-
-        session.commit()
+            if event_channel:
+                self._update_cache(event_channel)
+                session.delete(event_channel)
 
 
     def _update_cache(self, event_channel):

@@ -27,26 +27,26 @@ class EventCommand(commands.Cog):
     @commands.guild_only()
     async def event(self, ctx):
         """Create a new event"""
-        session = self.bot.Session()
+        with self.bot.scoped_session() as session:
+            # Clean up event channels that may have been deleted
+            # while the bot was offline.
+            self.sync_event_channels.call(session, ctx.guild.id)
 
-        # Clean up event channels that may have been deleted
-        # while the bot was offline.
-        self.sync_event_channels.call(session, ctx.guild.id)
+            guild = find_or_create_guild(session, ctx.guild.id)
 
-        guild = find_or_create_guild(session, ctx.guild.id)
-        if not Can(ctx.author, guild).event():
-            return await ctx.send(t("error.missing_permissions"))
+            if not Can(ctx.author, guild).event():
+                return await ctx.send(t("error.missing_permissions"))
 
-        await ctx.send(t("event.instructions_messaged"))
-        event = await self._get_event_from_user(ctx, session)
-        channel = self.bot.get_channel(event.event_channel.id)
-        await ctx.author.send(
-            t("event.created").format(channel.mention)
-        )
-        await self.list_events.call(event.event_channel)
+            await ctx.send(t("event.instructions_messaged"))
+            event = await self._get_event_from_user(ctx, session)
+            channel = self.bot.get_channel(event.event_channel.id)
 
-        session.add(event)
-        session.commit()
+            await ctx.author.send(
+                t("event.created").format(channel.mention)
+            )
+
+            await self.list_events.call(event.event_channel)
+            session.add(event)
 
 
     async def _choose_event_channel(self, ctx, event_channels):
