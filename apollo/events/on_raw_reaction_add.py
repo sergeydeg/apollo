@@ -19,13 +19,13 @@ class OnRawReactionAdd(commands.Cog):
             if payload.user_id == self.bot.user.id:
                 return
 
-            # Stop if already procesing a reaction for this user
-            if payload.user_id in self.users_reacting:
-                return await self.remove_reaction(payload)
-
             event = find_event_from_message(session, payload.message_id)
             if not event:
                 return
+
+            # Stop if already procesing a reaction for this user
+            if payload.user_id in self.users_reacting:
+                return await self.remove_reaction(payload)
 
             try:
                 self.users_reacting.append(payload.user_id)
