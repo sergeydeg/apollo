@@ -22,7 +22,7 @@ event:
   declined:
     Declined
   instructions_messaged:
-    Event creation instructions have been messaged to you.
+    Event creation instructions will be messaged to you.
   invalid_description:
     "Event description must be less than {} characters. Try again:"
   invalid_capacity:
