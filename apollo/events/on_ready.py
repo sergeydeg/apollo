@@ -10,8 +10,3 @@ class OnReady(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print(f"{self.bot.user.name} - Ready")
-
-        # Load items into cache
-        self.bot.cache.load_prefixes()
-        self.bot.cache.load_event_channel_ids()
-        self.bot.cache.load_event_message_ids()

@@ -33,6 +33,9 @@ Session.configure(bind=engine)
 
 # Setup cache
 cache = Cache(Session)
+cache.load_prefixes()
+cache.load_event_channel_ids()
+cache.load_event_message_ids()
 
 # Initialize bot
 apollo = Apollo(Session, cache)
