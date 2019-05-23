@@ -1,5 +1,6 @@
 import asyncio
 
+from discord.errors import Forbidden
 from discord.ext import commands
 
 from apollo.translate import t
@@ -28,6 +29,8 @@ class OnCommandError(commands.Cog):
         elif isinstance(error, commands.CommandInvokeError):
             if isinstance(error.original, asyncio.TimeoutError):
                 return await ctx.author.send(t("error.timeout"))
+            elif isinstance(error.original, Forbidden):
+                return await ctx.send(t("error.forbidden"))
             else:
                 raise error
         else:
