@@ -30,7 +30,10 @@ class OnCommandError(commands.Cog):
             if isinstance(error.original, asyncio.TimeoutError):
                 return await ctx.author.send(t("error.timeout"))
             elif isinstance(error.original, Forbidden):
-                return await ctx.send(t("error.forbidden"))
+                try:
+                    return await ctx.send(t("error.forbidden"))
+                except Forbidden:
+                    pass
             else:
                 raise error
         else:
