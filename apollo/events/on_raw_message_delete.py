@@ -19,11 +19,11 @@ class OnRawMessageDelete(commands.Cog):
         if self.bot.cache.message_marked_for_deletion(payload.message_id):
             return self.bot.cache.unmark_message_for_deletion(
                 payload.message_id
-                )
+            )
 
         with self.bot.scoped_session() as session:
             event = find_event_from_message(session, payload.message_id)
-            session.delete(event)
-
-        self.bot.cache.delete_event(event.message_id)
-        await self.list_events.call(event.event_channel)
+            if event:
+                session.delete(event)
+                self.bot.cache.delete_event(event.message_id)
+                await self.list_events.call(event.event_channel)
