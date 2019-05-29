@@ -126,9 +126,9 @@ time_zones:
   asia/singapore: Singapore Time
 
 error:
-  forbidden:
-    I tried to send you a private message, but it looks like you need to enable
-    the setting to accept messages from users you share a server with.
+  cannot_private_message:
+    I tried to send you a message, but it looks like you need to enable
+    the setting to allow direct messages from server members.
   missing_permissions:
     You don't have permission to do that.
   private_message:
