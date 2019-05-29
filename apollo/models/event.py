@@ -47,7 +47,7 @@ class Event(Base):
 
 
     @property
-    def alternate_user_ids(self):
+    def tentative_user_ids(self):
         return self._user_ids_by_status("alternate")
 
 

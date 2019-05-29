@@ -9,7 +9,7 @@ from apollo.translate import t
 class EventEmbed:
 
     ACCEPTED_HEADER = t("event.accepted")
-    ALTERNATE_HEADER = t("event.alternate")
+    TENTATIVE_HEADER = t("event.tentative")
     DECLINED_HEADER = t("event.declined")
     STANDBY_HEADER = t("event.standby")
 
@@ -51,8 +51,8 @@ class EventEmbed:
             value=self._declined_users(event, guild)
         )
         embed.add_field(
-            name=self.ALTERNATE_HEADER,
-            value=self._alternate_users(event, guild)
+            name=self.TENTATIVE_HEADER,
+            value=self._tentative_users(event, guild)
         )
 
         # If there is an overflow of users, display them
@@ -78,8 +78,8 @@ class EventEmbed:
         return self._format_members(members)
 
 
-    def _alternate_users(self, event, guild):
-        user_ids = event.alternate_user_ids
+    def _tentative_users(self, event, guild):
+        user_ids = event.tentative_user_ids
         members = self._user_ids_to_members(user_ids, guild)
         return self._format_members(members)
 
