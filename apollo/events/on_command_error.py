@@ -15,20 +15,20 @@ class OnCommandError(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
-            return
+            pass
         elif isinstance(error, commands.MissingRequiredArgument):
-            return
+            pass
         elif isinstance(error, commands.BadArgument):
-            return await ctx.send(error)
+            await ctx.send(error)
         elif isinstance(error, commands.NoPrivateMessage):
-            return await ctx.send(t("error.private_message"))
+            await ctx.send(t("error.private_message"))
         elif isinstance(error, commands.MissingPermissions):
-            return await ctx.send(t("error.missing_permissions"))
+            await ctx.send(t("error.missing_permissions"))
         elif isinstance(error, commands.CheckFailure):
-            return
+            pass
         elif isinstance(error, commands.CommandInvokeError):
             if isinstance(error.original, asyncio.TimeoutError):
-                return await ctx.author.send(t("error.timeout"))
+                await ctx.author.send(t("error.timeout"))
             elif isinstance(error.original, Forbidden):
                 if error.original.text == "Cannot send messages to this user":
                     await ctx.send(t("error.cannot_private_message"))
