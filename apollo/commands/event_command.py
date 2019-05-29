@@ -37,7 +37,6 @@ class EventCommand(commands.Cog):
             if not Can(ctx.author, guild).event():
                 return await ctx.send(t("error.missing_permissions"))
 
-            await ctx.send(t("event.instructions_messaged"))
             event = await self._get_event_from_user(ctx, session)
             channel = self.bot.get_channel(event.event_channel.id)
 
