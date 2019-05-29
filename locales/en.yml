@@ -14,7 +14,7 @@ event:
   created_by:
     Created by {} | React with {} to remove this event
   capacity_prompt:
-    "Enter the maximum number of attendees (type 'None' for no limit):"
+    "Enter the maximum number of attendees (type `None` for no limit):"
   description_prompt:
     "Enter the event description (type `None` for no description):"
   declined:
