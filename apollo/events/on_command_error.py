@@ -32,6 +32,8 @@ class OnCommandError(commands.Cog):
             elif isinstance(error.original, Forbidden):
                 if error.original.text == "Cannot send messages to this user":
                     await ctx.send(t("error.cannot_private_message"))
+                else:
+                    raise error
             else:
                 raise error
         else:
