@@ -1,5 +1,7 @@
 from discord.ext import commands
 
+from apollo.queries import event_channel_exists
+
 
 class NotEventChannel:
 
@@ -9,4 +11,8 @@ class NotEventChannel:
     # Global check to ensure that commands in an event channel
     # are not processed.
     def __call__(self, ctx):
-        return not self.bot.cache.event_channel_exists(ctx.channel.id)
+        with self.bot.scoped_session() as session:
+            if event_channel_exists(session, ctx.channel.id):
+                return False
+            else:
+                return True
