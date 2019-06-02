@@ -1,6 +1,13 @@
+from sqlalchemy import exists
 from sqlalchemy.orm import joinedload
 
 from .models import Event, EventChannel, Guild, Response, User
+
+
+def event_channel_exists(session, event_channel_id):
+    return session.query(
+        exists().where(EventChannel.id == event_channel_id)
+    ).scalar()
 
 
 def find_event_channel(session, event_channel_id):
