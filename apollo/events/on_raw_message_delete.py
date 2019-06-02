@@ -12,8 +12,6 @@ class OnRawMessageDelete(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_message_delete(self, payload):
-        if not self.bot.cache.event_exists(payload.message_id): return
-
         # If the message is marked for deletion, it was deleted by the bot
         # as part of clearing the event channel. Unmark it, and return.
         if self.bot.cache.message_marked_for_deletion(payload.message_id):
