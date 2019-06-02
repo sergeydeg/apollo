@@ -22,6 +22,7 @@ ISO_TIME_ZONES = [
     "Australia/Darwin",
     "Australia/Perth",
     "Australia/Sydney",
+    "Asia/Kolkata",
     "Europe/London",
     "Europe/Paris",
     "Europe/Sofia",
