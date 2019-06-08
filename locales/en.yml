@@ -113,6 +113,7 @@ time_zones:
   america/denver: Mountain Time (US & Canada)
   america/mexico_city: Central Time (US & Canada)
   america/detroit: Eastern Time (US & Canada)
+  america/phoenix: Arizona Time (US)
   australia/adelaide: South Australia
   australia/brisbane: Queensland (Australia)
   australia/darwin: Northern Territory (Australia)

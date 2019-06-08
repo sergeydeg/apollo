@@ -3,6 +3,7 @@ ISO_TIME_ZONES = [
     "America/Denver",
     "America/Mexico_City",
     "America/Detroit",
+    "America/Phoenix",
     "Australia/Adelaide",
     "Australia/Brisbane",
     "Australia/Darwin",
