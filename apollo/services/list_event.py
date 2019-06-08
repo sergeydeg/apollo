@@ -14,7 +14,6 @@ class ListEvent:
 
         # Update event message reference
         event.message_id = event_message.id
-        self.bot.cache.update_event(event.message_id, event_message.id)
 
         # Add RSVP reactions to event message
         await event_message.add_reaction(emoji.CHECK)

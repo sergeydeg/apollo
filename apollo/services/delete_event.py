@@ -13,7 +13,6 @@ class DeleteEvent:
         if (self._member_can_delete(session, member) or
                 self._member_owns_event(event, member)):
             session.delete(event)
-            self.bot.cache.delete_event(event.message_id)
             await self.list_events.call(event.event_channel)
         else:
             await member.send("You don't have permission to do that.")

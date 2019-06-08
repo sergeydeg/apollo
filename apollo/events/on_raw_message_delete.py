@@ -23,5 +23,4 @@ class OnRawMessageDelete(commands.Cog):
             event = find_event_from_message(session, payload.message_id)
             if event:
                 session.delete(event)
-                self.bot.cache.delete_event(event.message_id)
                 await self.list_events.call(event.event_channel)
