@@ -136,9 +136,5 @@ error:
   timeout:
     I'm not sure where you went. We can try this again later.
 
-notify:
-  message_deleted:
-    The {} channel is intended to contain event messages only. As a result, your message has been deleted.
-
 apollo:
   Apollo
