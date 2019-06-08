@@ -118,12 +118,16 @@ class EventCommand(commands.Cog):
         while True:
             start_time_str = (await self.bot.get_next_pm(ctx.author)).content
             try:
-                start_time = arrow.get(
+                utc_start_time = arrow.get(
                     start_time_str,
                     ['YYYY-MM-DD h:mm A', 'YYYY-MM-DD HH:mm'],
                     tzinfo=iso_time_zone
-                )
-                return start_time.to('utc').datetime
+                ).to('utc').datetime
+
+                if utc_start_time < arrow.utcnow():
+                    await ctx.author.send(t("event.start_time_in_the_past"))
+                else:
+                    return utc_start_time
             except:
                 await ctx.author.send(t("event.invalid_start_time"))
 

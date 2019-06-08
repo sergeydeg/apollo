@@ -33,6 +33,8 @@ event:
     Standby
   start_time_prompt:
     "Enter the event start time (ex. `2018-08-01 7:00 pm` or `2018-08-17 19:00`):"
+  start_time_in_the_past:
+    "Event start time cannot be in the past. Try again:"
   tentative:
     Tentative
   time:
