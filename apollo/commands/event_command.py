@@ -109,7 +109,6 @@ class EventCommand(commands.Cog):
             return await self._choose_event_channel(ctx, guild.event_channels)
         else:
             channel = await self.bot.create_discord_event_channel(ctx.guild)
-            self.bot.cache.create_event_channel(channel.id)
             return EventChannel(id=channel.id, guild_id=ctx.guild.id)
 
 

@@ -30,7 +30,6 @@ class ChannelCommand(commands.Cog):
             event_channel = EventChannel(id=channel.id, guild_id=ctx.guild.id)
             session.add(event_channel)
 
-            self.bot.cache.create_event_channel(event_channel.id)
             await self.list_events.call(event_channel)
 
             await ctx.send(
