@@ -125,6 +125,7 @@ time_zones:
   europe/paris: Central Europe
   europe/sofia: Eastern Europe
   asia/singapore: Singapore Time
+  pacific/auckland: New Zealand
 
 error:
   cannot_private_message:
