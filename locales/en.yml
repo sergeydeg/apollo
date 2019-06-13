@@ -129,6 +129,7 @@ time_zones:
   europe/moscow: Moscow Standard Time
   asia/singapore: Singapore Time
   pacific/auckland: New Zealand
+  etc/gmt: Greenwich Mean Time
 
 error:
   cannot_private_message:
