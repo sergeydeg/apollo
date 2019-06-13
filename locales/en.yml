@@ -126,6 +126,7 @@ time_zones:
   europe/london: Western Europe (UK & Portugal)
   europe/paris: Central Europe
   europe/sofia: Eastern Europe
+  europe/moscow: Moscow Standard Time
   asia/singapore: Singapore Time
   pacific/auckland: New Zealand
 

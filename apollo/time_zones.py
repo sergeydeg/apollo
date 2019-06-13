@@ -14,6 +14,7 @@ ISO_TIME_ZONES = [
     "Europe/London",
     "Europe/Paris",
     "Europe/Sofia",
+    "Europe/Moscow",
     "Asia/Singapore",
     "Pacific/Auckland"
     ]
