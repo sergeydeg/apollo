@@ -60,7 +60,7 @@ apollo.add_cog(OnCommandError(apollo))
 apollo.add_cog(OnGuildChannelDelete(apollo))
 apollo.add_cog(OnGuildJoin(apollo))
 apollo.add_cog(OnGuildRemove(apollo))
-apollo.add_cog(OnRawMessageDelete(apollo, list_events))
+apollo.add_cog(OnRawMessageDelete(apollo))
 apollo.add_cog(OnRawReactionAdd(apollo, handle_event_reaction))
 apollo.add_cog(OnReady(apollo))
 

@@ -1,13 +1,13 @@
 from discord.ext import commands
 
 from apollo.queries import find_event_from_message
+from apollo.translate import t
 
 
 class OnRawMessageDelete(commands.Cog):
 
-    def __init__(self, bot, list_events):
+    def __init__(self, bot):
         self.bot = bot
-        self.list_events = list_events
 
 
     @commands.Cog.listener()
@@ -21,7 +21,14 @@ class OnRawMessageDelete(commands.Cog):
 
         with self.bot.scoped_session() as session:
             event = find_event_from_message(session, payload.message_id)
-            if event:
-                session.delete(event)
-                session.commit()
-                await self.list_events.call(event.event_channel)
+
+            if not event:
+                return
+
+            session.delete(event)
+
+            event_channel = event.event_channel
+
+            if len(event_channel.events) == 0:
+                discord_event_channel = self.bot.get_channel(event_channel.id)
+                await discord_event_channel.send(t("channel.no_events"))
