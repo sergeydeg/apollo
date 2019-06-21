@@ -6,10 +6,8 @@ from apollo.translate import t
 
 
 class RoleCommand(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
-
 
     @commands.group()
     @commands.guild_only()
@@ -44,7 +42,6 @@ Also worthwhile to note that users can always delete their own events.
                 """
             )
 
-
     @role.command()
     async def event(self, ctx, *, role: discord.Role):
         """Change or view the minimum role required to create events"""
@@ -54,7 +51,6 @@ Also worthwhile to note that users can always delete their own events.
             session.add(guild)
 
         await ctx.send(t("role.event_role_changed").format(role))
-
 
     @role.command()
     async def channel(self, ctx, *, role: discord.Role):
@@ -66,7 +62,6 @@ Also worthwhile to note that users can always delete their own events.
 
         await ctx.send(t("role.channel_role_changed").format(role))
 
-
     @role.command()
     async def delete(self, ctx, *, role: discord.Role):
         """Change or view the minimum role required to delete events"""
@@ -77,7 +72,6 @@ Also worthwhile to note that users can always delete their own events.
 
         await ctx.send(t("role.delete_role_changed").format(role))
 
-
     @event.error
     async def event_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
@@ -86,13 +80,7 @@ Also worthwhile to note that users can always delete their own events.
 
             role = discord.utils.get(ctx.guild.roles, id=guild.event_role_id)
 
-            await ctx.send(
-                t("role.event_role_current").format(
-                    role,
-                    ctx.prefix
-                )
-            )
-
+            await ctx.send(t("role.event_role_current").format(role, ctx.prefix))
 
     @channel.error
     async def channel_error(self, ctx, error):
@@ -102,13 +90,7 @@ Also worthwhile to note that users can always delete their own events.
 
             role = discord.utils.get(ctx.guild.roles, id=guild.channel_role_id)
 
-            await ctx.send(
-                t("role.channel_role_current").format(
-                    role,
-                    ctx.prefix
-                )
-            )
-
+            await ctx.send(t("role.channel_role_current").format(role, ctx.prefix))
 
     @delete.error
     async def delete_error(self, ctx, error):
@@ -118,9 +100,4 @@ Also worthwhile to note that users can always delete their own events.
 
             role = discord.utils.get(ctx.guild.roles, id=guild.delete_role_id)
 
-            await ctx.send(
-                t("role.delete_role_current").format(
-                    role,
-                    ctx.prefix
-                )
-            )
+            await ctx.send(t("role.delete_role_current").format(role, ctx.prefix))

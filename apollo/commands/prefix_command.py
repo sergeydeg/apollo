@@ -5,10 +5,8 @@ from apollo.translate import t
 
 
 class PrefixCommand(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
-
 
     @commands.command()
     @commands.guild_only()
@@ -22,7 +20,6 @@ class PrefixCommand(commands.Cog):
 
         self.bot.cache.update_prefix(ctx.guild.id, new_prefix)
         await ctx.send(t("prefix.changed").format(new_prefix))
-
 
     @prefix.error
     async def prefix_error(self, ctx, error):

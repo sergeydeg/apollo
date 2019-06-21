@@ -4,13 +4,11 @@ from apollo.embeds import HelpEmbed
 
 
 class HelpCommand(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
 
         # Remove default help command
         self.bot.remove_command("help")
-
 
     @commands.command(hidden=True)
     async def help(self, ctx):

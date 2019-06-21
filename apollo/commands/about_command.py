@@ -4,10 +4,8 @@ from apollo.embeds import AboutEmbed
 
 
 class AboutCommand(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
-
 
     @commands.command()
     async def about(self, ctx):

@@ -17,7 +17,6 @@ class AboutEmbed:
         self.bot = bot
         self.session = session
 
-
     def call(self):
         embed = discord.Embed(title=t("apollo"))
         embed.color = EMBED_COLOR
@@ -29,29 +28,27 @@ class AboutEmbed:
         embed.add_field(name=t("about.cpu"), value=self._cpu_usage())
         embed.add_field(name=t("about.uptime"), value=self._uptime())
         embed.set_footer(
-            text=t("about.made_with"),
-            icon_url='http://i.imgur.com/5BFecvA.png'
-            )
+            text=t("about.made_with"), icon_url="http://i.imgur.com/5BFecvA.png"
+        )
         return embed
-
 
     def _cpu_usage(self):
         return "%0.2f%%" % (psutil.cpu_percent())
 
-
     def _event_count(self):
         return len(self.session.query(Event).all())
 
-
     def _description(self):
-        return (t("about.invite_link").format(self.INVITE_LINK) + "\n" +
-                t("about.discord_server").format(self.SERVER_LINK) + "\n" +
-                t("about.source_code").format(self.GITHUB_LINK))
-
+        return (
+            t("about.invite_link").format(self.INVITE_LINK)
+            + "\n"
+            + t("about.discord_server").format(self.SERVER_LINK)
+            + "\n"
+            + t("about.source_code").format(self.GITHUB_LINK)
+        )
 
     def _memory_usage(self):
-        return "%0.2f MB" % (psutil.virtual_memory().used / 1024**2)
-
+        return "%0.2f MB" % (psutil.virtual_memory().used / 1024 ** 2)
 
     def _uptime(self):
         now = arrow.utcnow()
@@ -61,12 +58,11 @@ class AboutEmbed:
         minutes, seconds = divmod(remainder, 60)
         days, hours = divmod(hours, 24)
 
-        fmt = '{h}h {m}m {s}s'
+        fmt = "{h}h {m}m {s}s"
         if days:
-            fmt = '{d}d ' + fmt
+            fmt = "{d}d " + fmt
 
         return fmt.format(d=days, h=hours, m=minutes, s=seconds)
-
 
     def _user_count(self):
         return len(self.session.query(User).all())

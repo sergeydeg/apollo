@@ -4,7 +4,6 @@ from apollo.queries import event_channel_exists
 
 
 class NotEventChannel:
-
     def __init__(self, bot):
         self.bot = bot
 

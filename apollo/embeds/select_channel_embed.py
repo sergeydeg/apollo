@@ -6,10 +6,8 @@ from apollo.translate import t
 
 
 class SelectChannelEmbed:
-
     def __init__(self, channels):
         self.channels = channels
-
 
     def call(self):
         embed = discord.Embed()
@@ -18,9 +16,8 @@ class SelectChannelEmbed:
         embed.description = self._channel_list()
         return embed
 
-
     def _channel_list(self):
-        desc = ''
+        desc = ""
         for i, channel in enumerate(self.channels):
             desc += f"{emoji.NUMBERS[i]}: {channel.name}\n"
         return desc

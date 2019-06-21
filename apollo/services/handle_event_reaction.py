@@ -1,33 +1,56 @@
+import discord
+
+from apollo.can import Can
 from apollo import emojis as emoji
+from apollo.queries import find_or_create_guild
+from apollo.queries import responses_for_event
+from apollo.queries import event_count_for_event_channel
+from apollo.translate import t
 
 
 EMOJI_STATUSES = {
-    emoji.CHECK: 'accepted',
-    emoji.QUESTION: 'alternate',
-    emoji.CROSS: 'declined'
+    emoji.CHECK: "accepted",
+    emoji.QUESTION: "alternate",
+    emoji.CROSS: "declined",
 }
 
 
 class HandleEventReaction:
-
-    def __init__(self, bot, delete_event, update_event, update_response):
+    def __init__(self, bot, update_event, update_response):
         self.bot = bot
-        self.delete_event = delete_event
         self.update_event = update_event
         self.update_response = update_response
 
+    async def call(self, event, payload):
+        channel = self.bot.get_channel(payload.channel_id)
 
-    async def call(self, session, event, payload):
         if payload.emoji.name == emoji.SKULL:
             member = self.bot.find_guild_member(payload.guild_id, payload.user_id)
-            return await self.delete_event.call(session, event, member)
+
+            with self.bot.scoped_session() as session:
+                guild = find_or_create_guild(session, payload.guild_id)
+
+            if event.organizer_id != member.id and not Can(member, guild).delete():
+                return await member.send("You don't have permission to do that.")
+
+            with self.bot.scoped_session() as session:
+                session.delete(event)
+
+            await channel.delete_messages([discord.Object(id=event.message_id)])
+
+            with self.bot.scoped_session() as session:
+                event_count = event_count_for_event_channel(session, channel.id)
+
+            if event_count == 0:
+                await channel.send(t("channel.no_events"))
+
+            return
 
         rsvp_status = EMOJI_STATUSES.get(payload.emoji.name)
         if rsvp_status:
-            await self.update_response.call(
-                session,
-                event.id,
-                payload.user_id,
-                rsvp_status
-            )
-            await self.update_event.call(event)
+            await self.update_response.call(event.id, payload.user_id, rsvp_status)
+
+            with self.bot.scoped_session() as session:
+                responses = responses_for_event(session, event.id)
+
+            await self.update_event.call(event, responses, channel)

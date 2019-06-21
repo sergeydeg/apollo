@@ -5,19 +5,15 @@ from apollo.translate import t
 
 
 class OnRawMessageDelete(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
-
 
     @commands.Cog.listener()
     async def on_raw_message_delete(self, payload):
         # If the message is marked for deletion, it was deleted by the bot
         # as part of clearing the event channel. Unmark it, and return.
         if self.bot.cache.message_marked_for_deletion(payload.message_id):
-            return self.bot.cache.unmark_message_for_deletion(
-                payload.message_id
-            )
+            return self.bot.cache.unmark_message_for_deletion(payload.message_id)
 
         with self.bot.scoped_session() as session:
             event = find_event_from_message(session, payload.message_id)

@@ -22,7 +22,6 @@ class EventCommand(commands.Cog):
         self.list_events = list_events
         self.sync_event_channels = sync_event_channels
 
-
     @commands.command()
     @commands.guild_only()
     async def event(self, ctx):
@@ -40,64 +39,54 @@ class EventCommand(commands.Cog):
             event = await self._get_event_from_user(ctx, session)
             channel = self.bot.get_channel(event.event_channel.id)
 
-            await ctx.author.send(
-                t("event.created").format(channel.mention)
-            )
+            await ctx.author.send(t("event.created").format(channel.mention))
 
-            await self.list_events.call(event.event_channel)
             session.add(event)
+            events = event.event_channel.events
 
+        await self.list_events.call(events, channel)
 
     async def _choose_event_channel(self, ctx, event_channels):
         message = await SendChannelSelect(
-            self.bot,
-            ctx.author.dm_channel,
-            event_channels
-            ).call()
+            self.bot, ctx.author.dm_channel, event_channels
+        ).call()
 
         def reaction_check(reaction, user):
-            return (message.id == reaction.message.id) \
-                and (user.id == ctx.author.id)
+            return (message.id == reaction.message.id) and (user.id == ctx.author.id)
 
         reaction, _ = await self.bot.wait_for(
-            'reaction_add',
-            check=reaction_check,
-            timeout=90.0)
+            "reaction_add", check=reaction_check, timeout=90.0
+        )
 
         return event_channels[int(reaction.emoji[0]) - 1]
-
 
     async def _get_capacity_from_user(self, ctx):
         """Retrieve the event capacity from the user"""
         await ctx.author.send(t("event.capacity_prompt"))
         while True:
             resp = (await self.bot.get_next_pm(ctx.author)).content
-            if resp.upper() == 'NONE':
+            if resp.upper() == "NONE":
                 return None
             elif resp.isdigit() and int(resp) in range(1, self.MAX_CAPACITY + 1):
                 return int(resp)
             else:
                 await ctx.author.send(
-                    t("event.invalid_capacity").format(
-                        self.MAX_CAPACITY
-                    )
+                    t("event.invalid_capacity").format(self.MAX_CAPACITY)
                 )
-
 
     async def _get_desc_from_user(self, ctx):
         """Retrieve the event description from the user"""
         await ctx.author.send(t("event.description_prompt"))
         while True:
             resp = (await self.bot.get_next_pm(ctx.author, timeout=240)).content
-            if resp.upper() == 'NONE':
+            if resp.upper() == "NONE":
                 return None
             elif len(resp) <= self.MAX_DESC_LENGTH:
                 return resp
             else:
                 await ctx.author.send(
                     t("event.invalid_description").format(self.MAX_DESC_LENGTH)
-                    )
-
+                )
 
     async def _get_event_channel(self, ctx, session):
         """Find or create the event channel for the current guild"""
@@ -111,18 +100,21 @@ class EventCommand(commands.Cog):
             channel = await self.bot.create_discord_event_channel(ctx.guild)
             return EventChannel(id=channel.id, guild_id=ctx.guild.id)
 
-
     async def _get_start_time(self, ctx, iso_time_zone):
         """Retrieve a datetime UTC object from the user"""
         await ctx.author.send(t("event.start_time_prompt"))
         while True:
             start_time_str = (await self.bot.get_next_pm(ctx.author)).content
             try:
-                utc_start_time = arrow.get(
-                    start_time_str,
-                    ['YYYY-MM-DD h:mm A', 'YYYY-MM-DD HH:mm'],
-                    tzinfo=iso_time_zone
-                ).to('utc').datetime
+                utc_start_time = (
+                    arrow.get(
+                        start_time_str,
+                        ["YYYY-MM-DD h:mm A", "YYYY-MM-DD HH:mm"],
+                        tzinfo=iso_time_zone,
+                    )
+                    .to("utc")
+                    .datetime
+                )
 
                 if utc_start_time < arrow.utcnow():
                     await ctx.author.send(t("event.start_time_in_the_past"))
@@ -130,7 +122,6 @@ class EventCommand(commands.Cog):
                     return utc_start_time
             except:
                 await ctx.author.send(t("event.invalid_start_time"))
-
 
     async def _get_time_zone(self, ctx):
         """Retrieve a valid time zone string from the user"""
@@ -144,7 +135,6 @@ class EventCommand(commands.Cog):
             else:
                 await ctx.author.send(t("event.invalid_time_zone"))
 
-
     async def _get_title_from_user(self, ctx):
         """Retrieve the event title from the user"""
         await ctx.author.send(t("event.title_prompt"))
@@ -154,11 +144,8 @@ class EventCommand(commands.Cog):
                 return title
             else:
                 await ctx.author.send(
-                    t("event.invalid_title").format(
-                        self.MAX_TITLE_LENGTH
-                    )
+                    t("event.invalid_title").format(self.MAX_TITLE_LENGTH)
                 )
-
 
     async def _get_event_from_user(self, ctx, session):
         """Create an event with user input via private messages"""
@@ -172,7 +159,5 @@ class EventCommand(commands.Cog):
         event.start_time = await self._get_start_time(ctx, event.time_zone)
         return event
 
-
     def _valid_time_zone_input(self, value):
-        return value.isdigit() and \
-            int(value) in range(1, len(ISO_TIME_ZONES) + 1)
+        return value.isdigit() and int(value) in range(1, len(ISO_TIME_ZONES) + 1)

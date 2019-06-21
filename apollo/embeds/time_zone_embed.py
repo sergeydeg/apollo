@@ -11,7 +11,6 @@ class TimeZoneEmbed:
     def __init__(self):
         pass
 
-
     def call(self):
         embed = discord.Embed()
         embed.color = EMBED_COLOR
@@ -25,4 +24,3 @@ class TimeZoneEmbed:
         embed.description += t("time_zone.footer").format(self.INVITE)
 
         return embed
-
