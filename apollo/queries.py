@@ -12,6 +12,14 @@ def event_channel_count_for_guild(session, guild_id):
     return _get_count(session.query(EventChannel).filter_by(guild_id=guild_id))
 
 
+def total_user_count(session):
+    return _get_count(session.query(User))
+
+
+def total_event_count(session):
+    return _get_count(session.query(Event))
+
+
 def event_channel_exists(session, event_channel_id):
     return session.query(exists().where(EventChannel.id == event_channel_id)).scalar()
 

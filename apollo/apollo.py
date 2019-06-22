@@ -15,7 +15,6 @@ class Apollo(commands.AutoShardedBot):
         super().__init__(command_prefix=prefix_callable)
         self.Session = Session
         self.client = Client(os.getenv("SENTRY_URL"))
-        self.start_time = arrow.utcnow()
         self.cache = cache
 
     @contextmanager

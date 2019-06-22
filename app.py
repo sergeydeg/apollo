@@ -42,6 +42,7 @@ cache.load_prefixes()
 apollo = Apollo(Session, cache)
 
 # Initialize embeds
+about_embed = AboutEmbed()
 event_embed = EventEmbed()
 
 # Initialize services
@@ -62,7 +63,7 @@ apollo.add_cog(OnRawReactionAdd(apollo, handle_event_reaction))
 apollo.add_cog(OnReady(apollo))
 
 # Add commands
-apollo.add_cog(AboutCommand(apollo))
+apollo.add_cog(AboutCommand(apollo, about_embed))
 apollo.add_cog(ChannelCommand(apollo, list_events))
 apollo.add_cog(EventCommand(apollo, list_events, sync_event_channels))
 apollo.add_cog(HelpCommand(apollo))
