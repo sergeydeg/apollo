@@ -17,5 +17,7 @@ class AboutCommand(commands.Cog):
             user_count = total_user_count(session)
             event_count = total_event_count(session)
 
-        about_embed = self.about_embed.call(user_count, event_count, len(self.bot.guilds))
+        about_embed = self.about_embed.call(
+            user_count, event_count, len(self.bot.guilds)
+        )
         await ctx.send(embed=about_embed)
