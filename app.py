@@ -44,6 +44,7 @@ apollo = Apollo(Session, cache)
 # Initialize embeds
 about_embed = AboutEmbed()
 event_embed = EventEmbed()
+help_embed = HelpEmbed()
 
 # Initialize services
 update_event = UpdateEvent(apollo, event_embed)
@@ -66,7 +67,7 @@ apollo.add_cog(OnReady(apollo))
 apollo.add_cog(AboutCommand(apollo, about_embed))
 apollo.add_cog(ChannelCommand(apollo, list_events))
 apollo.add_cog(EventCommand(apollo, list_events, sync_event_channels))
-apollo.add_cog(HelpCommand(apollo))
+apollo.add_cog(HelpCommand(apollo, help_embed))
 apollo.add_cog(PrefixCommand(apollo))
 apollo.add_cog(RoleCommand(apollo))
 

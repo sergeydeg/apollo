@@ -4,27 +4,23 @@ from apollo.constants import EMBED_COLOR
 
 
 class HelpEmbed:
-    def __init__(self, prefix, commands):
-        self.prefix = prefix
-        self.commands = commands
+    def __init__(self):
+        pass
 
-    def call(self):
+    def call(self, prefix, commands):
         embed = discord.Embed(title="Available Commands")
         embed.color = EMBED_COLOR
 
-        for command in self._visible_commands():
-            signature = self._get_command_signature(command)
+        for command in self._visible_commands(commands):
+            signature = prefix + command.name
             help_text = self._get_command_help_text(command)
             embed.add_field(name=signature, value=help_text, inline=False)
 
         return embed
 
-    def _visible_commands(self):
-        return filter(lambda cmd: cmd.hidden == False, self.commands)
+    def _visible_commands(self, commands):
+        return filter(lambda cmd: cmd.hidden == False, commands)
 
     def _get_command_help_text(self, command):
         """Use the first block of text for the short help message"""
         return command.help.split("\n")[0]
-
-    def _get_command_signature(self, command):
-        return self.prefix + command.name
