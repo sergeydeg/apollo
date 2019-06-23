@@ -104,6 +104,10 @@ about:
   source_code:
     "[Source Code]({})"
 
+help:
+  available_commands:
+    Available commands
+
 time_zone:
   title:
     Enter your time zone's number
