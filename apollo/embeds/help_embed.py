@@ -15,15 +15,12 @@ class HelpEmbed:
         embed.color = EMBED_COLOR
         embed.description = t("help.server_invite").format(self.INVITE)
 
-        for command in self._visible_commands(commands):
+        for command in commands:
             signature = prefix + command.name
             help_text = self._get_command_help_text(command)
             embed.add_field(name=signature, value=help_text, inline=False)
 
         return embed
-
-    def _visible_commands(self, commands):
-        return filter(lambda cmd: cmd.hidden == False, commands)
 
     def _get_command_help_text(self, command):
         """Use the first block of text for the short help message"""
