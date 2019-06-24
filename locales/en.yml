@@ -107,6 +107,8 @@ about:
 help:
   available_commands:
     Available commands
+  server_invite:
+    For additional help, join the [Apollo Discord server]({}).
 
 time_zone:
   title:

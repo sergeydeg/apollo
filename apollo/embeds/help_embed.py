@@ -5,12 +5,15 @@ from apollo.translate import t
 
 
 class HelpEmbed:
+    INVITE = "https://discord.gg/WKZdqf2"
+
     def __init__(self):
         pass
 
     def call(self, prefix, commands):
         embed = discord.Embed(title=t("help.available_commands"))
         embed.color = EMBED_COLOR
+        embed.description = t("help.server_invite").format(self.INVITE)
 
         for command in self._visible_commands(commands):
             signature = prefix + command.name
