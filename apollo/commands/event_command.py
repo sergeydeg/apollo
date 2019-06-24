@@ -97,7 +97,9 @@ class EventCommand(commands.Cog):
         elif guild.has_multiple_event_channels():
             return await self._choose_event_channel(ctx, guild.event_channels)
         else:
-            channel = await self.bot.create_discord_event_channel(ctx.guild)
+            channel = await self.bot.create_discord_event_channel(
+                ctx.guild, ctx.channel.category
+            )
             return EventChannel(id=channel.id, guild_id=ctx.guild.id)
 
     async def _get_start_time(self, ctx, iso_time_zone):

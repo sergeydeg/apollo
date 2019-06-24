@@ -30,7 +30,9 @@ class ChannelCommand(commands.Cog):
         if channel_count >= self.MAX_CHANNELS:
             return await ctx.send(t("channel.channel_limit"))
 
-        channel = await self.bot.create_discord_event_channel(ctx.guild)
+        channel = await self.bot.create_discord_event_channel(
+            ctx.guild, ctx.channel.category
+        )
         event_channel = EventChannel(id=channel.id, guild_id=ctx.guild.id)
 
         with self.bot.scoped_session() as session:

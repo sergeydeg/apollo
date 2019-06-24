@@ -30,7 +30,7 @@ class Apollo(commands.AutoShardedBot):
         finally:
             session.close()
 
-    async def create_discord_event_channel(self, guild):
+    async def create_discord_event_channel(self, guild, category):
         """Create a text channel with permissions needed to display events"""
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(
@@ -40,7 +40,9 @@ class Apollo(commands.AutoShardedBot):
                 send_messages=True, add_reactions=True
             ),
         }
-        return await guild.create_text_channel("events", overwrites=overwrites)
+        return await guild.create_text_channel(
+            "events", category=category, overwrites=overwrites
+        )
 
     def find_guild_member(self, guild_id, user_id):
         """Retrieve a member with given id that belongs to the given guild"""
