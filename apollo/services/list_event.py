@@ -19,3 +19,4 @@ class ListEvent:
         await event_message.add_reaction(emoji.CHECK)
         await event_message.add_reaction(emoji.CROSS)
         await event_message.add_reaction(emoji.QUESTION)
+        await event_message.add_reaction(emoji.CLOCK)
