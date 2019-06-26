@@ -33,6 +33,7 @@ if env == "develop":
 # Configure session factory
 Session = sessionmaker(expire_on_commit=False)
 Session.configure(bind=engine)
+scoped_session = ScopedSession(Session)
 
 # Setup cache
 cache = Cache(Session)
@@ -47,12 +48,16 @@ event_embed = EventEmbed()
 help_embed = HelpEmbed()
 
 # Initialize services
+format_date_time = FormatDateTime()
+request_local_start_time = RequestLocalStartTime(scoped_session, format_date_time, None)
 update_event = UpdateEvent(apollo, event_embed)
 update_response = UpdateResponse(apollo)
 sync_event_channels = SyncEventChannels(apollo)
 list_event = ListEvent(apollo, event_embed)
 list_events = ListEvents(apollo, list_event)
-handle_event_reaction = HandleEventReaction(apollo, update_event, update_response)
+handle_event_reaction = HandleEventReaction(
+    apollo, update_event, update_response, request_local_start_time
+)
 
 # Add events
 apollo.add_cog(OnCommandError(apollo))

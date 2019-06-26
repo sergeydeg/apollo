@@ -3,6 +3,7 @@ import discord
 from apollo.can import Can
 from apollo import emojis as emoji
 from apollo.queries import find_or_create_guild
+from apollo.queries import find_or_create_user
 from apollo.queries import responses_for_event
 from apollo.queries import event_count_for_event_channel
 from apollo.translate import t
@@ -16,13 +17,24 @@ EMOJI_STATUSES = {
 
 
 class HandleEventReaction:
-    def __init__(self, bot, update_event, update_response):
+    def __init__(self, bot, update_event, update_response, request_local_start_time):
         self.bot = bot
         self.update_event = update_event
         self.update_response = update_response
+        self.request_local_start_time = request_local_start_time
 
     async def call(self, event, payload):
         channel = self.bot.get_channel(payload.channel_id)
+
+        if payload.emoji.name == emoji.CLOCK:
+            discord_user = self.bot.get_user(payload.user_id)
+
+            with self.bot.scoped_session() as session:
+                apollo_user = find_or_create_user(session, payload.user_id)
+
+            await self.request_local_start_time.call(
+                apollo_user, discord_user, event.utc_start_time
+            )
 
         if payload.emoji.name == emoji.SKULL:
             member = self.bot.find_guild_member(payload.guild_id, payload.user_id)
