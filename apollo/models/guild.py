@@ -17,15 +17,3 @@ class Guild(Base):
     event_channels = relationship(
         "EventChannel", back_populates="guild", passive_deletes=True
     )
-
-    def has_max_event_channels(self):
-        if len(self.event_channels) == MAX_CHANNELS:
-            return True
-
-    def has_multiple_event_channels(self):
-        if len(self.event_channels) > 1:
-            return True
-
-    def has_single_event_channel(self):
-        if len(self.event_channels) == 1:
-            return True

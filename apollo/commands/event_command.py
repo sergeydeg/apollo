@@ -5,7 +5,8 @@ from apollo.can import Can
 from apollo.embeds.time_zone_embed import TimeZoneEmbed
 from apollo.services import SendChannelSelect
 from apollo.models import Event, EventChannel, Guild
-from apollo.queries import find_or_create_guild, find_or_create_user
+from apollo.queries import find_or_create_guild
+from apollo.queries import find_or_create_user
 from apollo.time_zones import ISO_TIME_ZONES
 from apollo.translate import t
 
@@ -26,23 +27,42 @@ class EventCommand(commands.Cog):
     @commands.guild_only()
     async def event(self, ctx):
         """Create a new event"""
-        with self.bot.scoped_session() as session:
-            # Clean up event channels that may have been deleted
-            # while the bot was offline.
-            self.sync_event_channels.call(session, ctx.guild.id)
+        # Clean up event channels that may have been deleted
+        # while the bot was offline.
+        self.sync_event_channels.call(ctx.guild.id)
 
+        with self.bot.scoped_session() as session:
             guild = find_or_create_guild(session, ctx.guild.id)
 
-            if not Can(ctx.author, guild).event():
-                return await ctx.send(t("error.missing_permissions"))
+        if not Can(ctx.author, guild).event():
+            return await ctx.send(t("error.missing_permissions"))
 
-            event = await self._get_event_from_user(ctx, session)
-            channel = self.bot.get_channel(event.event_channel.id)
+        with self.bot.scoped_session() as session:
+            event_channels = (
+                session.query(EventChannel).filter_by(guild_id=ctx.guild.id).all()
+            )
+            organizer = find_or_create_user(session, ctx.author.id)
 
-            await ctx.author.send(t("event.created").format(channel.mention))
+        event = Event()
+        event.title = await self._get_title_from_user(ctx)
+        event.description = await self._get_desc_from_user(ctx)
+        event.capacity = await self._get_capacity_from_user(ctx)
+        event.event_channel = await self._get_event_channel(ctx, event_channels)
+        event.time_zone = await self._get_time_zone(ctx)
+        event.start_time = await self._get_start_time(ctx, event.time_zone)
 
+        channel = self.bot.get_channel(event.event_channel.id)
+        await ctx.author.send(t("event.created").format(channel.mention))
+
+        with self.bot.scoped_session() as session:
             session.add(event)
-            events = event.event_channel.events
+
+        with self.bot.scoped_session() as session:
+            events = (
+                session.query(Event)
+                .filter_by(event_channel_id=event.event_channel_id)
+                .all()
+            )
 
         await self.list_events.call(events, channel)
 
@@ -88,14 +108,12 @@ class EventCommand(commands.Cog):
                     t("event.invalid_description").format(self.MAX_DESC_LENGTH)
                 )
 
-    async def _get_event_channel(self, ctx, session):
+    async def _get_event_channel(self, ctx, event_channels):
         """Find or create the event channel for the current guild"""
-        guild = find_or_create_guild(session, ctx.guild.id)
-
-        if guild.has_single_event_channel():
-            return guild.event_channels[0]
-        elif guild.has_multiple_event_channels():
-            return await self._choose_event_channel(ctx, guild.event_channels)
+        if len(event_channels) == 1:
+            return event_channels[0]
+        elif len(event_channels) > 1:
+            return await self._choose_event_channel(ctx, event_channels)
         else:
             channel = await self.bot.create_discord_event_channel(
                 ctx.guild, ctx.channel.category
@@ -148,18 +166,6 @@ class EventCommand(commands.Cog):
                 await ctx.author.send(
                     t("event.invalid_title").format(self.MAX_TITLE_LENGTH)
                 )
-
-    async def _get_event_from_user(self, ctx, session):
-        """Create an event with user input via private messages"""
-        event = Event()
-        event.organizer = find_or_create_user(session, ctx.author.id)
-        event.title = await self._get_title_from_user(ctx)
-        event.description = await self._get_desc_from_user(ctx)
-        event.capacity = await self._get_capacity_from_user(ctx)
-        event.event_channel = await self._get_event_channel(ctx, session)
-        event.time_zone = await self._get_time_zone(ctx)
-        event.start_time = await self._get_start_time(ctx, event.time_zone)
-        return event
 
     def _valid_time_zone_input(self, value):
         return value.isdigit() and int(value) in range(1, len(ISO_TIME_ZONES) + 1)
