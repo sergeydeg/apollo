@@ -41,11 +41,12 @@ class EventCommand(commands.Cog):
             event_channels = (
                 session.query(EventChannel).filter_by(guild_id=ctx.guild.id).all()
             )
-            organizer = find_or_create_user(session, ctx.author.id)
+            user = find_or_create_user(session, ctx.author.id)
 
         event = Event()
         event.title = await self._get_title_from_user(ctx)
         event.description = await self._get_desc_from_user(ctx)
+        event.organizer = user
         event.capacity = await self._get_capacity_from_user(ctx)
         event.event_channel = await self._get_event_channel(ctx, event_channels)
         event.time_zone = await self._get_time_zone(ctx)
