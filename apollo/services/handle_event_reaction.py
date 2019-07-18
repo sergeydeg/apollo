@@ -37,9 +37,7 @@ class HandleEventReaction:
             with self.bot.scoped_session() as session:
                 apollo_user = find_or_create_user(session, payload.user_id)
 
-            await self.request_local_start_time.call(
-                apollo_user, discord_user, event
-            )
+            await self.request_local_start_time.call(apollo_user, discord_user, event)
 
         if payload.emoji.name == emoji.SKULL:
             member = self.bot.find_guild_member(payload.guild_id, payload.user_id)

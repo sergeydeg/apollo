@@ -1,7 +1,15 @@
 from discord.errors import Forbidden
 
+
 class RequestLocalStartTime:
-    def __init__(self, scoped_session, format_date_time, time_zone_input, time_zone_embed, start_time_embed):
+    def __init__(
+        self,
+        scoped_session,
+        format_date_time,
+        time_zone_input,
+        time_zone_embed,
+        start_time_embed,
+    ):
         self.scoped_session = scoped_session
         self.format_date_time = format_date_time
         self.time_zone_input = time_zone_input
@@ -15,7 +23,9 @@ class RequestLocalStartTime:
             except Forbidden:
                 pass
 
-            apollo_user.time_zone = await self.time_zone_input.call(discord_user, discord_user.dm_channel)
+            apollo_user.time_zone = await self.time_zone_input.call(
+                discord_user, discord_user.dm_channel
+            )
             with self.scoped_session.call() as session:
                 session.add(apollo_user)
 

@@ -1,6 +1,7 @@
 from apollo.time_zones import ISO_TIME_ZONES
 from apollo.translate import t
 
+
 class TimeZoneInput:
     def __init__(self, bot):
         self.bot = bot

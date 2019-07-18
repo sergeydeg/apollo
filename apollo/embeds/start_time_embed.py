@@ -13,4 +13,3 @@ class StartTimeEmbed:
         embed.color = EMBED_COLOR
         embed.description = t("event.local_start_time").format(formatted_start_time)
         return embed
-
