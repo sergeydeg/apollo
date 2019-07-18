@@ -81,16 +81,6 @@ class EventEmbed:
     def _formatted_start_time(self, event):
         start_time = event.local_start_time.format("ddd MMM Do, YYYY @ h:mm A")
         time_zone = event.local_start_time.tzname()
-
-        # sometimes there's no adequate abbreviation for tz
-        if any(char.isdigit() for char in time_zone):
-            if len(time_zone) == 3:
-                # will look like 'UTC+03' for example
-                time_zone = "UTC" + time_zone
-            else:
-                # there are tznames like '+0120', '0830' etc. Just don't show them
-                return f"{start_time}"
-
         return f"{start_time} {time_zone}"
 
     def _accepted_header(self, event_capacity, accepted_count):
