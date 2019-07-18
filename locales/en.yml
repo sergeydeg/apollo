@@ -29,6 +29,8 @@ event:
     "Invalid time zone entry. Enter the number beside your time zone:"
   invalid_title:
     "Event title must be less than {} characters. Try again:"
+  local_start_time:
+    "Local start time: **{}**"
   standby:
     Standby
   start_time_prompt:

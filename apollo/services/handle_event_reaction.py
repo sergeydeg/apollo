@@ -38,7 +38,7 @@ class HandleEventReaction:
                 apollo_user = find_or_create_user(session, payload.user_id)
 
             await self.request_local_start_time.call(
-                apollo_user, discord_user, event.utc_start_time
+                apollo_user, discord_user, event
             )
 
         if payload.emoji.name == emoji.SKULL:

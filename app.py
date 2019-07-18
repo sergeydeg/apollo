@@ -50,11 +50,12 @@ time_zone_input = TimeZoneInput(apollo)
 about_embed = AboutEmbed()
 event_embed = EventEmbed()
 help_embed = HelpEmbed()
+start_time_embed = StartTimeEmbed()
 time_zone_embed = TimeZoneEmbed()
 
 # Initialize services
 format_date_time = FormatDateTime()
-request_local_start_time = RequestLocalStartTime(scoped_session, format_date_time, time_zone_input, time_zone_embed)
+request_local_start_time = RequestLocalStartTime(scoped_session, format_date_time, time_zone_input, time_zone_embed, start_time_embed)
 update_event = UpdateEvent(apollo, event_embed)
 update_response = UpdateResponse(apollo)
 sync_event_channels = SyncEventChannels(apollo)
