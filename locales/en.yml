@@ -115,6 +115,8 @@ time_zone:
     Enter your time zone's number
   footer:
     If your time zone is missing, [let us know]({})!
+  updated:
+    "Your time zone has been set to: **{}**"
 
 time_zones:
   america/los_angeles: Pacific Time (US & Canada)

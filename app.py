@@ -13,6 +13,7 @@ from apollo.embeds import *
 from apollo.events import *
 from apollo.tasks import *
 from apollo.services import *
+from apollo.input import *
 
 # Load .env file
 env_path = Path(".") / ".env"
@@ -42,10 +43,14 @@ cache.load_prefixes()
 # Initialize bot
 apollo = Apollo(Session, cache)
 
+# Initialze input services
+time_zone_input = TimeZoneInput(apollo)
+
 # Initialize embeds
 about_embed = AboutEmbed()
 event_embed = EventEmbed()
 help_embed = HelpEmbed()
+time_zone_embed = TimeZoneEmbed()
 
 # Initialize services
 format_date_time = FormatDateTime()
@@ -75,6 +80,7 @@ apollo.add_cog(EventCommand(apollo, list_events, sync_event_channels))
 apollo.add_cog(HelpCommand(apollo, help_embed))
 apollo.add_cog(PrefixCommand(apollo))
 apollo.add_cog(RoleCommand(apollo))
+apollo.add_cog(TimeZoneCommand(apollo, time_zone_embed, time_zone_input))
 
 # Add checks
 apollo.add_check(NotEventChannel(apollo))
