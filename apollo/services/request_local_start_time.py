@@ -1,21 +1,24 @@
 from discord.errors import Forbidden
 
 class RequestLocalStartTime:
-    def __init__(self, scoped_session, format_date_time, prompt_time_zone):
+    def __init__(self, scoped_session, format_date_time, time_zone_input, time_zone_embed):
         self.scoped_session = scoped_session
         self.format_date_time = format_date_time
-        self.prompt_time_zone = prompt_time_zone
+        self.time_zone_input = time_zone_input
+        self.time_zone_embed = time_zone_embed
 
     async def call(self, apollo_user, discord_user, utc_start_time):
         if not apollo_user.time_zone:
-            apollo_user.time_zone = await self.prompt_time_zone.call(discord_user)
+            try:
+                await discord_user.send(embed=self.time_zone_embed.call())
+            except Forbidden:
+                pass
+
+            apollo_user.time_zone = await self.time_zone_input.call(discord_user, discord_user.dm_channel)
             with self.scoped_session.call() as session:
                 session.add(apollo_user)
 
         local_start_time = utc_start_time.to(apollo_user.time_zone)
         formatted_local_start_time = self.format_date_time.call(local_start_time)
 
-        try:
-            await discord_user.send(formatted_local_start_time)
-        except Forbidden:
-            pass
+        await discord_user.send(formatted_local_start_time)
