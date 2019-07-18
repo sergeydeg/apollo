@@ -27,6 +27,11 @@ class HandleEventReaction:
         channel = self.bot.get_channel(payload.channel_id)
 
         if payload.emoji.name == emoji.CLOCK:
+            # We generally clear the reaction later on, but as we could we
+            # waiting on the user to input a time zone, we don't want this
+            # reaction to hang around for too long.
+            await self.bot.remove_reaction(payload)
+
             discord_user = self.bot.get_user(payload.user_id)
 
             with self.bot.scoped_session() as session:
