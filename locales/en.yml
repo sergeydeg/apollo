@@ -126,6 +126,12 @@ time_zones:
   america/mexico_city: Central Time (US & Canada)
   america/detroit: Eastern Time (US & Canada)
   america/phoenix: Arizona Time (US)
+  america/rio_branco: Acre (Brazil)
+  america/manaus: Amazonas (Brazil)
+  america/cuiaba: Mato Grosso (Brazil)
+  america/bahia: Bahia (Brazil)
+  america/sao_paulo: Sao Paulo (Brazil)
+  america/noronha: Fernando de Noronha (Brazil)
   australia/adelaide: South Australia
   australia/brisbane: Queensland (Australia)
   australia/darwin: Northern Territory (Australia)
