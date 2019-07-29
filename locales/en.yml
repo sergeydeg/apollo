@@ -143,7 +143,9 @@ time_zones:
   europe/paris: Central Europe
   europe/sofia: Eastern Europe
   europe/moscow: Moscow Standard Time
+  asia/seoul: Korea Standard Time
   asia/singapore: Singapore Time
+  asia/tokyo: Japan Standard Time
   pacific/auckland: New Zealand
   etc/gmt: UTC
 
