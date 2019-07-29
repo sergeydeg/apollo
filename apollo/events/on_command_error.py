@@ -26,7 +26,7 @@ class OnCommandError(commands.Cog):
             pass
         elif isinstance(error, commands.CommandInvokeError):
             if isinstance(error.original, asyncio.TimeoutError):
-                await ctx.author.send(t("error.timeout"))
+                await ctx.channel.send(t("error.timeout"))
             elif isinstance(error.original, Forbidden):
                 if error.original.text == "Cannot send messages to this user":
                     await ctx.send(t("error.cannot_private_message"))
