@@ -25,5 +25,5 @@ ISO_TIME_ZONES = [
     "Asia/Singapore",
     "Asia/Tokyo",
     "Pacific/Auckland",
-    "Etc/GMT",
+    "Etc/UTC",
 ]

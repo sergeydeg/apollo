@@ -147,7 +147,7 @@ time_zones:
   asia/singapore: Singapore Time
   asia/tokyo: Japan Standard Time
   pacific/auckland: New Zealand
-  etc/gmt: UTC
+  etc/utc: UTC
 
 error:
   cannot_private_message:
