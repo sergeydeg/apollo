@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from apollo.can import Can
+from apollo.permissions import HavePermission
 from apollo.models import EventChannel
 from apollo.queries import find_or_create_guild
 from apollo.queries import event_channel_count_for_guild
@@ -21,7 +21,7 @@ class ChannelCommand(commands.Cog):
         with self.bot.scoped_session() as session:
             guild = find_or_create_guild(session, ctx.guild.id)
 
-        if not Can(ctx.author, guild).channel():
+        if not HavePermission(ctx.author, guild).channel():
             return await ctx.send(t("error.missing_permissions"))
 
         with self.bot.scoped_session() as session:

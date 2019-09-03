@@ -1,7 +1,8 @@
 import discord
 
 
-class Can:
+class HavePermission:
+    """Checks whether a user has the necessary permission to perform an action"""
     def __init__(self, discord_member, guild):
         self.discord_member = discord_member
         self.guild = guild

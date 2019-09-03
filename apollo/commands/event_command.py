@@ -1,7 +1,7 @@
 import arrow
 from discord.ext import commands
 
-from apollo.can import Can
+from apollo.permissions import HavePermission
 from apollo.embeds.time_zone_embed import TimeZoneEmbed
 from apollo.services import SendChannelSelect
 from apollo.models import Event, EventChannel, Guild
@@ -34,7 +34,7 @@ class EventCommand(commands.Cog):
         with self.bot.scoped_session() as session:
             guild = find_or_create_guild(session, ctx.guild.id)
 
-        if not Can(ctx.author, guild).event():
+        if not HavePermission(ctx.author, guild).event():
             return await ctx.send(t("error.missing_permissions"))
 
         with self.bot.scoped_session() as session:
