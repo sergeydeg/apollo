@@ -7,5 +7,5 @@ from . import Base
 class User(Base):
     __tablename__ = "users"
     id = Column(BigInteger, primary_key=True)
-    time_zone = Column(String(32))
+    time_zone = Column(String(50))
     events = relationship("Event", back_populates="organizer")
