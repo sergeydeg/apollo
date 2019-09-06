@@ -1,6 +1,7 @@
-from apollo.models import Event, EventChannel, Guild
 from contextlib import contextmanager
 
+from apollo.constants import DEFAULT_PREFIX
+from apollo.models import Event, EventChannel, Guild
 
 class Cache:
     def __init__(self, Session):
@@ -25,7 +26,7 @@ class Cache:
         self.prefixes.pop(guild_id)
 
     def get_prefix(self, guild_id):
-        return self.prefixes[guild_id]
+        return self.prefixes.get(guild_id, DEFAULT_PREFIX)
 
     def load_prefixes(self):
         with self.scoped_session() as session:
