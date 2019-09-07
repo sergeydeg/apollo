@@ -1,0 +1,18 @@
+version: "2.1"
+services:
+  app:
+    build: .
+  db:
+    image: mysql:5.7
+    restart: always
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-db:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: 'apollo'
+volumes:
+  mysql-db:
+
