@@ -20,14 +20,17 @@ env_path = Path(".") / ".env"
 load_dotenv(dotenv_path=env_path)
 
 env = os.getenv("ENV", "develop")
-db_user = os.getenv("DB_USER", "root")
-db_pass = os.getenv("DB_PASS", "")
-db_name = os.getenv("DB_NAME", "apollo")
+db_user = os.getenv("DB_USER")
+db_pass = os.getenv("DB_PASS")
+db_name = os.getenv("DB_NAME")
+db_host = os.getenv("DB_HOST")
+db_port = os.getenv("DB_PORT")
 
 engine = create_engine(
-    f"mysql://{db_user}:{db_pass}@localhost/{db_name}?charset=utf8mb4",
+    f"mysql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}?charset=utf8mb4",
     pool_recycle=3600,
 )
+
 if env == "develop":
     engine.echo = True
 
