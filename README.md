@@ -14,42 +14,35 @@ There is also a [project board](https://trello.com/b/c0RplRku/apollo) on Trello 
 
 ## Development Environment
 
-The following outlines the steps for setting up a local installation of Apollo for development purposes.
+First, you'll want to get [Docker Compose](https://docs.docker.com/compose/install/) up and running. You are of course welcome to run the
+bot without Docker, though I would encourage you to give it a try.
 
-### Prerequisites
-- Python 3.5.2+
-- Pipenv
-- MySQL server
-
-### Installation
-The Python environment can be easily setup with pipenv:
+Once that's done, we can build our image from the root directory of Apollo with:
 ```
-pipenv install
-pipenv shell
+docker-compose build
 ```
 
-### Environment Variables
+Before we can run the application, we'll need to ensure that our environment variables are set up correctly. The easiest way to do this is
+to make a copy of [`.env.example`](https://github.com/jgayfer/apollo/blob/master/.env.example) as `.env`. in the root directory of Apollo.
 
-Apollo requires several environment variables in order to function. The quickest way to get
-up and running will be create an `.env` file in the root directory and populate it with the
-contants of [`.env.example`](https://github.com/jgayfer/apollo/blob/master/.env.example)
+For a default install using Docker, the only thing you'll need to provide here is your bot token. You can get one of these by heading over
+to https://discordapp.com/developers/applications and creating a new application.
 
-You will need to set the `BOT_TOKEN` environment variable to the token of your Discord bot.
-
-The database is setup to connect to `localhost` with the the `root` user (no password).
-If your database setup is different from this, you will need to uncomment and modify the commented out
-database environment variables found in [`.env.example`](https://github.com/jgayfer/apollo/blob/master/.env.example)
-
-### Database
-
-Assuming our database credentials are correctly configured in `.env`, the database be be initialized with:
+Now that all of our credentials are set, we can start the application. Note that the `-d` flag will cause the database to run in the background.
 ```
-python bin/setup_db.py
+docker-compose up -d db
+
+# Create database tables (only needs to be run once)
+docker-compose run app pipenv run python bin/setup_db.py
+
+# Run migrations if necessary
+docker-compose run app pipenv run alembic upgrade head
+
+docker-compose up app
 ```
 
-### Running the bot
+Note that with each code change, we'll need to rebuild with `docker-compose build` (don't worry, it's super quick).
 
-The app can then be run with:
-```
-python app.py
-```
+Assuming all has gone well, we're ready to invite the bot to a Discord server. All we need to do it visit this link, with our bot's client ID
+substitued in for `CLIENT_ID_HERE`: https://discordapp.com/oauth2/authorize?client_id=CLIENT_ID_HERE&scope=bot&permissions=355408
+
