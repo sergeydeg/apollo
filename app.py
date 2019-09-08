@@ -47,6 +47,11 @@ cache.load_prefixes()
 apollo = Apollo(Session, cache)
 
 # Initialze input services
+capacity_input = CapacityInput(apollo)
+description_input = DescriptionInput(apollo)
+event_time_zone_input = EventTimeZoneInput(apollo)
+start_time_input = StartTimeInput(apollo)
+title_input = TitleInput(apollo)
 time_zone_input = TimeZoneInput(apollo)
 
 # Initialize embeds
@@ -82,7 +87,18 @@ apollo.add_cog(OnReady(apollo))
 # Add commands
 apollo.add_cog(AboutCommand(apollo, about_embed))
 apollo.add_cog(ChannelCommand(apollo, list_events))
-apollo.add_cog(EventCommand(apollo, list_events, sync_event_channels))
+apollo.add_cog(
+    EventCommand(
+        apollo,
+        list_events,
+        sync_event_channels,
+        capacity_input,
+        description_input,
+        start_time_input,
+        event_time_zone_input,
+        title_input,
+    )
+)
 apollo.add_cog(HelpCommand(apollo, help_embed))
 apollo.add_cog(PrefixCommand(apollo))
 apollo.add_cog(RoleCommand(apollo))
