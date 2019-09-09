@@ -17,7 +17,6 @@ pyyaml = "*"
 dblpy = "==0.1.6"
 
 [dev-packages]
-pylint = "*"
 black = "*"
 
 [requires]
