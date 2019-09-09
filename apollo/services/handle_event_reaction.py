@@ -45,7 +45,10 @@ class HandleEventReaction:
             with self.bot.scoped_session() as session:
                 guild = find_or_create_guild(session, payload.guild_id)
 
-            if event.organizer_id != member.id and not HavePermission(member, guild).delete():
+            if (
+                event.organizer_id != member.id
+                and not HavePermission(member, guild).delete()
+            ):
                 return await member.send("You don't have permission to do that.")
 
             with self.bot.scoped_session() as session:

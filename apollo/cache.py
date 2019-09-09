@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from apollo.constants import DEFAULT_PREFIX
 from apollo.models import Event, EventChannel, Guild
 
+
 class Cache:
     def __init__(self, Session):
         self.Session = Session
