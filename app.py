@@ -49,7 +49,6 @@ apollo = Apollo(Session, cache)
 # Initialze input services
 capacity_input = CapacityInput(apollo)
 description_input = DescriptionInput(apollo)
-event_time_zone_input = EventTimeZoneInput(apollo)
 start_time_input = StartTimeInput(apollo)
 title_input = TitleInput(apollo)
 time_zone_input = TimeZoneInput(apollo)
@@ -95,7 +94,7 @@ apollo.add_cog(
         capacity_input,
         description_input,
         start_time_input,
-        event_time_zone_input,
+        time_zone_input,
         title_input,
     )
 )

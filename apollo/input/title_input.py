@@ -8,15 +8,17 @@ class TitleInput:
     def __init__(self, bot):
         self.bot = bot
 
-    async def call(self, ctx, update=False):
-        if update:
-            await ctx.author.send(t("event.update_title_prompt"))
-        else:
-            await ctx.author.send(t("event.title_prompt"))
+    async def call(self, user, channel):
+        """
+        Get title from user
+        :param user: Member, e.g. context.author
+        :param channel: Messageable, e.g. context.author.dmchannel
+        :return: str
+        """
 
         while True:
-            title = (await self.bot.get_next_pm(ctx.author)).content
+            title = (await self.bot.get_next_message(user, channel)).content
             if len(title) <= MAX_TITLE_LENGTH:
                 return title
             else:
-                await ctx.author.send(t("event.invalid_title").format(MAX_TITLE_LENGTH))
+                await user.send(t("event.invalid_title").format(MAX_TITLE_LENGTH))
