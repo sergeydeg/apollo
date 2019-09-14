@@ -7,6 +7,12 @@ class TimeZoneInput:
         self.bot = bot
 
     async def call(self, user, channel):
+        """
+        Retrieve a timezone from the user
+        :param user: Member, e.g. context.author
+        :param channel: Messageable, e.g. context.author.dmchannel
+        :return: str
+        """
         while True:
             resp = (await self.bot.get_next_message(user, channel)).content
 
