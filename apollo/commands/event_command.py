@@ -62,19 +62,27 @@ class EventCommand(commands.Cog):
         event.title = await self.title_input.call(ctx.author, ctx.author.dm_channel)
 
         await ctx.author.send(t("event.description_prompt"))
-        event.description = await self.description_input.call(ctx.author, ctx.author.dm_channel)
+        event.description = await self.description_input.call(
+            ctx.author, ctx.author.dm_channel
+        )
         event.organizer = user
 
         await ctx.author.send(t("event.capacity_prompt"))
-        event.capacity = await self.capacity_input.call(ctx.author, ctx.author.dm_channel)
+        event.capacity = await self.capacity_input.call(
+            ctx.author, ctx.author.dm_channel
+        )
 
         event.event_channel = await self._get_event_channel(ctx, event_channels)
 
         await ctx.author.send(embed=TimeZoneEmbed().call())
-        event.time_zone = await self.time_zone_input.call(ctx.author, ctx.author.dm_channel)
+        event.time_zone = await self.time_zone_input.call(
+            ctx.author, ctx.author.dm_channel
+        )
 
         await ctx.author.send(t("event.start_time_prompt"))
-        event.start_time = await self.start_time_input.call(ctx.author, ctx.author.dm_channel, event.time_zone)
+        event.start_time = await self.start_time_input.call(
+            ctx.author, ctx.author.dm_channel, event.time_zone
+        )
 
         channel = self.bot.get_channel(event.event_channel.id)
         await ctx.author.send(t("event.created").format(channel.mention))
