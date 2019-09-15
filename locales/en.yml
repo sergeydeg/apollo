@@ -125,6 +125,7 @@ time_zones:
   america/denver: Mountain Time (US & Canada)
   america/mexico_city: Central Time (US & Canada)
   america/detroit: Eastern Time (US & Canada)
+  america/halifax: Atlantic Time (Canada)
   america/phoenix: Arizona Time (US)
   america/rio_branco: Acre (Brazil)
   america/manaus: Amazonas (Brazil)
