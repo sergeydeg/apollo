@@ -152,6 +152,13 @@ time_zones:
   pacific/auckland: New Zealand
   etc/utc: UTC
 
+asia: Asia
+europe: Europe
+middle_east: Middle East
+north_america: North America
+oceania: Oceania
+south_america: South America
+
 error:
   cannot_private_message:
     I tried to send you a message, but it looks like you need to enable
