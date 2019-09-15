@@ -19,6 +19,7 @@ ISO_TIME_ZONES = [
     "Australia/Sydney",
     "Asia/Kolkata",
     "Asia/Riyadh",
+    "Asia/Tehran",
     "Europe/London",
     "Europe/Paris",
     "Europe/Sofia",
