@@ -121,28 +121,28 @@ time_zone:
     "Your time zone has been set to: **{}**"
 
 time_zones:
-  america/los_angeles: Pacific Time (US & Canada)
-  america/denver: Mountain Time (US & Canada)
-  america/mexico_city: Central Time (US & Canada)
-  america/detroit: Eastern Time (US & Canada)
-  america/halifax: Atlantic Time (Canada)
-  america/st_johns: Newfoundland Time (Canada)
-  america/phoenix: Arizona Time (US)
-  america/rio_branco: Acre (Brazil)
-  america/manaus: Amazonas (Brazil)
-  america/cuiaba: Mato Grosso (Brazil)
-  america/bahia: Bahia (Brazil)
-  america/sao_paulo: Sao Paulo (Brazil)
-  america/noronha: Fernando de Noronha (Brazil)
+  america/los_angeles: Pacific Time
+  america/denver: Mountain Time
+  america/mexico_city: Central Time
+  america/detroit: Eastern Time
+  america/halifax: Atlantic Time
+  america/st_johns: Newfoundland Time
+  america/phoenix: Arizona Time
+  america/rio_branco: Acre
+  america/manaus: Amazonas
+  america/cuiaba: Mato Grosso
+  america/bahia: Bahia
+  america/sao_paulo: Sao Paulo
+  america/noronha: Fernando de Noronha
   australia/adelaide: South Australia
-  australia/brisbane: Queensland (Australia)
-  australia/darwin: Northern Territory (Australia)
+  australia/brisbane: Queensland
+  australia/darwin: Northern Territory
   australia/perth: Western Australia
-  australia/sydney: New South Wales (Australia)
+  australia/sydney: New South Wales
   asia/kolkata: Indian Standard Time
   asia/riyadh: Arabia Standard Time
   asia/tehran: Iran Standard Time
-  europe/london: Western Europe (UK & Portugal)
+  europe/london: Western Europe
   europe/paris: Central Europe
   europe/sofia: Eastern Europe
   europe/moscow: Moscow Standard Time
@@ -151,6 +151,13 @@ time_zones:
   asia/tokyo: Japan Standard Time
   pacific/auckland: New Zealand
   etc/utc: UTC
+
+asia: Asia
+europe: Europe
+middle_east: Middle East
+north_america: North America
+oceania: Oceania
+south_america: South America
 
 error:
   cannot_private_message:

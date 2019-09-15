@@ -15,12 +15,18 @@ class TimeZoneEmbed:
         embed = discord.Embed()
         embed.color = EMBED_COLOR
         embed.title = t("time_zone.title")
+        embed.description = t("time_zone.footer").format(self.INVITE)
 
-        embed.description = ""
-        for i, iso_time_zone in enumerate(ISO_TIME_ZONES, 1):
-            time_zone_name = t("time_zones.{}".format(iso_time_zone.lower()))
-            embed.description += "**{}** {}\n".format(i, time_zone_name)
-        embed.description += "\n"
-        embed.description += t("time_zone.footer").format(self.INVITE)
+        time_zone_index = 1
+
+        for region, time_zones in ISO_TIME_ZONES.items():
+            time_zone_list = ""
+
+            for time_zone in time_zones:
+                time_zone_name = t("time_zones.{}".format(time_zone.lower()))
+                time_zone_list += "**{}** {}\n".format(time_zone_index, time_zone_name)
+                time_zone_index += 1
+
+            embed.add_field(name=t(region), value=time_zone_list)
 
         return embed
