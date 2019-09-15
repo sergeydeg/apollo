@@ -126,6 +126,7 @@ time_zones:
   america/mexico_city: Central Time (US & Canada)
   america/detroit: Eastern Time (US & Canada)
   america/halifax: Atlantic Time (Canada)
+  america/st_johns: Newfoundland Time (Canada)
   america/phoenix: Arizona Time (US)
   america/rio_branco: Acre (Brazil)
   america/manaus: Amazonas (Brazil)

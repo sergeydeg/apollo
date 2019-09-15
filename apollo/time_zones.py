@@ -4,6 +4,7 @@ ISO_TIME_ZONES = [
     "America/Mexico_City",
     "America/Detroit",
     "America/Halifax",
+    "America/St_Johns",
     "America/Phoenix",
     "America/Rio_Branco",
     "America/Manaus",
