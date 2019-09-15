@@ -60,4 +60,3 @@ def total_event_count(session):
 
 def responses_for_event(session, event_id):
     return session.query(Response).filter_by(event_id=event_id).all()
-
