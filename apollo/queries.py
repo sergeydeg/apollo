@@ -50,13 +50,13 @@ def find_response(session, user_id, event_id):
     return session.query(Response).filter_by(event_id=event_id, user_id=user_id).first()
 
 
+def responses_for_event(session, event_id):
+    return session.query(Response).filter_by(event_id=event_id).all()
+
+
 def total_user_count(session):
     return _get_count(session.query(User))
 
 
 def total_event_count(session):
     return _get_count(session.query(Event))
-
-
-def responses_for_event(session, event_id):
-    return session.query(Response).filter_by(event_id=event_id).all()
