@@ -20,7 +20,7 @@ class CapacityInput:
             resp = (await self.bot.get_next_message(user, channel)).content
             if resp.upper() == "NONE":
                 return None
-            elif resp.isdigit() and int(resp) in range(1, MAX_CAPACITY):
+            elif resp.isdigit() and int(resp) in range(1, MAX_CAPACITY + 1):
                 return int(resp)
             else:
                 await channel.send(t("event.invalid_capacity").format(MAX_CAPACITY))
