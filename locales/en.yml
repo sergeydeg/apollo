@@ -19,6 +19,8 @@ event:
     "Enter the event description (type `None` for no description):"
   declined:
     Declined
+  event_selection_error:
+    "Unknown input. Please enter a number corresponding to the event"
   invalid_description:
     "Event description must be less than {} characters. Try again:"
   invalid_capacity:
@@ -31,6 +33,8 @@ event:
     "Event title must be less than {} characters. Try again:"
   local_start_time:
     "Local start time: **{}**"
+  query_events_list:
+    "Please select the number of the event from the list below"
   standby:
     Standby
   start_time_prompt:
@@ -47,6 +51,14 @@ event:
     "Enter the event title:"
   unknown_user:
     Unknown User
+  update_description_prompt:
+    "Update the event description or type \"None\" to keep the current description:"
+  update_time_prompt:
+    "Update the event start time or type \"None\" to keep the current time:"
+  update_title_prompt:
+    "Update the event title or type \"None\" to keep the current title:"
+  updated:
+    "Event has been updated."
 
 prefix:
   changed:

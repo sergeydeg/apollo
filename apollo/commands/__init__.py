@@ -5,3 +5,4 @@ from .help_command import HelpCommand
 from .prefix_command import PrefixCommand
 from .role_command import RoleCommand
 from .time_zone_command import TimeZoneCommand
+from .edit_command import EditCommand
