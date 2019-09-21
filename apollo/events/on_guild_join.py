@@ -1,6 +1,7 @@
 from discord.ext import commands
 
 from apollo.queries import find_or_create_guild
+from apollo.translate import t
 
 
 class OnGuildJoin(commands.Cog):
@@ -14,3 +15,5 @@ class OnGuildJoin(commands.Cog):
 
         # Add entry for guild prefix in the cache
         self.bot.cache.update_prefix(guild.id, None)
+
+        await guild.owner.send(t("welcome_message").format(guild.name))

@@ -170,5 +170,16 @@ error:
   timeout:
     I'm not sure where you went. We can try this again later.
 
+welcome_message: >
+  You're receiving this message because you or one of your admins added
+  Apollo to **{}**.
+
+
+  To get started, create an event with the `!event` command from within a
+  server that Apollo belongs to.
+
+
+  For more information on how to use Apollo, use the `!help` command.
+
 apollo:
   Apollo
