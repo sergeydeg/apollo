@@ -40,7 +40,7 @@ class EditCommand(commands.Cog):
 
         await ctx.author.send(t("event.query_events_list"))
         event = await self.event_selection_input.call(
-            ctx.author, ctx.author.dm_channel, guild
+            ctx.author, ctx.author.dm_channel, guild, 'editable'
         )
 
         with self.bot.scoped_session() as session:
