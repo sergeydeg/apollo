@@ -52,11 +52,11 @@ event:
   unknown_user:
     Unknown User
   update_description_prompt:
-    "Update the event description or type \"None\" to keep the current description:"
+    "Update the event description or type `None` to keep the current description:"
   update_time_prompt:
-    "Update the event start time or type \"None\" to keep the current time:"
+    "Update the event start time or type `None` to keep the current time:"
   update_title_prompt:
-    "Update the event title or type \"None\" to keep the current title:"
+    "Update the event title or type `None` to keep the current title:"
   updated:
     "Event has been updated."
 

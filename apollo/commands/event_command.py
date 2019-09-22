@@ -10,10 +10,6 @@ from apollo.translate import t
 
 
 class EventCommand(commands.Cog):
-    MAX_CAPACITY = 40
-    MAX_DESC_LENGTH = 1000
-    MAX_TITLE_LENGTH = 200
-
     TIME_ZONE_INVITE = "https://discord.gg/PQXA2ys"
 
     def __init__(

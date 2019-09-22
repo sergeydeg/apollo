@@ -57,6 +57,7 @@ time_zone_input = TimeZoneInput(apollo)
 # Initialize embeds
 about_embed = AboutEmbed()
 event_embed = EventEmbed()
+event_list_embed = EventListEmbed()
 help_embed = HelpEmbed()
 start_time_embed = StartTimeEmbed()
 time_zone_embed = TimeZoneEmbed()
@@ -113,6 +114,7 @@ apollo.add_cog(
         description_input,
         capacity_input,
         start_time_input,
+        event_list_embed,
     )
 )
 
