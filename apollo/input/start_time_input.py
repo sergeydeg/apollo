@@ -16,7 +16,9 @@ class StartTimeInput:
         :return: Arrow object
         """
         while True:
-            start_time_str = (await self.bot.get_next_message(user, channel)).content
+            start_time_str = (
+                await self.bot.get_next_message(user, channel)
+            ).content.upper()
             if update and start_time_str.upper() == "NONE":
                 return None
             try:
