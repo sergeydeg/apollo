@@ -10,8 +10,8 @@ class RoleCommand(commands.Cog):
         self.bot = bot
 
     @commands.group()
-    @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
     async def role(self, ctx):
         """Change the minimum role required to perform various actions"""
         # This is a placeholder until we have support for sub command help

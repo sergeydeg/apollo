@@ -9,8 +9,8 @@ class PrefixCommand(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
     async def prefix(self, ctx, new_prefix):
         """Update the server's command prefix"""
         with self.bot.scoped_session() as session:
