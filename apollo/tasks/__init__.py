@@ -1,1 +1,2 @@
 from .sync_discord_bots import SyncDiscordBots
+from .automatic_reminders import AutomaticReminders

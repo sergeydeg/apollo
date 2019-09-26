@@ -59,6 +59,7 @@ event_embed = EventEmbed()
 help_embed = HelpEmbed()
 start_time_embed = StartTimeEmbed()
 time_zone_embed = TimeZoneEmbed()
+reminder_embed = ReminderEmbed()
 
 # Initialize services
 format_date_time = FormatDateTime()
@@ -73,6 +74,7 @@ list_events = ListEvents(apollo, list_event)
 handle_event_reaction = HandleEventReaction(
     apollo, update_event, update_response, request_local_start_time
 )
+send_event_reminders = SendEventReminders(apollo, reminder_embed)
 
 # Add events
 apollo.add_cog(OnCommandError(apollo))
@@ -107,6 +109,7 @@ apollo.add_cog(TimeZoneCommand(apollo, time_zone_embed, time_zone_input))
 apollo.add_check(NotEventChannel(apollo))
 
 # Add tasks
+apollo.add_cog(AutomaticReminders(apollo, send_event_reminders))
 if env == "production":
     apollo.add_cog(SyncDiscordBots(apollo, dbl.Client(apollo, os.getenv("DBL_TOKEN"))))
 
