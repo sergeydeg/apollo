@@ -50,6 +50,7 @@ apollo = Apollo(Session, cache)
 capacity_input = CapacityInput(apollo)
 description_input = DescriptionInput(apollo)
 event_selection_input = EventSelectionInput(apollo)
+selection_input = SelectionInput(apollo)
 start_time_input = StartTimeInput(apollo)
 title_input = TitleInput(apollo)
 time_zone_input = TimeZoneInput(apollo)
@@ -113,6 +114,7 @@ apollo.add_cog(
         title_input,
         description_input,
         capacity_input,
+        selection_input,
         start_time_input,
         event_list_embed,
     )

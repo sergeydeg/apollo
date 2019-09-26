@@ -25,6 +25,8 @@ event:
     "Event description must be less than {} characters. Try again:"
   invalid_capacity:
     "Entry must be between 1 and {} (or `None` for no limit). Try again:"
+  invalid_selection_error:
+    "Invalid selection. Please enter the number corresponding to the entry in the list"
   invalid_start_time:
     "Invalid start time. Try again:"
   invalid_time_zone:
@@ -35,6 +37,10 @@ event:
     "Local start time: **{}**"
   query_events_list:
     "Please select the number of the event from the list below"
+  query_event_fields:
+    "Please select the number of what you want to edit."
+  selection:
+    "Please select an option from below"
   standby:
     Standby
   start_time_prompt:

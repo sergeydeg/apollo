@@ -8,7 +8,7 @@ class EventSelectionInput:
     def __init__(self, bot):
         self.bot = bot
 
-    async def call(self, user, channel, guild, events=None):
+    async def call(self, user, channel, guild, events=None, title=None):
         """
         Send a list of events to the user and ask them to pick one.
         Note only sends a list, and does not send the prompt before it.
@@ -16,8 +16,12 @@ class EventSelectionInput:
         :param channel: Messageable
         :param guild: int, guild id
         :param events: str, Choice of editable, channel
+        :param title: str, if None, will default to generic
         :return: Event
         """
+        if title is None:
+            title = t("event.query_events_list")
+
         if events == "editable":
             events = self._editable_events(user, guild)
         elif events == "channel":
@@ -31,14 +35,14 @@ class EventSelectionInput:
             events_string += f"{index}: {event.title}\n"
             events_dict[index] = event
 
-        await channel.send(embed=EventListEmbed().call(events_string))
+        await channel.send(embed=EventListEmbed().call(events_string, title=title))
 
         return await self._get_event_from_user(user, events_dict)
 
     async def _get_event_from_user(self, user, events_dict):
         while True:
             resp = (await self.bot.get_next_pm(user, timeout=60)).content
-            if not resp.isdigit() and int(resp) not in events_dict.keys():
+            if not resp.isdigit() or int(resp) not in list(events_dict.keys()):
                 await user.send(t("event.event_selection_error"))
             else:
                 event = events_dict[int(resp)]

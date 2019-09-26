@@ -16,6 +16,7 @@ class EditCommand(commands.Cog):
         title_input,
         description_input,
         capacity_input,
+        selection_input,
         start_time_input,
         event_list_embed,
     ):
@@ -26,6 +27,7 @@ class EditCommand(commands.Cog):
         self.title_input = title_input
         self.description_input = description_input
         self.capacity_input = capacity_input
+        self.selection_input = selection_input
         self.start_time_input = start_time_input
         self.event_list_embed = event_list_embed
 
@@ -38,44 +40,57 @@ class EditCommand(commands.Cog):
         with self.bot.scoped_session() as session:
             guild = find_or_create_guild(session, ctx.guild.id)
 
-        await ctx.author.send(t("event.query_events_list"))
+        # Needed to create event dm channel
+        await ctx.author.create_dm()
         event = await self.event_selection_input.call(
             ctx.author, ctx.author.dm_channel, guild, "editable"
         )
 
-        with self.bot.scoped_session() as session:
-            channel = self.bot.get_channel(event.event_channel_id)
+        # Get Event Information
+        selections = {
+            "Title": event.title,
+            "Description": event.description,
+            "Capacity": event.capacity,
+            "Start Time": event.start_time,
+        }
 
-        await ctx.author.send(t("event.update_title_prompt"))
-        title = await self.title_input.call(ctx.author, ctx.author.dm_channel)
-
-        await ctx.author.send(t("event.update_description_prompt"))
-        description = await self.description_input.call(
-            ctx.author, ctx.author.dm_channel
+        selection = await self.selection_input.call(
+            ctx.author,
+            ctx.author.dm_channel,
+            selections,
+            title=t("event.query_event_fields"),
         )
 
-        await ctx.author.send(t("event.capacity_prompt"))
-        capacity = await self.capacity_input.call(ctx.author, ctx.author.dm_channel)
-
-        await ctx.author.send(t("event.update_time_prompt"))
-        start_time = await self.start_time_input.call(
-            ctx.author, ctx.author.dm_channel, event.time_zone, update=True
-        )
-
-        await ctx.author.send(t("event.updated"))
+        channel = self.bot.get_channel(event.event_channel_id)
 
         with self.bot.scoped_session() as session:
             event = session.query(Event).filter_by(id=event.id).first()
-            # Edit fields if the user wants them changed
-            if title.lower() != "none":
+
+            if selection == 1:
+                await ctx.author.send(t("event.update_title_prompt"))
+                title = await self.title_input.call(ctx.author, ctx.author.dm_channel)
                 event.title = title
-            if description.lower() != "none":
+
+            if selection == 2:
+                await ctx.author.send(t("event.update_description_prompt"))
+                description = await self.description_input.call(
+                    ctx.author, ctx.author.dm_channel
+                )
                 event.description = description
-            if capacity:
+
+            if selection == 3:
+                await ctx.author.send(t("event.capacity_prompt"))
+                capacity = await self.capacity_input.call(
+                    ctx.author, ctx.author.dm_channel
+                )
                 event.capacity = capacity
-            if start_time:
+
+            if selection == 4:
+                await ctx.author.send(t("event.update_time_prompt"))
+                start_time = await self.start_time_input.call(
+                    ctx.author, ctx.author.dm_channel, event.time_zone, update=True
+                )
                 event.start_time = start_time
-            session.commit()
 
             events = (
                 session.query(Event)
@@ -83,4 +98,5 @@ class EditCommand(commands.Cog):
                 .all()
             )
 
+        await ctx.author.send(t("event.updated"))
         await self.list_events.call(events, channel)
