@@ -78,6 +78,9 @@ role:
 
     To change this role, use: `{}role event <role>`
 
+reminder:
+  title: "REMINDER: Event starting soon!"
+
 select_channel:
   title:
     "Select an event channel:"
