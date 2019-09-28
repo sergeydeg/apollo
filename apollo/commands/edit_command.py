@@ -18,7 +18,7 @@ class EditCommand(commands.Cog):
         selection_input,
         start_time_input,
         event_list_embed,
-        update_event
+        update_event,
     ):
         self.bot = bot
         self.list_events = list_events
