@@ -20,5 +20,5 @@ class SelectionEmbed:
         """Handle fields for a dict"""
         for counter, data in enumerate(message_dict.items()):
             key, value = data
-            name = f"{counter + 1}: {key}"
+            name = f"**{counter + 1}** {key}"
             embed.add_field(name=name, value=value, inline=False)

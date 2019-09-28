@@ -14,6 +14,6 @@ class EventListEmbed:
         """Creates embed description"""
         events_string = ""
         for index, event in enumerate(events, start=1):
-            events_string += f"{index}: {event.title}\n"
+            events_string += f"**{index}** {event.title}\n"
 
         return events_string

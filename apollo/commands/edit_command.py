@@ -48,10 +48,12 @@ class EditCommand(commands.Cog):
         )
 
         # Get Event Information
+        description = event.description if event.description else "-"
+        capacity = event.capacity if event.capacity else "-"
         selections = {
             t("event.properties.title"): event.title,
-            t("event.properties.description"): event.description,
-            t("event.properties.capacity"): event.capacity,
+            t("event.properties.description"): description,
+            t("event.properties.capacity"): capacity,
             t("event.properties.start_time"): event.start_time,
         }
 
@@ -66,19 +68,19 @@ class EditCommand(commands.Cog):
             event = session.query(Event).filter_by(id=event.id).first()
 
             if selection == 1:
-                await ctx.author.send(t("event.update_title_prompt"))
+                await ctx.author.send(t("event.title_prompt"))
                 title = await self.title_input.call(ctx.author, ctx.author.dm_channel)
                 event.title = title
 
             if selection == 2:
-                await ctx.author.send(t("event.update_description_prompt"))
+                await ctx.author.send(t("event.description_prompt"))
                 description = await self.description_input.call(
                     ctx.author, ctx.author.dm_channel
                 )
                 event.description = description
 
             if selection == 3:
-                await ctx.author.send(t("event.capacity_prompt"))
+                await ctx.author.send(t("event.start_time_prompt"))
                 capacity = await self.capacity_input.call(
                     ctx.author, ctx.author.dm_channel
                 )
