@@ -35,6 +35,15 @@ event:
     "Event title must be less than {} characters. Try again:"
   local_start_time:
     "Local start time: **{}**"
+  properties:
+    capacity:
+      "Capacity"
+    description:
+      "Description"
+    start_time:
+      "Start Time"
+    title:
+      "Title"
   query_events_list:
     "Please select the number of the event from the list below"
   query_event_fields:

@@ -49,10 +49,10 @@ class EditCommand(commands.Cog):
 
         # Get Event Information
         selections = {
-            "Title": event.title,
-            "Description": event.description,
-            "Capacity": event.capacity,
-            "Start Time": event.start_time,
+            t("event.properties.title"): event.title,
+            t("event.properties.description"): event.description,
+            t("event.properties.capacity"): event.capacity,
+            t("event.properties.start_time"): event.start_time,
         }
 
         selection = await self.selection_input.call(
