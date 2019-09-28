@@ -29,13 +29,11 @@ class EventSelectionInput:
         else:
             events = self._guild_events(guild)
 
-        events_string = ""
         events_dict = {}
         for index, event in enumerate(events, start=1):
-            events_string += f"{index}: {event.title}\n"
             events_dict[index] = event
 
-        await channel.send(embed=EventListEmbed().call(events_string, title=title))
+        await channel.send(embed=EventListEmbed().call(events, title=title))
 
         return await self._get_event_from_user(user, events_dict)
 

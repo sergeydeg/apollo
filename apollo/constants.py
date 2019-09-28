@@ -2,5 +2,9 @@ import discord
 
 
 EMBED_COLOR = discord.Color.gold()
+MAX_CAPACITY = 40
+MAX_DESC_LENGTH = 1000
+MAX_TITLE_LENGTH = 200
+
 
 DEFAULT_PREFIX = "!"

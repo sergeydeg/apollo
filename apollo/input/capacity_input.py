@@ -1,5 +1,5 @@
 from apollo.translate import t
-from config import MAX_CAPACITY
+from apollo.constants import MAX_CAPACITY
 
 
 class CapacityInput:

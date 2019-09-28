@@ -1,5 +1,7 @@
 import discord
 
+from apollo.constants import EMBED_COLOR
+
 
 class SelectionEmbed:
     def call(self, message, title):
@@ -10,6 +12,7 @@ class SelectionEmbed:
         :return: discord Embed
         """
         embed = discord.Embed(title=title)
+        embed.colour = EMBED_COLOR
         self._handle_dict_fields(embed, message)
         return embed
 

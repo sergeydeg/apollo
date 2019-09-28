@@ -1,5 +1,5 @@
 from apollo.translate import t
-from config import MAX_DESC_LENGTH
+from apollo.constants import MAX_DESC_LENGTH
 
 
 class DescriptionInput:
