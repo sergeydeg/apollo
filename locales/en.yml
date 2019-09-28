@@ -45,11 +45,11 @@ event:
     title:
       "Title"
   query_events_list:
-    "Please select the number of the event from the list below"
+    "Please enter the number of the event from the list below"
   query_event_fields:
-    "Please select the number of what you want to edit."
+    "Please enter the number of what you want to edit."
   selection:
-    "Please select an option from below"
+    "Please enter an option from below"
   standby:
     Standby
   start_time_prompt:
@@ -101,7 +101,7 @@ role:
 
 select_channel:
   title:
-    "Select an event channel:"
+    "Enter an event channel:"
 
 about:
   title:
