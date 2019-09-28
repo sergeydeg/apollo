@@ -7,21 +7,16 @@ class StartTimeInput:
     def __init__(self, bot):
         self.bot = bot
 
-    async def call(self, user, channel, iso_time_zone, update=False):
+    async def call(self, user, channel, iso_time_zone):
         """
         Retrieve a datetime UTC object from the user
         :param user: Member, e.g. context.author
         :param channel: Messageable, e.g. context.author.dmchannel
         :param iso_time_zone: str, Option in Apollo.time_zones.ISO_TIME_ZONES
-        :param update: bool, if True, can return None
         :return: Arrow object or None if update is True
         """
         while True:
-            start_time_str = (
-                await self.bot.get_next_message(user, channel)
-            ).content.upper()
-            if update and start_time_str.upper() == "NONE":
-                return None
+            start_time_str = (await self.bot.get_next_message(user, channel)).content
             try:
                 utc_start_time = (
                     arrow.get(

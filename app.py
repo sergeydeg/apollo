@@ -117,6 +117,7 @@ apollo.add_cog(
         selection_input,
         start_time_input,
         event_list_embed,
+        update_event,
     )
 )
 
