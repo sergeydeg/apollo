@@ -93,7 +93,7 @@ class EditCommand(commands.Cog):
 
             responses = responses_for_event(session, event.id)
 
-            channel = self.bot.get_channel(event.event_channel_id)
-            await self.update_event.call(event, responses, channel)
+        channel = self.bot.get_channel(event.event_channel_id)
+        await self.update_event.call(event, responses, channel)
 
         await ctx.author.send(t("event.updated"))

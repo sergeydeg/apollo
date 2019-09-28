@@ -21,7 +21,6 @@ class SelectionInput:
         await channel.send(embed=SelectionEmbed().call(selection, title))
 
         return await self._get_choice_from_user(user, len(selection))
-        # return await self._get_event_from_user(user, events_dict)
 
     async def _get_choice_from_user(self, user, valid_range):
         while True:
