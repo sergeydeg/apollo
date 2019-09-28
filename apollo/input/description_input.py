@@ -18,7 +18,9 @@ class DescriptionInput:
 
         while True:
             resp = (await self.bot.get_next_message(user, channel, timeout=240)).content
-            if len(resp) <= MAX_DESC_LENGTH:
+            if resp == "None":
+                return None
+            elif len(resp) <= MAX_DESC_LENGTH:
                 return resp
             else:
                 await user.send(t("event.invalid_description").format(MAX_DESC_LENGTH))
