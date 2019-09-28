@@ -50,11 +50,12 @@ class EditCommand(commands.Cog):
         # Get Event Information
         description = event.description if event.description else "-"
         capacity = event.capacity if event.capacity else "-"
+        time_zone = event.local_start_time.tzname()
         selections = {
             t("event.properties.title"): event.title,
             t("event.properties.description"): description,
             t("event.properties.capacity"): capacity,
-            t("event.properties.start_time"): event.start_time,
+            t("event.properties.start_time"): event.start_time_string(),
         }
 
         selection = await self.selection_input.call(

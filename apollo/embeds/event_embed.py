@@ -33,7 +33,7 @@ class EventEmbed:
 
         # Start time field
         embed.add_field(
-            name=t("event.time"), value=self._formatted_start_time(event), inline=False
+            name=t("event.time"), value=event.start_time_string(), inline=False
         )
 
         accepted_members = self._accepted_members(responses, guild, event.capacity)
@@ -77,11 +77,6 @@ class EventEmbed:
             return []
         user_ids = self._user_ids_by_status(responses, "accepted")[event_capacity:]
         return self._user_ids_to_members(user_ids, guild)
-
-    def _formatted_start_time(self, event):
-        start_time = event.local_start_time.format("ddd MMM Do, YYYY @ h:mm A")
-        time_zone = event.local_start_time.tzname()
-        return f"{start_time} {time_zone}"
 
     def _accepted_header(self, event_capacity, accepted_count):
         header = self.ACCEPTED_HEADER
