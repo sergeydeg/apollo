@@ -101,7 +101,7 @@ role:
 
 select_channel:
   title:
-    "Enter an event channel:"
+    "Select an event channel:"
 
 about:
   title:
