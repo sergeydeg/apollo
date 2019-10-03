@@ -17,7 +17,7 @@ class EventSelectionInput:
         :param guild: int, guild id
         :param events: str, Choice of editable, channel
         :param title: str, if None, will default to generic
-        :return: Event
+        :return: Event or None if no events exist
         """
         if title is None:
             title = t("event.query_events_list")
@@ -28,6 +28,10 @@ class EventSelectionInput:
             events = self._event_channel(channel)
         else:
             events = self._guild_events(guild)
+
+        if len(events) == 0:
+            await channel.send(t("event.empty_selection"))
+            return None
 
         events_dict = {}
         for index, event in enumerate(events, start=1):

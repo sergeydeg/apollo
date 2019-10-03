@@ -47,6 +47,9 @@ class EditCommand(commands.Cog):
             ctx.author, ctx.author.dm_channel, guild, "editable"
         )
 
+        if event is None:
+            return
+
         # Get Event Information
         description = event.description if event.description else "-"
         capacity = event.capacity if event.capacity else "-"

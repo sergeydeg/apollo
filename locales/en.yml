@@ -19,6 +19,8 @@ event:
     "Enter the event description (type `None` for no description):"
   declined:
     Declined
+  empty_selection:
+    "No events found."
   event_selection_error:
     "Unknown input. Please enter a number corresponding to the event"
   invalid_description:
