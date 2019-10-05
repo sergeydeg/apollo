@@ -20,23 +20,14 @@ class SelectionInput:
             title = t("event.selection")
         await channel.send(embed=SelectionEmbed().call(selection, title))
 
-        return await self._get_choice_from_user(user, len(selection))
+        return await self._get_choice_from_user(user, channel, len(selection))
 
-    async def _get_choice_from_user(self, user, valid_range):
+    async def _get_choice_from_user(self, user, channel, valid_range):
         while True:
-            resp = (await self.bot.get_next_pm(user, timeout=60)).content
+            resp = (await self.bot.get_next_message(user, channel, timeout=60)).content
             if resp.lower == "cancel":
                 return 0
             if not resp.isdigit() or not int(resp) <= valid_range:
                 await user.send(t("event.invalid_selection_error"))
             else:
                 return int(resp)
-
-    async def _get_event_from_user(self, user, events_dict):
-        while True:
-            resp = (await self.bot.get_next_pm(user, timeout=60)).content
-            if not resp.isdigit() and int(resp) not in events_dict.keys():
-                await user.send(t("event.event_selection_error"))
-            else:
-                event = events_dict[int(resp)]
-                return event

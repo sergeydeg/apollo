@@ -13,7 +13,7 @@ class StartTimeInput:
         :param user: Member, e.g. context.author
         :param channel: Messageable, e.g. context.author.dmchannel
         :param iso_time_zone: str, Option in Apollo.time_zones.ISO_TIME_ZONES
-        :return: Arrow object or None if update is True
+        :return: Arrow object
         """
         while True:
             start_time_str = (await self.bot.get_next_message(user, channel)).content

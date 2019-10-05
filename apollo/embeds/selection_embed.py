@@ -4,16 +4,16 @@ from apollo.constants import EMBED_COLOR
 
 
 class SelectionEmbed:
-    def call(self, message, title):
+    def call(self, message_dict, title):
         """
         Takes a dictionary and enumerates it so that the user can select one
-        :param message: list or dict
+        :param message_dict: list or dict
         :param title: str, title, if None, will say generic message
         :return: discord Embed
         """
         embed = discord.Embed(title=title)
         embed.colour = EMBED_COLOR
-        self._handle_dict_fields(embed, message)
+        self._handle_dict_fields(embed, message_dict)
         return embed
 
     def _handle_dict_fields(self, embed, message_dict):

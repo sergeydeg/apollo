@@ -8,26 +8,18 @@ class EventSelectionInput:
     def __init__(self, bot):
         self.bot = bot
 
-    async def call(self, user, channel, guild, events=None, title=None):
+    async def call(self, user, channel, events, title=None):
         """
         Send a list of events to the user and ask them to pick one.
         Note only sends a list, and does not send the prompt before it.
         :param user: Member, e.g. context.author
         :param channel: Messageable
-        :param guild: int, guild id
-        :param events: str, Choice of editable, channel
+        :param events: list of events
         :param title: str, if None, will default to generic
         :return: Event or None if no events exist
         """
         if title is None:
             title = t("event.query_events_list")
-
-        if events == "editable":
-            events = self._editable_events(user, guild)
-        elif events == "channel":
-            events = self._event_channel(channel)
-        else:
-            events = self._guild_events(guild)
 
         if len(events) == 0:
             await channel.send(t("event.empty_selection"))
@@ -49,51 +41,3 @@ class EventSelectionInput:
             else:
                 event = events_dict[int(resp)]
                 return event
-
-    def _editable_events(self, user, guild):
-        """Get events that the user can edit"""
-        with self.bot.scoped_session() as session:
-
-            if HavePermission(user, guild).manage_guild():
-                # If have guild_permissions.manage_guild, list all events.
-                events = (
-                    session.query(Event)
-                    .join(EventChannel)
-                    .join(Guild)
-                    .filter(Guild.id == guild.id)
-                    .all()
-                )
-            else:
-                # Otherwise list only the ones the user has access to
-                events = (
-                    session.query(Event)
-                    .join(EventChannel)
-                    .join(Guild)
-                    .join(User)
-                    .filter(Guild == guild.id)
-                    .filter(User.id == Event.organizer_id)
-                )
-
-            return events
-
-    def _event_channel(self, channel):
-        """Get events for a channel"""
-        with self.bot.scoped_session() as session:
-            events = (
-                session.query(Event).filter(Event.event_channel_id == channel.id).all()
-            )
-
-            return events
-
-    def _guild_events(self, guild):
-        """Get events for guild"""
-        with self.bot.scoped_session() as session:
-            events = (
-                session.query(Event)
-                .join(EventChannel)
-                .join(Guild)
-                .filter(Guild.id == guild.id)
-                .all()
-            )
-
-            return events

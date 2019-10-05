@@ -1,6 +1,7 @@
 from discord.ext import commands
 
-from apollo.models import Event
+from apollo.models import Event, EventChannel, Guild, User
+from apollo.permissions import HavePermission
 from apollo.queries import find_or_create_guild, responses_for_event
 from apollo.translate import t
 
@@ -38,13 +39,12 @@ class EditCommand(commands.Cog):
         """Edit an existing command"""
         self.sync_event_channels.call(ctx.guild.id)
 
-        with self.bot.scoped_session() as session:
-            guild = find_or_create_guild(session, ctx.guild.id)
+        events = self._editable_events(ctx.author, ctx.guild)
 
         # Needed to create event dm channel
         await ctx.author.create_dm()
         event = await self.event_selection_input.call(
-            ctx.author, ctx.author.dm_channel, guild, "editable"
+            ctx.author, ctx.author.dm_channel, events
         )
 
         if event is None:
@@ -102,3 +102,29 @@ class EditCommand(commands.Cog):
         await self.update_event.call(event, responses, channel)
 
         await ctx.author.send(t("event.updated"))
+
+    def _editable_events(self, user, guild):
+        """Get events that the user can edit"""
+        with self.bot.scoped_session() as session:
+
+            if HavePermission(user, guild).manage_guild():
+                # If have guild_permissions.manage_guild, list all events.
+                events = (
+                    session.query(Event)
+                    .join(EventChannel)
+                    .join(Guild)
+                    .filter(Guild.id == guild.id)
+                    .all()
+                )
+            else:
+                # Otherwise list only the ones the user has access to
+                events = (
+                    session.query(Event)
+                    .join(EventChannel)
+                    .join(Guild)
+                    .join(User)
+                    .filter(Guild == guild.id)
+                    .filter(User.id == Event.organizer_id)
+                )
+
+            return events
