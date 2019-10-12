@@ -85,8 +85,13 @@ class EventEmbed:
 
     def _accepted_header(self, event_capacity, accepted_count):
         header = self.ACCEPTED_HEADER
+
         if event_capacity:
-            header += f" ({accepted_count}/{event_capacity})"
+            return f"{header} ({accepted_count}/{event_capacity})"
+
+        if accepted_count > 0:
+            return f"{header} ({accepted_count})"
+
         return header
 
     def _user_ids_to_members(self, user_ids, guild):
