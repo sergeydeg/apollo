@@ -10,7 +10,6 @@ class EditCommand(commands.Cog):
     def __init__(
         self,
         bot,
-        list_events,
         sync_event_channels,
         event_selection_input,
         title_input,
@@ -18,11 +17,9 @@ class EditCommand(commands.Cog):
         capacity_input,
         selection_input,
         start_time_input,
-        event_list_embed,
         update_event,
     ):
         self.bot = bot
-        self.list_events = list_events
         self.sync_event_channels = sync_event_channels
         self.event_selection_input = event_selection_input
         self.title_input = title_input
@@ -30,13 +27,12 @@ class EditCommand(commands.Cog):
         self.capacity_input = capacity_input
         self.selection_input = selection_input
         self.start_time_input = start_time_input
-        self.event_list_embed = event_list_embed
         self.update_event = update_event
 
     @commands.command()
     @commands.guild_only()
     async def edit(self, ctx):
-        """Edit an existing command"""
+        """Edit an existing event"""
         self.sync_event_channels.call(ctx.guild.id)
 
         events = self._editable_events(ctx.author, ctx.guild)
@@ -48,6 +44,7 @@ class EditCommand(commands.Cog):
         )
 
         if event is None:
+            await ctx.author.dm_channel.send(t("event.empty_selection"))
             return
 
         # Get Event Information
@@ -70,26 +67,28 @@ class EditCommand(commands.Cog):
         with self.bot.scoped_session() as session:
             event = session.query(Event).filter_by(id=event.id).first()
 
-            if selection == 1:
+            if selection == 0:
+                return
+            elif selection == 1:
                 await ctx.author.send(t("event.title_prompt"))
                 title = await self.title_input.call(ctx.author, ctx.author.dm_channel)
                 event.title = title
 
-            if selection == 2:
+            elif selection == 2:
                 await ctx.author.send(t("event.description_prompt"))
                 description = await self.description_input.call(
                     ctx.author, ctx.author.dm_channel
                 )
                 event.description = description
 
-            if selection == 3:
+            elif selection == 3:
                 await ctx.author.send(t("event.start_time_prompt"))
                 capacity = await self.capacity_input.call(
                     ctx.author, ctx.author.dm_channel
                 )
                 event.capacity = capacity
 
-            if selection == 4:
+            elif selection == 4:
                 await ctx.author.send(t("event.update_time_prompt"))
                 start_time = await self.start_time_input.call(
                     ctx.author, ctx.author.dm_channel, event.time_zone

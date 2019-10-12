@@ -108,7 +108,6 @@ apollo.add_cog(TimeZoneCommand(apollo, time_zone_embed, time_zone_input))
 apollo.add_cog(
     EditCommand(
         apollo,
-        list_events,
         sync_event_channels,
         event_selection_input,
         title_input,
@@ -116,7 +115,6 @@ apollo.add_cog(
         capacity_input,
         selection_input,
         start_time_input,
-        event_list_embed,
         update_event,
     )
 )

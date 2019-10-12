@@ -1,12 +1,11 @@
 from apollo.embeds import EventListEmbed
-from apollo.models import EventChannel, Event, Guild, User
-from apollo.permissions import HavePermission
 from apollo.translate import t
 
 
 class EventSelectionInput:
     def __init__(self, bot):
         self.bot = bot
+        self.event_list_embed = EventListEmbed()
 
     async def call(self, user, channel, events, title=None):
         """
@@ -22,14 +21,13 @@ class EventSelectionInput:
             title = t("event.query_events_list")
 
         if len(events) == 0:
-            await channel.send(t("event.empty_selection"))
             return None
 
         events_dict = {}
         for index, event in enumerate(events, start=1):
             events_dict[index] = event
 
-        await channel.send(embed=EventListEmbed().call(events, title=title))
+        await channel.send(embed=self.event_list_embed.call(events, title=title))
 
         return await self._get_event_from_user(user, events_dict)
 

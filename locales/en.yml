@@ -50,8 +50,6 @@ event:
     "Please enter the number of the event from the list below"
   query_event_fields:
     "Please enter the number of what you want to edit."
-  selection:
-    "Please enter an option from below"
   standby:
     Standby
   start_time_prompt:
@@ -104,6 +102,12 @@ role:
 select_channel:
   title:
     "Select an event channel:"
+
+selection:
+  generic:
+    "Please enter an option from below"
+  generic_cancel:
+    "Enter `cancel` to cancel"
 
 about:
   title:

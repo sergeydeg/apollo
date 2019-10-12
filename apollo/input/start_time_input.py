@@ -16,7 +16,9 @@ class StartTimeInput:
         :return: Arrow object
         """
         while True:
-            start_time_str = (await self.bot.get_next_message(user, channel)).content
+            start_time_str = (
+                await self.bot.get_next_message(user, channel)
+            ).content.upper()
             try:
                 utc_start_time = (
                     arrow.get(
