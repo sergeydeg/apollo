@@ -48,6 +48,8 @@ event:
     "Enter the number of the event to modify"
   query_event_fields:
     "Enter the number of the event attribute to modify"
+  selection_cancel:
+    "To exit, type 'cancel'"
   standby:
     Standby
   start_time_prompt:

@@ -1,6 +1,7 @@
 import discord
 
 from apollo.constants import EMBED_COLOR
+from apollo.translate import t
 
 
 class EventListEmbed:
@@ -8,6 +9,7 @@ class EventListEmbed:
         embed = discord.Embed(title=title)
         embed.colour = EMBED_COLOR
         embed.description = self._create_events_string(events)
+        embed.set_footer(text=t("event.selection_cancel"))
         return embed
 
     def _create_events_string(self, events):

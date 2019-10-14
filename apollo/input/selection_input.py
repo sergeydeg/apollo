@@ -33,7 +33,7 @@ class SelectionInput:
             resp = (await self.bot.get_next_message(user, channel, timeout=60)).content
             if resp.lower() == "cancel":
                 return 0
-            if not resp.isdigit() or not int(resp) <= valid_range:
+            if not resp.isdigit() or not 0 < int(resp) <= valid_range:
                 await user.send(t("event.invalid_selection_error"))
             else:
                 return int(resp)

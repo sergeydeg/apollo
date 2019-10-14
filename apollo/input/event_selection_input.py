@@ -15,7 +15,7 @@ class EventSelectionInput:
         :param channel: Messageable
         :param events: list of events
         :param title: str, if None, will default to generic
-        :return: Event or None if no events exist
+        :return: Event, None if no events exist or -1 if user manually cancels
         """
         if title is None:
             title = t("event.query_events_list")
@@ -34,6 +34,8 @@ class EventSelectionInput:
     async def _get_event_from_user(self, user, events_dict):
         while True:
             resp = (await self.bot.get_next_pm(user, timeout=60)).content
+            if resp == "cancel":
+                return -1
             if not resp.isdigit() or int(resp) not in list(events_dict.keys()):
                 await user.send(t("event.invalid_selection_error"))
             else:

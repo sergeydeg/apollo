@@ -46,6 +46,8 @@ class EditCommand(commands.Cog):
         if event is None:
             await ctx.author.dm_channel.send(t("event.empty_selection"))
             return
+        elif event is -1:
+            return
 
         # Get Event Information
         description = event.description if event.description else "-"
