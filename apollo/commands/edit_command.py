@@ -82,14 +82,14 @@ class EditCommand(commands.Cog):
                 event.description = description
 
             elif selection == 3:
-                await ctx.author.send(t("event.start_time_prompt"))
+                await ctx.author.send(t("event.capacity_prompt"))
                 capacity = await self.capacity_input.call(
                     ctx.author, ctx.author.dm_channel
                 )
                 event.capacity = capacity
 
             elif selection == 4:
-                await ctx.author.send(t("event.update_time_prompt"))
+                await ctx.author.send(t("event.start_time_prompt"))
                 start_time = await self.start_time_input.call(
                     ctx.author, ctx.author.dm_channel, event.time_zone
                 )
