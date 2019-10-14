@@ -7,7 +7,7 @@ class StartTimeInput:
     def __init__(self, bot):
         self.bot = bot
 
-    async def call(self, user, channel, iso_time_zone, update=False):
+    async def call(self, user, channel, iso_time_zone):
         """
         Retrieve a datetime UTC object from the user
         :param user: Member, e.g. context.author
@@ -19,8 +19,6 @@ class StartTimeInput:
             start_time_str = (
                 await self.bot.get_next_message(user, channel)
             ).content.upper()
-            if update and start_time_str.upper() == "NONE":
-                return None
             try:
                 utc_start_time = (
                     arrow.get(

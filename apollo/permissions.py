@@ -5,6 +5,11 @@ class HavePermission:
     """Checks whether a user has the necessary permission to perform an action"""
 
     def __init__(self, discord_member, guild):
+        """
+        Checks permissions
+        :param discord_member: discord.member.Member
+        :param guild: apollo.models.guild.Guild
+        """
         self.discord_member = discord_member
         self.guild = guild
 
@@ -21,6 +26,9 @@ class HavePermission:
         event_delete_role = self._get_role(self.guild.delete_role_id)
         if event_delete_role:
             return self.discord_member.top_role >= event_delete_role
+
+    def manage_guild(self):
+        return self.discord_member.guild_permissions.manage_guild
 
     def event(self):
         if self.discord_member.guild_permissions.manage_guild:

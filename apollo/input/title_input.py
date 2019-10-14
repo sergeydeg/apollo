@@ -1,7 +1,5 @@
 from apollo.translate import t
-
-
-MAX_TITLE_LENGTH = 200
+from apollo.constants import MAX_TITLE_LENGTH
 
 
 class TitleInput:

@@ -19,10 +19,14 @@ event:
     "Enter the event description (type `None` for no description):"
   declined:
     Declined
+  empty_selection:
+    "No events found."
   invalid_description:
     "Event description must be less than {} characters. Try again:"
   invalid_capacity:
     "Entry must be between 1 and {} (or `None` for no limit). Try again:"
+  invalid_selection_error:
+    "Invalid selection. Please enter a number from the list above:"
   invalid_start_time:
     "Invalid start time. Try again:"
   invalid_time_zone:
@@ -31,6 +35,21 @@ event:
     "Event title must be less than {} characters. Try again:"
   local_start_time:
     "Local start time: **{}**"
+  properties:
+    capacity:
+      "Capacity"
+    description:
+      "Description"
+    start_time:
+      "Start Time"
+    title:
+      "Title"
+  query_events_list:
+    "Enter the number of the event to modify"
+  query_event_fields:
+    "Enter the number of the event attribute to modify"
+  selection_cancel:
+    "To exit, type 'cancel'"
   standby:
     Standby
   start_time_prompt:
@@ -47,6 +66,8 @@ event:
     "Enter the event title:"
   unknown_user:
     Unknown User
+  updated:
+    "Event has been updated!"
 
 prefix:
   changed:
@@ -81,6 +102,12 @@ role:
 select_channel:
   title:
     "Select an event channel:"
+
+selection:
+  generic:
+    "Please enter an option from below"
+  generic_cancel:
+    "To exit, type 'cancel'"
 
 about:
   title:

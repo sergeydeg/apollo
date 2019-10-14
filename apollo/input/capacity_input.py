@@ -1,7 +1,5 @@
 from apollo.translate import t
-
-
-MAX_CAPACITY = 40
+from apollo.constants import MAX_CAPACITY
 
 
 class CapacityInput:

@@ -49,6 +49,8 @@ apollo = Apollo(Session, cache)
 # Initialze input services
 capacity_input = CapacityInput(apollo)
 description_input = DescriptionInput(apollo)
+event_selection_input = EventSelectionInput(apollo)
+selection_input = SelectionInput(apollo)
 start_time_input = StartTimeInput(apollo)
 title_input = TitleInput(apollo)
 time_zone_input = TimeZoneInput(apollo)
@@ -56,6 +58,7 @@ time_zone_input = TimeZoneInput(apollo)
 # Initialize embeds
 about_embed = AboutEmbed()
 event_embed = EventEmbed()
+event_list_embed = EventListEmbed()
 help_embed = HelpEmbed()
 start_time_embed = StartTimeEmbed()
 time_zone_embed = TimeZoneEmbed()
@@ -102,6 +105,19 @@ apollo.add_cog(HelpCommand(apollo, help_embed))
 apollo.add_cog(PrefixCommand(apollo))
 apollo.add_cog(RoleCommand(apollo))
 apollo.add_cog(TimeZoneCommand(apollo, time_zone_embed, time_zone_input))
+apollo.add_cog(
+    EditCommand(
+        apollo,
+        sync_event_channels,
+        event_selection_input,
+        title_input,
+        description_input,
+        capacity_input,
+        selection_input,
+        start_time_input,
+        update_event,
+    )
+)
 
 # Add checks
 apollo.add_check(NotEventChannel(apollo))

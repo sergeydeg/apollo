@@ -27,6 +27,13 @@ class Event(Base):
     def local_start_time(self):
         return self.utc_start_time.to(self.time_zone)
 
+    def start_time_string(self):
+        time = self.utc_start_time.to(self.time_zone).format(
+            "ddd MMM Do, YYYY @ h:mm A"
+        )
+        time_zone = self.local_start_time.tzname()
+        return f"{time} {time_zone}"
+
     @property
     def utc_start_time(self):
         return arrow.get(self.start_time, "utc")
