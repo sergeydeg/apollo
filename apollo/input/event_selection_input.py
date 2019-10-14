@@ -35,7 +35,7 @@ class EventSelectionInput:
         while True:
             resp = (await self.bot.get_next_pm(user, timeout=60)).content
             if not resp.isdigit() or int(resp) not in list(events_dict.keys()):
-                await user.send(t("event.event_selection_error"))
+                await user.send(t("event.invalid_selection_error"))
             else:
                 event = events_dict[int(resp)]
                 return event

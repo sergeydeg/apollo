@@ -21,14 +21,12 @@ event:
     Declined
   empty_selection:
     "No events found."
-  event_selection_error:
-    "Unknown input. Please enter a number corresponding to the event"
   invalid_description:
     "Event description must be less than {} characters. Try again:"
   invalid_capacity:
     "Entry must be between 1 and {} (or `None` for no limit). Try again:"
   invalid_selection_error:
-    "Invalid selection. Please enter the number corresponding to the entry in the list"
+    "Invalid selection. Please enter a number from the list above:"
   invalid_start_time:
     "Invalid start time. Try again:"
   invalid_time_zone:
@@ -47,9 +45,9 @@ event:
     title:
       "Title"
   query_events_list:
-    "Please enter the number of the event from the list below"
+    "Enter the number of the event to modify"
   query_event_fields:
-    "Please enter the number of what you want to edit."
+    "Enter the number of the event attribute to modify"
   standby:
     Standby
   start_time_prompt:
@@ -67,7 +65,7 @@ event:
   unknown_user:
     Unknown User
   updated:
-    "Event has been updated."
+    "Event has been updated!"
 
 prefix:
   changed:
@@ -107,7 +105,7 @@ selection:
   generic:
     "Please enter an option from below"
   generic_cancel:
-    "Enter `cancel` to cancel"
+    "To exit, type 'cancel'"
 
 about:
   title:
