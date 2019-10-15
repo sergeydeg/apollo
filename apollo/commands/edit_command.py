@@ -124,8 +124,8 @@ class EditCommand(commands.Cog):
                     .join(EventChannel)
                     .join(Guild)
                     .join(User)
-                    .filter(Guild == guild.id)
-                    .filter(User.id == Event.organizer_id)
+                    .filter(Guild.id == guild.id)
+                    .filter(Event.organizer_id == user.id)
                     .all()
                 )
 
