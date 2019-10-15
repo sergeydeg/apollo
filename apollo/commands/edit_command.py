@@ -126,6 +126,7 @@ class EditCommand(commands.Cog):
                     .join(User)
                     .filter(Guild == guild.id)
                     .filter(User.id == Event.organizer_id)
+                    .all()
                 )
 
             return events
