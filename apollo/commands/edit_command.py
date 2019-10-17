@@ -1,7 +1,6 @@
 from discord.ext import commands
 
-from apollo.models import Event, EventChannel, Guild, User
-from apollo.permissions import HavePermission
+from apollo.models import Event
 from apollo.queries import find_or_create_guild, responses_for_event
 from apollo.translate import t
 
@@ -18,6 +17,7 @@ class EditCommand(commands.Cog):
         selection_input,
         start_time_input,
         update_event,
+        events_for_user,
     ):
         self.bot = bot
         self.sync_event_channels = sync_event_channels
@@ -28,6 +28,7 @@ class EditCommand(commands.Cog):
         self.selection_input = selection_input
         self.start_time_input = start_time_input
         self.update_event = update_event
+        self.events_for_user = events_for_user
 
     @commands.command()
     @commands.guild_only()
@@ -35,12 +36,12 @@ class EditCommand(commands.Cog):
         """Edit an existing event"""
         self.sync_event_channels.call(ctx.guild.id)
 
-        events = self._editable_events(ctx.author, ctx.guild)
+        editable_events = self.events_for_user.call(ctx.author, ctx.guild)
 
         # Needed to create event dm channel
         await ctx.author.create_dm()
         event = await self.event_selection_input.call(
-            ctx.author, ctx.author.dm_channel, events
+            ctx.author, ctx.author.dm_channel, editable_events
         )
 
         if event is None:
@@ -103,30 +104,3 @@ class EditCommand(commands.Cog):
         await self.update_event.call(event, responses, channel)
 
         await ctx.author.send(t("event.updated"))
-
-    def _editable_events(self, user, guild):
-        """Get events that the user can edit"""
-        with self.bot.scoped_session() as session:
-
-            if HavePermission(user, guild).manage_guild():
-                # If have guild_permissions.manage_guild, list all events.
-                events = (
-                    session.query(Event)
-                    .join(EventChannel)
-                    .join(Guild)
-                    .filter(Guild.id == guild.id)
-                    .all()
-                )
-            else:
-                # Otherwise list only the ones the user has access to
-                events = (
-                    session.query(Event)
-                    .join(EventChannel)
-                    .join(Guild)
-                    .join(User)
-                    .filter(Guild.id == guild.id)
-                    .filter(Event.organizer_id == user.id)
-                    .all()
-                )
-
-            return events
