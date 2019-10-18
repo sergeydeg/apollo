@@ -76,6 +76,7 @@ list_events = ListEvents(apollo, list_event)
 handle_event_reaction = HandleEventReaction(
     apollo, update_event, update_response, request_local_start_time
 )
+events_for_user = EventsForUser(apollo)
 
 # Add events
 apollo.add_cog(OnCommandError(apollo))
@@ -116,6 +117,7 @@ apollo.add_cog(
         selection_input,
         start_time_input,
         update_event,
+        events_for_user,
     )
 )
 
