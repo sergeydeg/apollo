@@ -1,4 +1,5 @@
 from apollo import emojis as emoji
+from apollo.entities import EventSummary
 
 
 class ListEvent:
@@ -7,7 +8,9 @@ class ListEvent:
         self.event_embed = event_embed
 
     async def call(self, event, responses, discord_channel):
-        embed = self.event_embed.call(event, responses, discord_channel.guild)
+        event_summary = EventSummary(discord_channel.guild, event, responses)
+
+        embed = self.event_embed.call(event_summary)
         event_message = await discord_channel.send(embed=embed)
 
         # Update event message reference

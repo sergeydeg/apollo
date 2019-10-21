@@ -1,4 +1,3 @@
-import arrow
 import discord
 
 from apollo import emojis as emoji
@@ -16,67 +15,49 @@ class EventEmbed:
     def __init__(self):
         pass
 
-    def call(self, event, responses, guild):
+    def call(self, event_summary):
         """Create a Discord Embed to represent an event message"""
         embed = discord.Embed()
         embed.color = EMBED_COLOR
-        embed.title = event.title
+        embed.title = event_summary.title
 
-        if event.description:
-            embed.description = event.description
+        if event_summary.description:
+            embed.description = event_summary.description
 
         embed.set_footer(
             text=t("event.created_by").format(
-                self._organizer_name(event, guild), emoji.SKULL
+                self._organizer_name(event_summary.organizer()), emoji.SKULL
             )
         )
 
         # Start time field
         embed.add_field(
-            name=t("event.time"), value=event.start_time_string(), inline=False
+            name=t("event.time"), value=event_summary.start_time_display(), inline=False
         )
 
-        accepted_members = self._accepted_members(responses, guild, event.capacity)
+        accepted_members = event_summary.accepted_members()
         embed.add_field(
-            name=self._accepted_header(event.capacity, len(accepted_members)),
+            name=self._accepted_header(event_summary.capacity, len(accepted_members)),
             value=self._format_members(accepted_members),
         )
 
-        declined_members = self._declined_members(responses, guild)
+        declined_members = event_summary.declined_members()
         embed.add_field(
             name=self.DECLINED_HEADER, value=self._format_members(declined_members)
         )
 
-        tentative_members = self._tentative_members(responses, guild)
+        tentative_members = event_summary.tentative_members()
         embed.add_field(
             name=self.TENTATIVE_HEADER, value=self._format_members(tentative_members)
         )
 
-        standby_members = self._standby_members(responses, guild, event.capacity)
+        standby_members = event_summary.standby_members()
         if len(standby_members) > 0:
             embed.add_field(
                 name=self.STANDBY_HEADER, value=self._format_members(standby_members)
             )
 
         return embed
-
-    def _accepted_members(self, responses, guild, event_capacity):
-        user_ids = self._user_ids_by_status(responses, "accepted")[:event_capacity]
-        return self._user_ids_to_members(user_ids, guild)
-
-    def _declined_members(self, responses, guild):
-        user_ids = self._user_ids_by_status(responses, "declined")
-        return self._user_ids_to_members(user_ids, guild)
-
-    def _tentative_members(self, responses, guild):
-        user_ids = self._user_ids_by_status(responses, "alternate")
-        return self._user_ids_to_members(user_ids, guild)
-
-    def _standby_members(self, responses, guild, event_capacity):
-        if not event_capacity:
-            return []
-        user_ids = self._user_ids_by_status(responses, "accepted")[event_capacity:]
-        return self._user_ids_to_members(user_ids, guild)
 
     def _accepted_header(self, event_capacity, accepted_count):
         header = self.ACCEPTED_HEADER
@@ -89,14 +70,6 @@ class EventEmbed:
 
         return header
 
-    def _user_ids_to_members(self, user_ids, guild):
-        members = []
-        for user_id in user_ids:
-            member = guild.get_member(user_id)
-            if member:
-                members.append(member)
-        return members
-
     def _format_members(self, members):
         """Format the given list of members"""
         formatted_list = ""
@@ -106,15 +79,9 @@ class EventEmbed:
             formatted_list = "-"
         return formatted_list
 
-    def _organizer_name(self, event, guild):
+    def _organizer_name(self, organizer):
         """Retrieve the guild specific display name of the organizer"""
-        organizer = guild.get_member(event.organizer_id)
         if organizer:
             return organizer.display_name
         else:
             return t("event.unknown_user")
-
-    def _user_ids_by_status(self, responses, status):
-        filtered_responses = list(filter(lambda r: r.status == status, responses))
-        filtered_responses.sort(key=lambda r: r.last_updated)
-        return list(map(lambda r: r.user_id, filtered_responses))
