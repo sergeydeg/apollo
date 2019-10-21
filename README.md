@@ -23,7 +23,7 @@ docker-compose build
 
 ### Environment variables
 
-Before we can run the application, we'll need to ensure that our environment variables are set up. Make a copy of [`.env.example`](https://github.com/jgayfer/apollo/blob/master/.env.example) as `.env`. in the root directory of Apollo.
+Before we can run the application, we'll need to ensure that our environment variables are set up. Make a copy of [`.env.example`](https://github.com/jgayfer/apollo/blob/master/.env.example) as `.env` in the root directory of Apollo.
 
 If using Docker, the only thing you'll need to provide here is your `BOT_TOKEN`. You can get one of these by heading over
 to the [Discord developer portal](https://discordapp.com/developers/applications) and creating a new application.
